@@ -20,7 +20,7 @@ class Equipement:
 		"""modifie les attributs à partir de la consigne"""
 		pass
 	
-	def contraintes(consigne,effacement):
+	def contraintes(self,consigne,effacement):
 		"""renvoie un booléen ; dit si la consigne peut être exécutée ou non en fonction des contraintes
 		spécifiques à la classe considérée. Ex : une centrale thermique ne peut pas s'arrêter avant 3h de
 		fonctionnement, donc on renvoie false si la consigne est de s'arrêter alors que le temps de
