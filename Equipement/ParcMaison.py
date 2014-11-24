@@ -59,10 +59,11 @@ class ParcMaison(Equipement) :
             
         return self.production_totale
     
-parc = ParcMaison()
-parc.ajouter(20)
-parc.donner_conso()
-parc.ajouter(30)
-parc.donner_conso()
-parc.effacement_maison(10)
-parc.donner_conso()
+if __name__=="__main__":
+    parc = ParcMaison()
+    parc.ajouter(20)
+    parc.donner_conso()
+    parc.ajouter(30)
+    parc.donner_conso()
+    parc.effacement_maison(10)
+    parc.donner_conso()
