@@ -2,6 +2,6 @@ from equipement import *
 from utilitaire import *
 import ville
 
-
-ville = new Ville()
+"""initialisation de la ville dans l'objet ville"""
+ville = Ville()
 
