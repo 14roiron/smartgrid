@@ -1,16 +1,19 @@
 # -*-coding:Utf-8 -*
 class Equipement:
 	def __init__(self):
-		"""int  production maximale"""
-		   
-		productionMax=0
+		ProductionMax=0
+		"""Production max statique propre à chaque équipement"""
+		Activite=0
+                """Activité en %"""
 
-	def prevision(self,t1,etatavant,consigne):
-		""" prends en compte la période demandée (t1)
-		    l'état à t1-1: etatavant
-		    consigne pour t1"""
+	def activite(self,Activite):
+		"""Ordre"""
 		pass
-	def etatSuivant(self,consigne):
-		"""renvoie état à partir de la consigne
-		 (t,prod,effacement,cout)"""
-		return (0,0,0,0)
+
+	def simulation(self):
+		"""Donne (prod_max,prod_min,cout_min,cout_stable,cout_max)"""
+		pass
+
+	def prevision(self,t0,t1,e0,consigne):
+		pass
+
