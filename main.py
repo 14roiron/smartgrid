@@ -1,7 +1,8 @@
-from equipement import *
-from utilitaire import *
-import ville
 
-"""initialisation de la ville dans l'objet ville"""
+from Equipement import *
+from Utilitaire import *
+from Ville import Ville
+
+"""initialisation de la Ville dans l'objet Ville"""
 ville = Ville()
 

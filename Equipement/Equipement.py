@@ -5,11 +5,12 @@ class Equipement:
 		   
 		productionMax=0
 
-	def prevision(t1,etatavant,consigne):
+	def prevision(self,t1,etatavant,consigne):
 		""" prends en compte la période demandée (t1)
 		    l'état à t1-1: etatavant
 		    consigne pour t1"""
-	def etatSuivant(consigne):
+		pass
+	def etatSuivant(self,consigne):
 		"""renvoie état à partir de la consigne
 		 (t,prod,effacement,cout)"""
 		return (0,0,0,0)
