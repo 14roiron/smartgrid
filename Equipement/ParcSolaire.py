@@ -1,10 +1,11 @@
+# -*-coding:utf-8 -
 from Equipement import Equipement
 
 class ParcSolaire(Equipement):
     
     global temps
     
-    def __init__(self, prod, activite, nb, lieu):
+    def __init__(self, prod=150, activite=10, nb=50, lieu=0):
         '''caractéristique permettant de connaître le rendement du panneau solaire'''
         self.Pwc = prod
         '''nombre de panneaux solaires dans la ferme'''

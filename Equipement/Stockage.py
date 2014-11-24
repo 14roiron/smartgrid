@@ -1,4 +1,6 @@
-class Stockage:
+# -*-coding:utf-8 -
+from Equipement import Equipement
+class Stockage(Equipement):
 
 	def __init__(self, capacite = 5000., prop = 1/2, cout=2.):
 		self.capacite = capacite

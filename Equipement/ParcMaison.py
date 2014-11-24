@@ -1,8 +1,7 @@
-"""from random import uniform
-import Utilitaire
-class ParcMaison (Equipement):"""
+# -*-coding:utf-8 -
+from Equipement import Equipement
 
-class ParcMaison : 
+class ParcMaison(Equipement) : 
     
     def __init__(self, production_par_maison = -2.5, nombre = 0): #consommation moyenne de 22000 kWh/an/maison soit -2,5kW/maison
        self.nombre=nombre      
