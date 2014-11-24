@@ -1,2 +1,7 @@
 class Utilitaire:
-    pass
+    def calculDate (t, mois = "Novembre", jour=1, heure=0, minute=0):
+        jour = 1 + t/60/24 
+        heure = (t/60) % 24
+        minute = t % 60 
+        date = {"Mois":mois,"Jour":jour,"Heure":heure,"Minute":minute}
+        return date
