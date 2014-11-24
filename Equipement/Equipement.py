@@ -7,7 +7,7 @@ class Equipement:
 		self.EFFA_MAX=effa
 		self.effacement=0
 	
-	def prevision(self,consigne,effacement):
+	def prevision(self,consigne=0,effacement=0):
 		""" renvoie le tuple (production prévue, coût prévu) pour la consigne donnée"""
 		return (0,0)
 	
@@ -16,9 +16,10 @@ class Equipement:
 		pour l'étape suivante"""
 		return (0,0,0,0,0)
 	
-	def etatSuivant(self,consigne,effacement):
+	def etatSuivant(self,consigne=0,effacement=0):
 		"""modifie les attributs à partir de la consigne"""
-		pass
+		self.activite=consigne
+		self.effacement=effacement
 	
 	def contraintes(self,consigne,effacement):
 		"""renvoie un booléen ; dit si la consigne peut être exécutée ou non en fonction des contraintes
