@@ -1,7 +1,9 @@
 class Ville:
 
 	def __init__(self):
-		self.equipproduction=[]
-		nombreEquipementProduction=len(self.equipproduction)
-		#self.equipproduction=ParcEolienne()
-		#self.equipction+=Maisons()
+		self.equipProduction=[]
+		self.equipConso=[]
+		self.nombreEquipementProduction=len(self.equipProduction)
+		self.nombreEquipementConso=len(self.equipConso)
+		#self.equipProduction=ParcEolienne()
+		#self.equipConso+=Maisons()
