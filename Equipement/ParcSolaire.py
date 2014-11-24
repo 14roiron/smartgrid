@@ -19,22 +19,31 @@ class ParcSolaire(Equipement):
         self.effacement = 0
         
     def prevision(self, consigne, effacement):
+        """prototype des fonctions, retour?"""
         return (self.calculPuissance(temps+1), 0)
     
     def simulation(self):
+        """prototype des fonctions, retour?"""
         return (self.calculPuissance(temps+1), self.calculPuissance(temps+1), 0, 0, 0)
         
     def etatSuivant(self, consigne, effacement):
+        """consignes et effacement en %"""
         puissance_apres = self.calculPuissance(temps+1)
         self.puissance = puissance_apres
-        pass
         
     def contraintes(self, consigne, effacement):
-        if consigne == 1 and effacement == 0:
+        """consignes et effacement en %"""
+        if consigne == 100 and effacement == 0:
             return True
         else:
             return False
-        pass
     
     def calculPuissance(self, temps):
+        """formule de test?"""
         return self.nb * self.Pwc / 1000 * 12
+    
+    
+    #pour les tests
+if __name__=='__main__':
+	a=ParcSolaire()
+    
