@@ -45,7 +45,7 @@ while t<6*24*7:
     if diff>0: #on consomme plus qu'on ne produit
         max=sum(simulations[i][0] for i in range(len(simulations)))
   
-        if max>=exemple_conso_j[t+1]: # si on peut atteindre la valeur de la consommation...
+        if max>=conso_future: # si on peut atteindre la valeur de la consommation...
             prod_provisoire = prod_actuelle
             while (abs(prod_provisoire-conso_future)/conso_future > 2./100 or prod_provisoire > conso_future): #tant que ecart > 2% ou prod > conso
                 ind = ind_eqpascher(simulations,consigne) #indice de l'equipement le moins cher qu'on met au max
