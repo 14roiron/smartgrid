@@ -1,7 +1,9 @@
+# -*-coding:Utf-8 -*
 from Equipement import Equipement
+from Utilitaire.heure import Utilitaire
 
 class ParcMaison(Equipement) : 
-    
+    global temps
     def __init__(self, production_par_maison = -2.5, nombre = 0): #consommation moyenne de 22000 kWh/an/maison soit -2,5kW/maison
        self.nombre=nombre      
        self.production_par_maison = production_par_maison # en kW/maison
@@ -95,7 +97,8 @@ class ParcMaison(Equipement) :
         return prod_max, prod_min, cout_min, cout_max
     
     def etat_suivant(self, consigne=0, effacement=0):
-        pass
+       date=Utilitaire.calculDate(temps)
+       
     
     def prevision(self):
         temps_minutes = 60*date["Heure"]+date["Minutes"]

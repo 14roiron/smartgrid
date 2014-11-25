@@ -4,8 +4,7 @@ from Equipement import Equipement
 class ParcSolaire(Equipement):
     
     global temps
-    
-    def __init__(self, prod=150, activite=10, nb=50, meteo=meteoTest):
+    def __init__(self, prod=150, activite=10, nb=50, meteo=[0]):
         '''nombre de panneaux solaires dans la ferme'''
         self.nb = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
