@@ -17,6 +17,7 @@ class ParcMaison(Equipement) :
        
     
     def heure_pleine(self):
+        date=Utilitaire.calculDate(temps)
         if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=8 and date["Heure"]<22) :
             return True
         else :
@@ -30,6 +31,7 @@ class ParcMaison(Equipement) :
                 return False
 
     def heure_moyenne_montante(self):
+        date=Utilitaire.calculDate(temps)
         if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=7 and date["Heure"]<8):
             return True
         else :
@@ -43,6 +45,7 @@ class ParcMaison(Equipement) :
                 return False
                 
     def heure_moyenne_descendante(self):
+        date=Utilitaire.calculDate(temps)
         if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=22 and date["Heure"]<23):
             return True
         else :
@@ -56,6 +59,7 @@ class ParcMaison(Equipement) :
                 return False
     
     def ajouter(self,nombre_maisons):
+        date=Utilitaire.calculDate(temps)
         self.nombre += nombre_maisons
         print("{0} maisons dans le parc".format(self.nombre))
         for i in range(self.nombre - nombre_maisons , self.nombre):
@@ -73,6 +77,7 @@ class ParcMaison(Equipement) :
         return self.production_totale 
     
     def production_elec_totale(self):
+        date=Utilitaire.calculDate(temps)
         for i in range(self.nombre, self.nombre):
             if self.heure_pleine() == True :
                 self.production = self.production_par_maison*2  #entre 100% et 200% de conso
@@ -116,6 +121,7 @@ class ParcMaison(Equipement) :
        
     
     def prevision(self):
+        date=Utilitaire.calculDate(temps)
         temps_minutes = 60*date["Heure"]+date["Minutes"]
         if date["Jour"]==6 or date["Jour"]==7 :
             if temps_minutes>470 and temps_minutes<1310 :    #de 7h50 à 22h50
