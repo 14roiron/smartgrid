@@ -1,8 +1,7 @@
 # -*-coding:utf-8 -
 from Equipement import Equipement
-from Utilitaire import BaseDeDonnees
 
-class ParcSolaire(Equipement,Utilitaire):
+class ParcSolaire(Equipement):
     
     global temps
     
@@ -41,12 +40,8 @@ class ParcSolaire(Equipement,Utilitaire):
     def calculActivite(self, temps):
         """formule de test, lien avec les données météo à faire"""
         return 5 / 1000 * 100
-    
-    def eclairement(self):
-    	irra=BaseDeDonnees.importerTable("meteo1")
-    	return(irra[temps]["GHI"],irra[temps]["DNI"],irra[temps]["DHI"])
-    
-    #pour les tests
+        
+#pour les tests
 if __name__=='__main__':
 	a=ParcSolaire()
     
