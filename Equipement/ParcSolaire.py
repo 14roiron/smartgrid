@@ -19,12 +19,13 @@ class ParcSolaire(Equipement):
         self.effacement = 0
         
     def prevision(self, consigne, effacement):
-        """prototype des fonctions, retour?"""
-        return (self.calculPuissance(temps+1), 0)
+        """retourne la puissance produite à l'état suivant en pourcentage par rapport à PROD_MAX"""
+        return (self.calculPuissance(temps+1)/self.PROD_MAX, 0)
     
     def simulation(self):
-        """prototype des fonctions, retour?"""
-        return (self.calculPuissance(temps+1), self.calculPuissance(temps+1), 0, 0, 0)
+        """pas de consigne ou d'effacement possible pour un panneau solaire :
+        puissance min = puissance max et le coût est toujours le même (que le panneau produise ou pas)"""
+        return (self.calculPuissance(temps+1)/self.PROD_MAX, self.calculPuissance(temps+1):self.PROD_MAX, 0, 0, 0)
         
     def etatSuivant(self, consigne, effacement):
         """consignes et effacement en %"""
@@ -39,7 +40,7 @@ class ParcSolaire(Equipement):
             return False
     
     def calculPuissance(self, temps):
-        """formule de test?"""
+        """formule de test"""
         return self.nb * self.Pwc / 1000 * 12
     
     
