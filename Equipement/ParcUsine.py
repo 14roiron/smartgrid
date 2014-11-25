@@ -1,22 +1,23 @@
 from Utilitaire import Utilitaire
 
 class ParcUsine(Equipements):
-    def __init__(self,prod=0.0,effa=1000.0,activite=0,nb=2) :
-        self.PROD_MAX=prod #en kW, c'est une puissance instantanée
-        self.EFFA_MAX=effa
+    def __init__(self,prod=3000.0,effa=1000.0,activite=0,nb=2) :
+        self.PROD_MAX=prod*nb #en kW, c'est une puissance instantanée
+        self.EFFA_MAX=effa*nb
         self.nombreUsines=nb
         self.activite=activite
         self.effacement=0.0
+        self.cout=self.effacement/100.0*self.EFFA_MAX*(0.80/1000/6)*self.nombreUsines
             
     def reduireConso(self) : 
-        if self.activite>=0.25*self.PROD_MAX : 
-            self.activite-=0.25*self.PROD_MAX*self.nombreUsines
-        else self.activite=0        
+        if self.activite>=25 : 
+            self.activite-=25
+        else self.activite=0.0        
         
     def augmenterConso(self):    
-        if self.activite<=0.75*self.PROD_MAX :
-            self.activite+=0.25*self.PROD_MAX*self.nombreUsines
-        else self.activite=self.PROD_MAX   
+        if self.activite<=75 :
+            self.activite+=25
+        else self.activite=100.0
         
    
     def etatSuivant(self,consigne=0,effacement=0):
@@ -30,15 +31,9 @@ class ParcUsine(Equipements):
             elif date["Heure"]>19 or date["Heure"]<7 :
                 self.reduireConso() 
         else :
-            if 7<= date["Heure"]<=19 and self.activite>=self.PROD_MAX*(1-effacement/100)
-                self.activite=self.PROD_MAX*(1-effacement/100)*self.nombreUsines
+            if 7<= date["Heure"]<=19 and self.activite>=100-effacement
+                self.activite=100-effacement
                    
-        
-    def tauxEffacement(self, effacement):
-        if self.activite>(self.activite-self.PROD_MAX*effacement) :
-            self.activite-=effacement*self.PROD_MAX*self.nombreUsines/100 #La consigne est un pourcentage de la 
-                                                    #consommation maximale
-     
       
     def prevision(self, consigne=0, effacement=0):
         date=Utilitaire.date
@@ -46,32 +41,16 @@ class ParcUsine(Equipements):
             return (0.0, 0.0) 
         elif date["Heure"]<=7 or date["Heure"]>20 : 
             return (0.0,0.0)
-        elif effacement==0 :
-            if 7<date["Heure"]<8 and date["Minute"]>=40 :
-                return (100.0, 0.0)
-            for i from 1 to 4 :
+        if date["Heure"]==7 and date["Minute"]>=40 :
+                return (100-effacement*EFFA_MAX/PROD_MAX,effacement/100.0*self.EFFA_MAX*(0.80/1000/6)*self.nombreUsines)
+        for i from 1 to 4 :
                 if date["Heure"]==7 and date["Minute"]==i*10 :
-                return (25*i, 0.0)
-            elif 8<=date["Heure"]<=19 :
-                return (100.0,0.0)
-            for i from 1 to 4 :
+                return (25*i*(1-effacement*EFFA_MAX/PROD_MAX/100),effacement/100.0*self.EFFA_MAX*(0.80/1000/6)*self.nombreUsines)
+        elif 8<=date["Heure"]<=19 :
+                return (100.0*(1-effacement*EFFA_MAX/PROD_MAX/100),effacement/100.0*self.EFFA_MAX*(0.80/1000/6)*self.nombreUsines)
+        for i from 1 to 4 :
                 if date["Heure"]==19 and date["Minute"]==i*10 :
-                return (25*i, 0.0)
-            
-        elif effacement!=0 :
-            date=Utilitaire.date
-            if 8<date[Heure]<19 :
-                return(100.0,effacement*0.0000022*self.PROD_MAX*self.nombreUsines)
-            if 7<=date["Heure"]<8 and date["Minute"]>=40 :
-                return (100.0*(1-effacement/100), effacement*0.0000022*self.PROD_MAX*self.nombreUsines)
-            for i from 1 to 4 :
-                if date["Heure"]==7 and date["Minute"]==i*10 :
-                return (25*i(1-effacement/100), effacement*0.0000022*25*i*self.PROD_MAX/100*self.nombreUsines)
-            elif 8<=date["Heure"]<=19 :
-                return (100.0*(1-effacement/100),effacement*0.0000022*self.PROD_MAX*self.nombreUsines)
-            for i from 1 to 4 :
-                if date["Heure"]==19 and date["Minute"]==i*10 :
-                return (25*i(1-effacement/100), effacement*0.0000022*25*i*self.PROD_MAX/100*self.nombreUsines)                                                   
+                return (25*(4-i)*(1-effacement*EFFA_MAX/PROD_MAX/100),effacement/100.0*self.EFFA_MAX*(0.80/1000/6)*self.nombreUsines)                                                   
                                                                 
                                                                 
                                                                 
@@ -85,6 +64,6 @@ class ParcUsine(Equipements):
     def simulation(self):
         (prod_min,cout_min)=self.prevision(0,0)  
         (prod_max,cout_max)=self.prevision(0,100) 
-        return(prod_min,prod_max,cout_min,0,cout_max)    
+        return(prod_min,prod_max,cout_min,self.cout,cout_max)    
    
                 
