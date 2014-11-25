@@ -43,7 +43,7 @@ class ParcSolaire(Equipement,Utilitaire):
         return 5 / 1000 * 100
     
     def eclairement(self):
-    	irra=BaseDeDonnees.importerTable()
+    	irra=BaseDeDonnees.importerTable("meteo1")
     	return(irra[temps]["GHI"],irra[temps]["DNI"],irra[temps]["DHI"])
     
     #pour les tests
