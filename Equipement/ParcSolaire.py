@@ -17,7 +17,7 @@ class ParcSolaire(Equipement):
         self.effacement = 0
         
     def prevision(self, consigne, effacement):
-        """retourne l'actvité à l'état suivant en pourcentage par rapport à PROD_MAX"""
+        """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""
         return (self.calculActivite(temps+1), 0)
     
     def simulation(self):
@@ -30,8 +30,9 @@ class ParcSolaire(Equipement):
         self.activite = self.calculActivite(temps+1)
         
     def contraintes(self, consigne, effacement):
-        """consignes et effacement en %"""
-        if consigne == 100 and effacement == 0:
+        """consignes et effacement en %
+        si la consigne correspond à la prochaine activité prévue pas de problème et sinon ça ne marche pas"""
+        if consigne == self.calculActivite(temps+1) and effacement == 0:
             return True
         else:
             return False
