@@ -1,4 +1,3 @@
-# -*-coding:utf-8 -
 from Equipement import Equipement
 
 class ParcMaison(Equipement) : 
@@ -16,19 +15,43 @@ class ParcMaison(Equipement) :
        
     
     def heure_pleine(self):
-        """
-        if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=8 and date["Heure"]<=23) :
+        if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=8 and date["Heure"]<22) :
             return True
         else :
-            if date["Heure"]>=7 and date["Heure"]<=9 :
+            if date["Heure"]>=7 and date["Heure"]<9 :
                 return True
-            elif date["Heure"]>=12 and date["Heure"]<=14 :
+            elif date["Heure"]>=12 and date["Heure"]<14 :
                 return True
-            elif date["Heure"]>=17 and date["Heure"]<=23 :
+            elif date["Heure"]>=17 and date["Heure"]<22 :
                 return True
             else :
-                return False"""
-        return False
+                return False
+
+    def heure_moyenne_montante(self):
+        if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=7 and date["Heure"]<8):
+            return True
+        else :
+            if date["Heure"]>=6 and date["Heure"]<7 :
+                return True
+            elif date["Heure"]>=11 and date["Heure"]<12 :
+                return True
+            elif date["Heure"]>=16 and date["Heure"]<17 :
+                return True
+            else :
+                return False
+                
+    def heure_moyenne_descendante(self):
+        if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=22 and date["Heure"]<23):
+            return True
+        else :
+            if date["Heure"]>=9 and date["Heure"]<10 :
+                return True
+            elif date["Heure"]>=14 and date["Heure"]<15 :
+                return True
+            elif date["Heure"]>=22 and date["Heure"]<23 :
+                return True
+            else :
+                return False
     
     def ajouter(self,nombre_maisons):
         self.nombre += nombre_maisons
@@ -37,6 +60,10 @@ class ParcMaison(Equipement) :
             if self.heure_pleine() == True :
                 self.production = self.production_par_maison*2  #entre 100% et 200% de conso
                 self.activite = 100.0
+            elif self.heure_moyenne_montante() == True:
+                self.production = self.production_par_maison*(date["Minutes"]/60.0+1) # rampe entre 100% et 200%
+            elif self.heure_moyenne_descendante()== True :
+                self.production = self.production_par_maison*((60-date["Minutes"])/60.0+1)
             else :
                 self.production = self.production_par_maison 
                 self.activite = 50.0
@@ -59,11 +86,34 @@ class ParcMaison(Equipement) :
             
         return self.production_totale
     
-if __name__=="__main__":
-    parc = ParcMaison()
-    parc.ajouter(20)
-    parc.donner_conso()
-    parc.ajouter(30)
-    parc.donner_conso()
-    parc.effacement_maison(10)
-    parc.donner_conso()
+    def simulation(self):
+        prod_max = 2*self.production_par_maison*self.nombre
+        prod_min = self.production_par_maison*self.nombre
+        cout_min = -80/6000.0*self.production_par_maison 
+        cout_max = -80/3000.0*self.production_par_maison
+        print(prod_max, prod_min, cout_min, cout_max)
+        return prod_max, prod_min, cout_min, cout_max
+    
+    def etat_suivant(self, consigne=0, effacement=0):
+        pass
+    
+    def prevision(self):
+        temps_minutes = 60*date["Heure"]+date["Minutes"]
+        if date["Jour"]==6 or date["Jour"]==7 :
+            if temps_minutes>470 and temps_minutes<1310 :    #de 7h50 à 22h50
+                return self.production_par_maison*2*self.nombre
+            elif temps_minutes>350 and temps_minutes<470 :
+                return self.production = self.production_par_maison*((temps_minutes-350)/60.0+1)*self.nombre
+            elif temps_minutes>1310 and temps_minutes<1370:
+                return self.production = self.production_par_maison*((1370-temps_minutes)/60+1)*self.nombre
+            else :
+                return self.production_par_maison*self.nombre
+        else :
+            if (temps_minutes>410 and temps_minutes<530) or (temps_minutes>710 and temps_minutes<830) or (temps_minutes>1010 and temps_minutes<1310):
+                return self.production_par_maison*2*self.nombre
+            elif (temps_minutes>360 and temps_minutes<410) or (temps_minutes>660 and temps_minutes<710) or (temps_minutes>960 and temps_minutes<1010):
+                return self.production_par_maison * ((date["Minutes"]+10)/60+1)*self.nombre
+            elif (temps_minutes>540 and temps_minutes<590) or (temps_minutes>840 and temps_minutes<890) or (temps_minutes>1320 and temps_minutes<1380):
+                return self.production_par_maison * ((50-date["Minutes"])/60+1)*self.nombre
+            else :
+                return self.production_par_maison*self.nombre

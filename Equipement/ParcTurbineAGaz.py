@@ -1,13 +1,12 @@
-class TurbineAGaz:
-    
-    def __init__(self,prod=885,effa=0,activite=0,nb=4):
-        self.PROD_MAX=prod*nb
-        self.EFFA_MAX=effa*nb
+class ParcTurbineAGaz:
+    def __init__(self,prod=885,effa=0,activite=0.0,nb=3):
+        self.PROD_MAX=prod
+        self.EFFA_MAX=effa
         self.activite=activite
         self.effacement=0
-        self.demarrage=[100,93.55,92.7]
-        self.arret=[100,30.8,0]
-        self.cout=self.activite/100.0*self.PROD_MAX*(0.80/1000/6)*nb
+        self.demarrage=[0,0,0,0,22.6,56.5,67.79,74.2,81.51,96.83,100,100,100,98.46,96.04,94.43,94.43,94.43,94.43,94.43,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33]
+        self.arret=[100,100,100,100,100,100,100,100,100,30.71,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        self.cout=self.activite/100.0*self.PROD_MAX*(0.80/1000/6)
         
     def prevision(self,consigne):
         if consigne>self.activite:
@@ -15,9 +14,9 @@ class TurbineAGaz:
             while self.activite>=self.demarrage[i]:
                 i+=1
             if consigne<self.demarrage[i+10]:
-                return (consigne,2*self.PROD_MAX*(0.80/1000/6)*nb)
+                return (consigne,2*self.PROD_MAX*(0.80/1000/6))
             else:
-                return (self.demarrage[i+10],2*self.PROD_MAX*(0.80/1000/6)*nb)
+                return (self.demarrage[i+10],2*self.PROD_MAX*(0.80/1000/6))
         elif consigne<self.activite:
             i=0
             while self.activite<=self.arret[i]:
@@ -28,17 +27,11 @@ class TurbineAGaz:
                 return (self.arret[i+10],0.5*self.cout)
         else:
             return(consigne,self.cout)
-        
+            
     def simulation(self,consigne):
         (prodmin,coutmin)=self.prevision(0)
         (prodmax,coutmax)=self.prevision(100)
         return(prodmin,prodmax,coutmin,self.cout,coutmax)
-    
+        
     def etatSuivant(self,consigne):
         self.activite=consigne
-    
-     
-    
-            
-
-
