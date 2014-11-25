@@ -7,6 +7,7 @@ class ParcTurbineAGaz:
         self.demarrage=[0,0,0,0,22.6,56.5,67.79,74.2,81.51,96.83,100,100,100,98.46,96.04,94.43,94.43,94.43,94.43,94.43,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33]
         self.arret=[100,100,100,100,100,100,100,100,100,30.71,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         self.cout=self.activite/100.0*self.PROD_MAX*(0.80/1000/6)
+        
     def prevision(self,consigne):
         if consigne>self.activite:
             i=0
@@ -26,9 +27,11 @@ class ParcTurbineAGaz:
                 return (self.arret[i+10],0.5*self.cout)
         else:
             return(consigne,self.cout)
+            
     def simulation(self,consigne):
         (prodmin,coutmin)=self.prevision(0)
         (prodmax,coutmax)=self.prevision(100)
         return(prodmin,prodmax,coutmin,self.cout,coutmax)
+        
     def etatSuivant(self,consigne):
         self.activite=consigne
