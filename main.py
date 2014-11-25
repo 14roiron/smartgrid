@@ -7,7 +7,8 @@ from Ville import Ville
 ville = Ville()
 
 t=0 #t=0 -> Lun 00h00
-while t<6*24*7:
+while t<1:#6*24*7:
+
     consignesProduction=[0 for i in range(0,ville.nombreEquipementProduction-1)]
     for i in range(0,ville.nombreEquipementProduction-1):
        #actualisation des équipements de production
