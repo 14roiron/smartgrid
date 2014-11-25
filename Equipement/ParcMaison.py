@@ -98,7 +98,7 @@ class ParcMaison(Equipement) :
         else : 
             print("effacement maximum depasse")
             
-        return self.production_totale
+        return self.effacement
     
     def simulation(self):
         prod_max = 2*self.production_par_maison*self.nombre
@@ -110,8 +110,9 @@ class ParcMaison(Equipement) :
     
     def etat_suivant(self, consigne=0, effacement=0):
        date=Utilitaire.calculDate(temps)
-       elec = production_elec_totale()
-       return self.production_totale
+       self.production_totale = self.production_elec_totale()
+       self.effacement = self.effacement_maison()
+       self.activite = self.production_totale/self.PROD_MAX
        
     
     def prevision(self):
@@ -122,7 +123,8 @@ class ParcMaison(Equipement) :
             elif temps_minutes>350 and temps_minutes<470 :
                 return self.production = self.production_par_maison*((temps_minutes-350)/60.0+1)*self.nombre
             elif temps_minutes>1310 and temps_minutes<1370:
-                return self.production = self.production_par_maison*((1370-temps_minutes)/60+1)*self.nombre
+                self.production = self.production_par_maison*((1370-temps_minutes)/60+1)*self.nombre
+                return self.production
             else :
                 return self.production_par_maison*self.nombre
         else :
