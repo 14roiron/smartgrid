@@ -22,11 +22,11 @@ class ParcUsine(Equipements):
             activite=0.0
         
     def prevision(self,consigne=0,effacement=0):
-    p=prod[(temps+1)%7]
-    if p>=effacement*EFFA_MAX/PROD_MAX:
-        return (p-effacement*EFFA_MAX/PROD_MAX,effacement/100.0*self.EFFA_MAX*(0.80/1000/6)*self.nombreUsines)
-    else :
-        return (0,p/100.0*self.PROD_MAX*(0.80/1000/6)*self.nombreUsines)
+        p=prod[(temps+1)%7]
+        if p>=effacement*EFFA_MAX/PROD_MAX:
+            return (p-effacement*EFFA_MAX/PROD_MAX,effacement/100.0*self.EFFA_MAX*(0.80/1000/6)*self.nombreUsines)
+        else :
+            return (0,p/100.0*self.PROD_MAX*(0.80/1000/6)*self.nombreUsines)
     
     def simulation(self):
         (prod_min,cout_min)=self.prevision(0,0)  
