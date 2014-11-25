@@ -2,6 +2,7 @@ from Equipement.ParcSolaire import ParcSolaire
 #from Equipement.ParcMaison import ParcMaison
 from Equipement.ParcTurbineAGaz import ParcTurbineAGaz
 from Utilitaire.Global import meteo1
+from Utilitaire.Global import meteo2
 from Utilitaire.Global import meteoTest
 
 exemple_conso_j = [21,22,23,23,24,24,25,25,25,24,25,26,27,28,28,29,30,30,30,29,28,27,27,28,28,29,30,30,30,32,34,36,38,40,\
@@ -13,7 +14,8 @@ exemple_conso_j = [21,22,23,23,24,24,25,25,25,24,25,26,27,28,28,29,30,30,30,29,2
 class Ville:
 
 	def __init__(self):
-		self.equipProduction=[ParcSolaire(),ParcTurbineAGaz()]
+		self.equipProduction=[ParcSolaire(250,10,50,meteo1),ParcSolaire(250,10,50,meteo2),
+							  ParcTurbineAGaz()]
 		self.equipConso=[]#ParcMaison()]
 		self.nombreEquipementProduction=len((self.equipProduction,))
 		self.nombreEquipementConso=len((self.equipConso,))

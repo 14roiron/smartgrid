@@ -26,4 +26,4 @@ class Equipement:
 		spécifiques à la classe considérée. Ex : une centrale thermique ne peut pas s'arrêter avant 3h de
 		fonctionnement, donc on renvoie false si la consigne est de s'arrêter alors que le temps de
 		fonctionnement est <3h."""
-		pass
+		return False

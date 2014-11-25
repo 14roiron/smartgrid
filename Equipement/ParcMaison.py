@@ -1,9 +1,9 @@
 # -*-coding:Utf-8 -*
 from Equipement import Equipement
 from Utilitaire.heure import Utilitaire
+from Utilitaire import Global
 
 class ParcMaison(Equipement) : 
-    global temps
     def __init__(self, production_par_maison = -2.5, nombre = 0): #consommation moyenne de 22000 kWh/an/maison soit -2,5kW/maison
        self.nombre=nombre      
        self.production_par_maison = production_par_maison # en kW/maison
@@ -17,7 +17,8 @@ class ParcMaison(Equipement) :
        
     
     def heure_pleine(self):
-        date=Utilitaire.calculDate(temps)
+        
+        date=Utilitaire.calculDate(Global.temps)
         if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=8 and date["Heure"]<22) :
             return True
         else :
@@ -31,7 +32,7 @@ class ParcMaison(Equipement) :
                 return False
 
     def heure_moyenne_montante(self):
-        date=Utilitaire.calculDate(temps)
+        date=Utilitaire.calculDate(Global.temps)
         if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=7 and date["Heure"]<8):
             return True
         else :
@@ -45,7 +46,7 @@ class ParcMaison(Equipement) :
                 return False
                 
     def heure_moyenne_descendante(self):
-        date=Utilitaire.calculDate(temps)
+        date=Utilitaire.calculDate(Global.temps)
         if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=22 and date["Heure"]<23):
             return True
         else :
@@ -59,7 +60,7 @@ class ParcMaison(Equipement) :
                 return False
     
     def ajouter(self,nombre_maisons):
-        date=Utilitaire.calculDate(temps)
+        date=Utilitaire.calculDate(Global.temps)
         self.nombre += nombre_maisons
         print("{0} maisons dans le parc".format(self.nombre))
         for i in range(self.nombre - nombre_maisons , self.nombre):
@@ -77,7 +78,7 @@ class ParcMaison(Equipement) :
         return self.production_totale 
     
     def production_elec_totale(self):
-        date=Utilitaire.calculDate(temps)
+        date=Utilitaire.calculDate(Global.temps)
         for i in range(self.nombre, self.nombre):
             if self.heure_pleine() == True :
                 self.production = self.production_par_maison*2  #entre 100% et 200% de conso
@@ -110,27 +111,26 @@ class ParcMaison(Equipement) :
         prod_min = self.production_par_maison*self.nombre
         cout_min = -80/6000.0*self.production_par_maison 
         cout_max = -80/3000.0*self.production_par_maison
-        print(prod_max, prod_min, cout_min, cout_max)
-        return prod_max, prod_min, cout_min, cout_max
+        #print(prod_max, prod_min, cout_min, cout_max)
+        return (prod_max, prod_min, cout_min, cout_max)
     
     def etat_suivant(self, consigne=0, effacement=0):
-       date=Utilitaire.calculDate(temps)
+       date=Utilitaire.calculDate(Global.temps)
        self.production_totale = self.production_elec_totale()
        self.effacement = self.effacement_maison()
        self.activite = self.production_totale/self.PROD_MAX
        
     
     def prevision(self):
-        date=Utilitaire.calculDate(temps)
+        date=Utilitaire.calculDate(Global.temps)
         temps_minutes = 60*date["Heure"]+date["Minutes"]
         if date["Jour"]==6 or date["Jour"]==7 :
             if temps_minutes>470 and temps_minutes<1310 :    #de 7h50 à 22h50
                 return self.production_par_maison*2*self.nombre
             elif temps_minutes>350 and temps_minutes<470 :
-                return self.production = self.production_par_maison*((temps_minutes-350)/60.0+1)*self.nombre
+                return self.production_par_maison*((temps_minutes-350)/60.0+1)*self.nombre
             elif temps_minutes>1310 and temps_minutes<1370:
-                self.production = self.production_par_maison*((1370-temps_minutes)/60+1)*self.nombre
-                return self.production
+                return self.production_par_maison*((1370-temps_minutes)/60+1)*self.nombre
             else :
                 return self.production_par_maison*self.nombre
         else :

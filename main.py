@@ -3,7 +3,7 @@
 from Ville import Ville
 from Utilitaire.heure import Utilitaire
 
-from Utilitaire.Global import temps
+from  Utilitaire import Global 
 from Utilitaire.Global import meteo1
 from Utilitaire.Global import meteo2
 from Utilitaire.Global import meteoTest
@@ -13,7 +13,8 @@ from Utilitaire.Global import meteoTest
 
 """initialisation de la Ville dans l'objet Ville"""
 ville = Ville()
-temps=0 #t=0 -> Lun 00h00
+Global.temps
+#Global.temps=0 #t=0 -> Lun 00h00
 
 exemple_conso_j = [21,22,23,23,24,24,25,25,25,24,25,26,27,28,28,29,30,30,30,29,28,27,27,28,28,29,30,30,30,32,34,36,38,40,\
 42,44,46,47,48,48,48,49,50,51,52,53,54,55,55,56,56,57,56,55,54,56,57,57,56,55,54,53,50,48,47,46,45,45,45,\
@@ -27,14 +28,15 @@ def ind_eqpascher(liste,consigne): #indice de l'equipement le moins cher, liste 
     for j in range (1,len(liste)):
         if (liste[j][4] < cout_min and consigne[j] != liste[j][1]): #si moins cher et pas encore mis au max
             i=j
+            
     return i
 
-while temps<6*24-1:#*7:
+while Global.temps<6*24-1:#*7:
     # Définition des consignes de production
     """conso = sum(i.PROD_MAX*(-1)*i.activite for i in ville.equipConso) # Consommation totale pour l'étape en cours"""
     simulations = [i.simulation() for i in ville.equipProduction]
     prod_actuelle = sum(i.PROD_MAX*i.activite for i in ville.equipProduction)
-    conso_future = exemple_conso_j[temps+1]
+    conso_future = exemple_conso_j[Global.temps+1]
     diff=conso_future-prod_actuelle # différence conso-production actuelle
 
     consigne = [i.activite for i in ville.equipProduction] # on initialise la consigne
@@ -58,5 +60,8 @@ while temps<6*24-1:#*7:
             # il faut maintenant compenser la différence prod-conso avec de l'effacement et du stockage
             
             while (abs(prod_provisoire-conso_future)/conso_future > 2./100):
+                pass
+    Global.tempsinc()#temps+=1
+    
 
-    temps+=1
+print "ok!"
