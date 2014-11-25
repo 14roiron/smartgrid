@@ -12,10 +12,10 @@ class TurbineAGaz:
             i=0
             while self.activite>=self.demarrage[i]:
                 i+=1
-                if consigne<self.demarrage[i+10]:
-                    return (consigne,2*self.PROD_MAX*(0.80/1000/6))
-                else:
-                    return (self.demarrage[i+10],2*self.PROD_MAX*(0.80/1000/6))
+            if consigne<self.demarrage[i+10]:
+                return (consigne,2*self.PROD_MAX*(0.80/1000/6))
+            else:
+                return (self.demarrage[i+10],2*self.PROD_MAX*(0.80/1000/6))
         elif consigne<self.activite:
             i=0
             while self.activite<=self.arret[i]:
