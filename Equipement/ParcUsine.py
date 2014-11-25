@@ -20,6 +20,7 @@ class ParcUsine(Equipements):
         
    
     def etatSuivant(self,consigne=0,effacement=0):
+        date=Utilitaire.date
         if date["Jour"]==7 or date["Jour"]==6 :
             self.reduireConso()
         
@@ -40,34 +41,36 @@ class ParcUsine(Equipements):
      
       
     def prevision(self, consigne=0, effacement=0):
+        date=Utilitaire.date
         if date["Jour"]==7 :
             return (0.0, 0.0) 
         elif date["Heure"]<=7 or date["Heure"]>20 : 
             return (0.0,0.0)
         elif effacement==0 :
-            if 7<date["Heure"]<8 and date["minutes"]>=40 :
+            if 7<date["Heure"]<8 and date["Minute"]>=40 :
                 return (100.0, 0.0)
             for i from 1 to 4 :
-                if date["Heure"]==7 and date["minutes"]==i*10 :
+                if date["Heure"]==7 and date["Minute"]==i*10 :
                 return (25*i, 0.0)
             elif 8<=date["Heure"]<=19 :
                 return (100.0,0.0)
             for i from 1 to 4 :
-                if date["Heure"]==19 and date["minutes"]==i*10 :
+                if date["Heure"]==19 and date["Minute"]==i*10 :
                 return (25*i, 0.0)
             
         elif effacement!=0 :
+            date=Utilitaire.date
             if 8<date[Heure]<19 :
                 return(100.0,effacement*0.0000022*self.PROD_MAX*self.nombreUsines)
-            if 7<=date["Heure"]<8 and date["minutes"]>=40 :
+            if 7<=date["Heure"]<8 and date["Minute"]>=40 :
                 return (100.0*(1-effacement/100), effacement*0.0000022*self.PROD_MAX*self.nombreUsines)
             for i from 1 to 4 :
-                if date["Heure"]==7 and date["minutes"]==i*10 :
+                if date["Heure"]==7 and date["Minute"]==i*10 :
                 return (25*i(1-effacement/100), effacement*0.0000022*25*i*self.PROD_MAX/100*self.nombreUsines)
             elif 8<=date["Heure"]<=19 :
                 return (100.0*(1-effacement/100),effacement*0.0000022*self.PROD_MAX*self.nombreUsines)
             for i from 1 to 4 :
-                if date["Heure"]==19 and date["minutes"]==i*10 :
+                if date["Heure"]==19 and date["Minute"]==i*10 :
                 return (25*i(1-effacement/100), effacement*0.0000022*25*i*self.PROD_MAX/100*self.nombreUsines)                                                   
                                                                 
                                                                 
