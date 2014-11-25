@@ -1,4 +1,6 @@
-class TurbineAGaz:
+from Equipement import Equipement
+
+class TurbineAGaz(Equipement):
     
     def __init__(self,prod=885,effa=0,activite=0,nb=4):
         self.nb=nb
