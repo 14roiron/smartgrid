@@ -1,13 +1,12 @@
 from Utilitaire import Utilitaire
 
 class ParcUsine(Equipements):
-    def __init__(self, nombreUsines=5,prod=0.0, effa=1000.0) :
-        self.nombreUsines=nombreUsines 
-        self.activite=0.0
+    def __init__(self,prod=0.0,effa=1000.0,activite=0,nb=2) :
         self.PROD_MAX=prod #en kW, c'est une puissance instantanée
-        self.effacement=0.0
         self.EFFA_MAX=effa
-        
+        self.nombreUsines=nb
+        self.activite=activite
+        self.effacement=0.0
             
     def reduireConso(self) : 
         if self.activite>=0.25*self.PROD_MAX : 
