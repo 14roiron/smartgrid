@@ -17,14 +17,14 @@ class ParcUsine(Equipement):
         
     
     def etatSuivant(self,consigne=0,effacement=0):
-        p=self.prod[temps%7]
+        p=self.prod[temps%144]
         if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
             activite=p-effacement*self.EFFA_MAX/self.PROD_MAX
         else:
             activite=0.0
         
     def prevision(self,consigne=0,effacement=0):
-        p=self.prod[(temps+1)%7]
+        p=self.prod[(temps+1)%144]
         if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
             return (p-effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(0.80/1000/6)*self.nb)
         else :
