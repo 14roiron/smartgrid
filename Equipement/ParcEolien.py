@@ -1,12 +1,13 @@
-#!/usr/bin/python3.4
+#!/usr/bin/python2.7
 # -*-coding:Utf-8-*
 
 import math
+from Utilitaire import Global
 
 class ParcEolien:
 
 	"""Constructeur de parc d'éolienne. Par défaut Eolienne 5 kW"""
-	def __init__(self,n=10,eolienne="eolienne5",meteoVent):
+	def __init__(self,n=10,eolienne="eolienne5",meteoVent=Global.meteoTest):
 		if eolienne =="eolienne1500":
 			dictPV = {0.00:0.00,0.50:0.00,1.00:0.00,1.50:0.00,2.00:0.00,2.50:0.00,3.00:0.00,3.50:20.00,4.00:43.00,4.50:83.00,5.00:131.00,5.50:185.00,6.00:250.00,
 6.50:326.00,7.00:416.00,7.50:521.00,8.00:640.00,8.50:780.00,9.00:924.00,9.50:1062.00,10.00:1181.00,10.50:1283.00,11.00:1359.00,11.50:1402.00,
@@ -22,7 +23,7 @@ class ParcEolien:
 		self.dictPV = dictPV
 		self.listVent = []
 		for i in range(len(meteoVent)):
-			self.listVent.append(0.13*meteoVent[i]*log(h/0.03))
+			self.listVent.append(0.13*meteoVent[i]*math.log(h/0.03))
 
 
 	def prevision(self):
@@ -30,7 +31,7 @@ class ParcEolien:
 		"""On va chercher la liste des vitesses croissantes"""
 		listVitesse = list(self.dictPV.keys())
 			
-				
+		t=Global.temps
 		"""Interpolation linéaire à partir de point de la courbe de puissance"""				
 		if self.listVent[t]>listVitesse[len(listVitesse)-1]:	
 			return 0
@@ -39,13 +40,13 @@ class ParcEolien:
 				if i>0:
 					if i>=self.listVent[t+1]:
 						return self.nbEolienne*(((self.dictPV[i]-self.dictPV[i-1])/(listVitesse[i]-listVitesse[i-1]))*(self.listVent[t+1]-listVitesse[i-1])+self.dictPV[i-1])
-						break
+						break#wtf y a déjà un return
 
 
-	def etatSuivant(self, consigne=100)
+	def etatSuivant(self, consigne=100):#pas ce que l'on demande
 		self.nbEolienne = int(self.nbEolienne*(consigne/100))
 	
-	def contraintes(self,consigne):
+	def contraintes(self,consigne):#on considère que l'on force le régime nominale, demande à élina
 		if consigne<0 or consigne>100:
 			return False
 		else:
