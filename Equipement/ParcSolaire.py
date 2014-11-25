@@ -19,7 +19,7 @@ class ParcSolaire(Equipement):
         
     def prevision(self, consigne, effacement):
         """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""
-        return (self.calculActivite(temps+1), 0)
+        return (self.calculActivite(Global.temps+1), 0)
     
     def simulation(self):
         """pas de consigne ou d'effacement possible pour un panneau solaire :
