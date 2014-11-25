@@ -1,7 +1,7 @@
 class Utilitaire:
     
     def __init__ (self,temps):
-        date = calculDate(10*temps)
+        self.date = calculDate(10*temps)
         
     def calculDate (t, mois = "Avril", jour=1, heure=0, minute=0):
         jour = 1 + t//(60*24) 
