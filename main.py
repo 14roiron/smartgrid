@@ -4,6 +4,13 @@ from Utilitaire import *
 from Utilitaire.BaseDeDonnees import BaseDeDonnees
 from Ville import Ville
 
+"""Import de la base de données"""
+
+db = BaseDeDonnee()
+meteo1 = db.importerTable("Semaine1")
+meteo2 = db.importerTable("Semaine2")
+meteoTest = db.importerTable("Test")
+
 """initialisation de la Ville dans l'objet Ville"""
 ville = Ville()
 
