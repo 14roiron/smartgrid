@@ -47,5 +47,7 @@ class ParcSolaire(Equipement):
         
 #pour les tests
 if __name__=='__main__':
-	a=ParcSolaire()
+    a=ParcSolaire()
+    print meteoTest[1]["GHI"]
+    #a.simulation()
     

@@ -2,7 +2,7 @@
 #from Equipement import *
 from Ville import Ville
 from Utilitaire.heure import Utilitaire
-from Utilitaire.BaseDeDonnees import BaseDeDonnees
+
 from Utilitaire.Global import temps
 from Utilitaire.Global import meteo1
 from Utilitaire.Global import meteo2
@@ -10,10 +10,6 @@ from Utilitaire.Global import meteoTest
 
 """Import de la base de données"""
 
-db = BaseDeDonnees()
-meteo1 = db.importerTable("Semaine1")
-meteo2 = db.importerTable("Semaine2")
-meteoTest = db.importerTable("Test")
 
 """initialisation de la Ville dans l'objet Ville"""
 ville = Ville()

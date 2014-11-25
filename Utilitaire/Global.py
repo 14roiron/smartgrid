@@ -1,4 +1,6 @@
+from Utilitaire.BaseDeDonnees import BaseDeDonnees
 temps=0
-meteo1=0
-meteo2=0
-meteoTest=0
+db = BaseDeDonnees()
+meteo1 = db.importerTable("Semaine1")
+meteo2 = db.importerTable("Semaine2")
+meteoTest = db.importerTable("Test")

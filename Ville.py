@@ -13,8 +13,7 @@ exemple_conso_j = [21,22,23,23,24,24,25,25,25,24,25,26,27,28,28,29,30,30,30,29,2
 class Ville:
 
 	def __init__(self):
-		global meteoTest
-		self.equipProduction=[ParcSolaire(meteo=meteoTest),ParcTurbineAGaz()]
+		self.equipProduction=[ParcSolaire(),ParcTurbineAGaz()]
 		self.equipConso=[]#ParcMaison()]
 		self.nombreEquipementProduction=len((self.equipProduction,))
 		self.nombreEquipementConso=len((self.equipConso,))
