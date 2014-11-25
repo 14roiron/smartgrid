@@ -73,6 +73,18 @@ class ParcMaison(Equipement) :
         return self.production_totale 
     
     def production_elec_totale(self):
+        for i in range(self.nombre, self.nombre):
+            if self.heure_pleine() == True :
+                self.production = self.production_par_maison*2  #entre 100% et 200% de conso
+                self.activite = 100.0
+            elif self.heure_moyenne_montante() == True:
+                self.production = self.production_par_maison*(date["Minutes"]/60.0+1) # rampe entre 100% et 200%
+            elif self.heure_moyenne_descendante()== True :
+                self.production = self.production_par_maison*((60-date["Minutes"])/60.0+1)
+            else :
+                self.production = self.production_par_maison 
+                self.activite = 50.0
+            self.production_totale = self.production_totale + self.production_par_maison
         return self.production_totale
 
     def donner_conso(self):
@@ -98,6 +110,8 @@ class ParcMaison(Equipement) :
     
     def etat_suivant(self, consigne=0, effacement=0):
        date=Utilitaire.calculDate(temps)
+       elec = production_elec_totale()
+       return self.production_totale
        
     
     def prevision(self):
