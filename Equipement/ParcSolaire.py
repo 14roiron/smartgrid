@@ -1,6 +1,6 @@
 # -*-coding:utf-8 -
 from Equipement import Equipement
-from Utilitaire.Global import temps
+from  Utilitaire import Global 
 from Utilitaire.Global import meteoTest
 
 
@@ -24,18 +24,18 @@ class ParcSolaire(Equipement):
     def simulation(self):
         """pas de consigne ou d'effacement possible pour un panneau solaire :
         puissance min = puissance max et le coût est toujours le même (que le panneau produise ou pas)"""
+        temps= Global.temps
         return (self.calculActivite(temps+1), self.calculActivite(temps+1), 0, 0, 0)
         
     def etatSuivant(self, consigne, effacement):
         """consignes et effacement en %"""
-        global temps
-        print temps
+        temps=Global.temps
         self.activite = self.calculActivite(temps+1)
         
     def contraintes(self, consigne, effacement):
         """consignes et effacement en %
         si la consigne correspond à la prochaine activité prévue pas de problème et sinon ça ne marche pas"""
-        global temps
+        temps=Global.temps
         if consigne == self.calculActivite(temps+1) and effacement == 0:
             return True
         else:
@@ -48,6 +48,6 @@ class ParcSolaire(Equipement):
 #pour les tests
 if __name__=='__main__':
     a=ParcSolaire()
-    print meteoTest[1]["GHI"]
-    #a.simulation()
+    a.simulation()
     
+#des tests sont à effectuer pour vérifier le comportement en profondeur mais ça semble ok!
