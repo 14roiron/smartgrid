@@ -3,14 +3,14 @@ from Equipement import Equipement
 
 class ParcSolaire(Equipement):
     
-    global temps
+    
     def __init__(self, prod=150, activite=10, nb=50, meteo=[0]):
         '''nombre de panneaux solaires dans la ferme'''
         self.nb = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
         self.meteo = meteo
         
-        self.PROD_MAX = self.nb*self.prod
+        self.PROD_MAX = self.nb*prod
         self.activite = activite
         self.EFFA_MAX = 0
         self.effacement = 0
@@ -26,11 +26,14 @@ class ParcSolaire(Equipement):
         
     def etatSuivant(self, consigne, effacement):
         """consignes et effacement en %"""
+        global temps
+        print a.temps
         self.activite = self.calculActivite(temps+1)
         
     def contraintes(self, consigne, effacement):
         """consignes et effacement en %
         si la consigne correspond à la prochaine activité prévue pas de problème et sinon ça ne marche pas"""
+        global temps
         if consigne == self.calculActivite(temps+1) and effacement == 0:
             return True
         else:
@@ -38,7 +41,7 @@ class ParcSolaire(Equipement):
     
     def calculActivite(self, temps):
         """formule de test, lien avec les données météo à faire"""
-        return self.meteo[temps][GHI] / 1000 * 100
+        return self.meteo[temps]["GHI"] / 1000 * 100
         
 #pour les tests
 if __name__=='__main__':

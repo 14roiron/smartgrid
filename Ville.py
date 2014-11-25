@@ -1,5 +1,6 @@
 from Equipement.ParcSolaire import ParcSolaire
-from Equipement.ParcMaison import ParcMaison
+#from Equipement.ParcMaison import ParcMaison
+from Equipement.ParcTurbineAGaz import ParcTurbineAGaz
 
 exemple_conso_j = [21,22,23,23,24,24,25,25,25,24,25,26,27,28,28,29,30,30,30,29,28,27,27,28,28,29,30,30,30,32,34,36,38,40,\
                    42,44,46,47,48,48,48,49,50,51,52,53,54,55,55,56,56,57,56,55,54,56,57,57,56,55,54,53,50,48,47,46,45,45,45,\
@@ -11,7 +12,7 @@ class Ville:
 
 	def __init__(self):
 		self.equipProduction=[ParcSolaire(),ParcTurbineAGaz()]
-		self.equipConso=[ParcMaison()]
+		self.equipConso=[]#ParcMaison()]
 		self.nombreEquipementProduction=len((self.equipProduction,))
 		self.nombreEquipementConso=len((self.equipConso,))
 
