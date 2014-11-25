@@ -28,7 +28,7 @@ class ParcTurbineAGaz:
         else:
             return(consigne,self.cout)
             
-    def simulation(self,consigne):
+    def simulation(self):
         (prodmin,coutmin)=self.prevision(0)
         (prodmax,coutmax)=self.prevision(100)
         return(prodmin,prodmax,coutmin,self.cout,coutmax)

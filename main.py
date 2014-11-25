@@ -1,10 +1,12 @@
 # -*-coding:utf-8 -*
-
-
-from Equipement import *
+#from Equipement import *
+from Ville import Ville
 from Utilitaire.heure import Utilitaire
 from Utilitaire.BaseDeDonnees import BaseDeDonnees
-from Ville import Ville
+from Utilitaire.Global import temps
+from Utilitaire.Global import meteo1
+from Utilitaire.Global import meteo2
+from Utilitaire.Global import meteoTest
 
 """Import de la base de données"""
 
@@ -15,8 +17,7 @@ meteoTest = db.importerTable("Test")
 
 """initialisation de la Ville dans l'objet Ville"""
 ville = Ville()
-
-t=0 #t=0 -> Lun 00h00
+temps=0 #t=0 -> Lun 00h00
 
 exemple_conso_j = [21,22,23,23,24,24,25,25,25,24,25,26,27,28,28,29,30,30,30,29,28,27,27,28,28,29,30,30,30,32,34,36,38,40,\
 42,44,46,47,48,48,48,49,50,51,52,53,54,55,55,56,56,57,56,55,54,56,57,57,56,55,54,53,50,48,47,46,45,45,45,\
@@ -32,12 +33,12 @@ def ind_eqpascher(liste,consigne): #indice de l'equipement le moins cher, liste 
             i=j
     return i
 
-while t<6*24*7:
+while temps<6*24-1:#*7:
     # Définition des consignes de production
     """conso = sum(i.PROD_MAX*(-1)*i.activite for i in ville.equipConso) # Consommation totale pour l'étape en cours"""
     simulations = [i.simulation() for i in ville.equipProduction]
     prod_actuelle = sum(i.PROD_MAX*i.activite for i in ville.equipProduction)
-    conso_future = exemple_conso_j[t+1]
+    conso_future = exemple_conso_j[temps+1]
     diff=conso_future-prod_actuelle # différence conso-production actuelle
 
     consigne = [i.activite for i in ville.equipProduction] # on initialise la consigne
@@ -60,18 +61,4 @@ while t<6*24*7:
 
             # il faut maintenant compenser la différence prod-conso avec de l'effacement et du stockage
 
-            
-                
-                
-                
-            
-    for i in range(ville.nombreEquipementProduction):
-       #actualisation des équipements de production
-       ville.equipProduction[i].etatSuivant(consignesProduction[i],0)
-    consignesConso=[0 for i in range(ville.nombreEquipementConso)]
-
-    for i in range(ville.nombreEquipementConso):
-        #actualisation des équipements de Consommation
-        ville.equipConso[i].etatSuivant()
     temps+=1
-    

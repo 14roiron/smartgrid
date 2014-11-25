@@ -1,10 +1,12 @@
 # -*-coding:utf-8 -
 from Equipement import Equipement
+from Utilitaire.Global import temps
+from Utilitaire.Global import meteoTest
+
 
 class ParcSolaire(Equipement):
     
-    
-    def __init__(self, prod=150, activite=10, nb=50, meteo=[0]):
+    def __init__(self, prod=150, activite=10, nb=50, meteo=meteoTest):
         '''nombre de panneaux solaires dans la ferme'''
         self.nb = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
@@ -27,7 +29,7 @@ class ParcSolaire(Equipement):
     def etatSuivant(self, consigne, effacement):
         """consignes et effacement en %"""
         global temps
-        print a.temps
+        print temps
         self.activite = self.calculActivite(temps+1)
         
     def contraintes(self, consigne, effacement):
