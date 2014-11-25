@@ -1,13 +1,14 @@
 class TurbineAGaz:
     
     def __init__(self,prod=885,effa=0,activite=0,nb=4):
-        self.PROD_MAX=prod*nb
-        self.EFFA_MAX=effa*nb
+        self.nb=nb
+        self.PROD_MAX=prod*self.nb
+        self.EFFA_MAX=effa*self.nb
         self.activite=activite
         self.effacement=0
         self.demarrage=[100,93.55,92.7]
         self.arret=[100,30.8,0]
-        self.cout=self.activite/100.0*self.PROD_MAX*(0.80/1000/6)*nb
+        self.cout=self.activite/100.0*self.PROD_MAX*(0.80/1000/6)*self.nb
         
     def prevision(self,consigne):
         if consigne>self.activite:
@@ -15,9 +16,9 @@ class TurbineAGaz:
             while self.activite>=self.demarrage[i]:
                 i+=1
             if consigne<self.demarrage[i+10]:
-                return (consigne,2*self.PROD_MAX*(0.80/1000/6)*nb)
+                return (consigne,2*self.PROD_MAX*(0.80/1000/6)*self.nb)
             else:
-                return (self.demarrage[i+10],2*self.PROD_MAX*(0.80/1000/6)*nb)
+                return (self.demarrage[i+10],2*self.PROD_MAX*(0.80/1000/6)*self.nb)
         elif consigne<self.activite:
             i=0
             while self.activite<=self.arret[i]:
