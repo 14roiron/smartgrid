@@ -26,7 +26,6 @@ class ParcMaison(Equipement) :
                 return True
             else :
                 return False
-        return False
 
     def heure_moyenne_montante(self):
         if (date["Jour"]==6 or date["Jour"]==7)and(date["Heure"]>=7 and date["Heure"]<8):
