@@ -8,10 +8,10 @@ class Stockage(Equipement):
 		self.cout = cout
 
 	def etat_suivant(self, consigne=0., effacement=0.):   #consigne : pourcentage d'utilisation de la capacité souhaité
-		self.reste = consigne*self.capacite
+		self.reste = consigne*self.capacite/100
 
 	def prevision(self,consigne=0.,effacement=0.):
-		puissance = self.reste - consigne*self.capacite
+		puissance = self.reste - consigne/100*self.capacite
 		prix = self.cout*abs(puissance)
 		return (puissance/self.capacite*100, prix)
 
