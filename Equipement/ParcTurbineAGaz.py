@@ -1,5 +1,5 @@
 class TurbineAGaz:
-    def __init__(self,prod=885,effa=0,activite=0,nb=3):
+    def __init__(self,prod=885,effa=0,activite=0.0,nb=3):
         self.PROD_MAX=prod
         self.EFFA_MAX=effa
         self.activite=activite
