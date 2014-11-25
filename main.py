@@ -54,7 +54,9 @@ while temps<6*24-1:#*7:
             for i in range (len(simulations)): # on met tout au max
                 consigne[i] = simulations[i][1]
             prod_provisoire = sum(simulations[i][1]*ville.equipProduction[i].PROD_MAX for i in range(len(simulations)))
-
+            
             # il faut maintenant compenser la différence prod-conso avec de l'effacement et du stockage
+            
+            while (abs(prod_provisoire-conso_future)/conso_future > 2./100):
 
     temps+=1
