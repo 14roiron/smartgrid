@@ -5,7 +5,7 @@ from Utilitaire import Global
 from math import *
 
 class ParcMaison (Utilitaire) : 
-    def __init__(self, production = 1, nombre = 0): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
+    def __init__(self, nom, production = 1, nombre = 0): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
        self.nombre=nombre      
        self.production = production # en kW/maison
        self.production_totale = 0.0
@@ -65,16 +65,17 @@ class ParcMaison (Utilitaire) :
        
     
     def prevision(self):
+        temps=Global.temps
         if temps>=720 and temps < 1008 :
             self.consommation_prevue = -1-cos(pi/72*(temps-791))
         else :
             self.consommation_prevue =  -1-cos(pi/144.0*(temps+31.0))*cos(3.0*(pi/144.0*(temps+31.0)))
-        #print (self.consommation_prevue)
+        print (self.consommation_prevue)
         return self.consommation_prevue   
             
 if __name__=='__main__':
     temps =0
-    parc = ParcMaison()
+    parc = ParcMaison("maisons1")
     parc.ajouterMaison(100)
     while temps<=1008 :
         parc.donner_conso()

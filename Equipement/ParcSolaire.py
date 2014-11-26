@@ -6,7 +6,7 @@ from Utilitaire.Global import meteoTest
 
 class ParcSolaire(Equipement):
     
-    def __init__(self, prod=150, activite=10, nb=50, meteo=meteoTest, nom="ParcSolaire"):
+    def __init__(self,nom="ParcSolaire", prod=150, activite=10, nb=50, meteo=meteoTest):
         '''nombre de panneaux solaires dans la ferme'''
         self.nb = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
@@ -45,7 +45,7 @@ class ParcSolaire(Equipement):
     
     def calculActivite(self):
         """formule de test, lien avec les données météo à faire"""
-        temp=Global.temps
+        temps=Global.temps
         return self.meteo[temps]["GHI"] / 1000 * 100
         
 #pour les tests

@@ -7,7 +7,7 @@ from Utilitaire import Global
 class ParcEolien:
 
 	"""Constructeur de parc d'éolienne. Par défaut Eolienne 5 kW"""
-	def __init__(self,n=10,eolienne="eolienne5",meteoVent=Global.meteoTest):
+	def __init__(self,nom="eolienne",n=10,eolienne="eolienne5",meteoVent=Global.meteoTest):
 		if eolienne =="eolienne1500":
 			dictPV = {0.00:0.00,0.50:0.00,1.00:0.00,1.50:0.00,2.00:0.00,2.50:0.00,3.00:0.00,3.50:20.00,4.00:43.00,4.50:83.00,5.00:131.00,5.50:185.00,6.00:250.00,
 6.50:326.00,7.00:416.00,7.50:521.00,8.00:640.00,8.50:780.00,9.00:924.00,9.50:1062.00,10.00:1181.00,10.50:1283.00,11.00:1359.00,11.50:1402.00,
