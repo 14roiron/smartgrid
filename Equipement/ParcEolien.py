@@ -50,12 +50,11 @@ class ParcEolien:
 		if self.listVent[t]>listVitesse[len(listVitesse)-1]:	
 			return (0,0)
 		else:		
-			for i in range(len(listVitesse)):
-				if i>0:
-					if i>=self.listVent[t+1]:
-						P = self.nbEolienne*(((self.dictPV[i]-self.dictPV[i-1])/(listVitesse[i]-listVitesse[i-1]))*(self.listVent[t+1]-listVitesse[i-1])+self.dictPV[i-1])
-						self.activite = (P/PROD_MAX)*100						
-						return (P,(P/6)*self.cout) 
+			for i in range(1,len(listVitesse)):
+				if i>=self.listVent[t+1]:
+					P = self.nbEolienne*(((self.dictPV[i]-self.dictPV[i-1])/(listVitesse[i]-listVitesse[i-1]))*(self.listVent[t+1]-listVitesse[i-1])+self.dictPV[i-1])
+					self.activite = (P/PROD_MAX)*100						
+					return (P,(P/6)*self.cout) 
 
 
 		
