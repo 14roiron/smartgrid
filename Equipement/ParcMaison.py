@@ -8,10 +8,10 @@ class ParcMaison (Utilitaire) :
     def __init__(self,nom,prod=2.0,effa=0.1,activite=0, nb=300): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
        self.nom=nom
        self.nombre=nb
-       self.PROD_MAX=prod*nombre  # consommation de 2kW par maison (pic)
+       self.PROD_MAX=prod*nb  # consommation de 2kW par maison (pic)
        self.effacement=0.0 # en %
        self.activite=activite
-       self.EFFA_MAX = effa # en kWglobal 
+       self.EFFA_MAX=effa # en kWglobal 
        self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
        prod=[]
        for i in range(0,721):
