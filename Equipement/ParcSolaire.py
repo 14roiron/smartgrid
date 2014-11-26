@@ -4,7 +4,7 @@ from  Utilitaire import Global
 from Utilitaire.Global import meteoTest
 
 
-class ParcSolaire(Equipement.Equipement):
+class ParcSolaire(Equipement):
     
     def __init__(self,nom="ParcSolaire", prod=150, activite=10, nb=50, meteo=meteoTest):
         '''nombre de panneaux solaires dans la ferme'''
@@ -23,7 +23,7 @@ class ParcSolaire(Equipement.Equipement):
         """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""
         return (self.calculActivite(Global.temps+1), 0)
     
-    def simulation(self):
+    def simulation(self,activite,effacement):
         """pas de consigne ou d'effacement possible pour un panneau solaire :
         puissance min = puissance max et le coût est toujours le même (que le panneau produise ou pas)"""
         temps= Global.temps
