@@ -41,6 +41,7 @@ class ParcSolaire(Equipement):
     
     def calculActivite(self,temps):
         """formule de test, lien avec les données météo à faire"""
+        print temps
         return self.meteo[temps]["GHI"] / 1000 * 100
         
 #pour les tests

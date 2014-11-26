@@ -35,8 +35,9 @@ def ind_eqpascher(liste,consigne): #indice de l'equipement le moins cher, liste 
     return i
 
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
-
-while temps<6*24-1:#*7:
+print len(Global.meteo1)
+print len(Global.meteo2)
+while Global.temps<6*6-1:#*7:
     # Définition des consignes de production
     """conso = sum(i.PROD_MAX*(-1)*i.activite for i in ville.equipConso) # Consommation totale pour l'étape en cours"""
     simulations = [i.simulation() for i in ville.equipProduction]
@@ -90,7 +91,7 @@ while temps<6*24-1:#*7:
             
     Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, 0)        
     Global.tempsinc()#temps+=1
-    print len(ville.equipProduction)
+    print Global.temps
     
 
 print "ok!"
