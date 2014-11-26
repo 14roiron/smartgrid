@@ -19,7 +19,7 @@ class ParcSolaire(Equipement):
         """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""
         return (self.calculActivite(Global.temps+1), 0)
     
-    def simulation(self,activite,effacement):
+    def simulation(self,activite=100,effacement=0):
         """pas de consigne ou d'effacement possible pour un panneau solaire :
         puissance min = puissance max et le coût est toujours le même (que le panneau produise ou pas)"""
         temps= Global.temps
@@ -47,6 +47,6 @@ class ParcSolaire(Equipement):
 if __name__=='__main__':
     a=ParcSolaire()
     a.simulation()
-    a.calculActivite()
+    a.calculActivite(Global.temps)
     
 #des tests sont à effectuer pour vérifier le comportement en profondeur mais ça semble ok!
