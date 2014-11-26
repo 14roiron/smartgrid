@@ -12,7 +12,7 @@ class ParcSolaire(Equipement):
         self.meteo = meteo
         '''nom du Parc'''
         self.nom = nom
-        self.PROD_MAX = self.nombre*prod
+        self.PROD_MAX = prod*self.nombre
         self.activite = activite
         self.EFFA_MAX = 0
         self.effacement = 0
@@ -29,7 +29,7 @@ class ParcSolaire(Equipement):
         
     def etatSuivant(self, consigne, effacement):
         """consignes et effacement en %"""
-        self.activite = self.calculActivite(Global.temps+1)
+        self.activite = self.calculActivite(Global.temps)
         
     def contraintes(self, consigne, effacement):
         """consignes et effacement en %
