@@ -30,7 +30,7 @@ class ParcUsine(Equipement):
         if p>=-effacement*self.EFFA_MAX/self.PROD_MAX:
             return (p+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre)
         else :
-            return (0,p/100.0*self.PROD_MAX*(80/1000/6)*self.nombre)
+            return (0,-p/100.0*self.PROD_MAX*(80/1000/6)*self.nombre)
     
     def simulation(self):
         (prod_min,cout_min)=self.prevision(0,0)  

@@ -5,10 +5,10 @@ from Utilitaire import Global
 from math import *
 
 class ParcMaison (Utilitaire) : 
-    def __init__(self,nom,prod=-2.0,effa=0.1,activite=0, nb=300): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
-        self.PROD_MAX=prod*nb  # consommation de 2kW par maison (pic)
-        self.EFFA_MAX=effa*nb # en kWglobal
+    def __init__(self,nom,prod=-2.0,effa=0.1,activite=0,nb=300): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
         self.nombre=nb
+        self.PROD_MAX=prod*self.nombre  # consommation de 2kW par maison (pic)
+        self.EFFA_MAX=effa*self.nombre # en kWglobal
         self.activite=activite
         self.effacement=0.0 # en %
         self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
@@ -22,9 +22,9 @@ class ParcMaison (Utilitaire) :
     
     def etatSuivant(self,consigne=0,effacement=0):
         p=self.production[Global.temps]
-        if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
+        if p>=-effacement*self.EFFA_MAX/self.PROD_MAX:
             self.effacement=effacement
-            self.activite=p-effacement*self.EFFA_MAX/self.PROD_MAX
+            self.activite=p+effacement*self.EFFA_MAX/self.PROD_MAX
         else:
             self.effacement=self.activite
             self.activite=0.0
@@ -32,10 +32,10 @@ class ParcMaison (Utilitaire) :
         
     def prevision(self,consigne=0,effacement=0):
         p=self.production[(Global.temps+1)%1008]
-        if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
-            return (p-effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre)
+        if p>=-effacement*self.EFFA_MAX/self.PROD_MAX:
+            return (p+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre)
         else :
-            return (0,p/100.0*self.PROD_MAX*(80/1000/6)*self.nombre)
+            return (0,-p/100.0*self.PROD_MAX*(80/1000/6)*self.nombre)
     
     def simulation(self):
         (prod_min,cout_min)=self.prevision(0,0)  
