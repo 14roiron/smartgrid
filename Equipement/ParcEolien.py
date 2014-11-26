@@ -40,13 +40,15 @@ class ParcEolien:
 				if i>0:
 					if i>=self.listVent[t+1]:
 						return self.nbEolienne*(((self.dictPV[i]-self.dictPV[i-1])/(listVitesse[i]-listVitesse[i-1]))*(self.listVent[t+1]-listVitesse[i-1])+self.dictPV[i-1])
-						break#wtf y a déjà un return
+						#break#wtf y a déjà un return
 
 
-	def etatSuivant(self, consigne=100):#pas ce que l'on demande
+	def etatSuivant(self, consigne=100,effacement=0):#pas ce que l'on demande
 		self.nbEolienne = int(self.nbEolienne*(consigne/100))
+		self.effacement=0
+		activite
 	
-	def contraintes(self,consigne):#on considère que l'on force le régime nominale, demande à élina
+	def contraintes(self,consigne,effacement):#on considère que l'on force le régime nominale, demande à élina
 		if consigne<0 or consigne>100:
 			return False
 		else:
