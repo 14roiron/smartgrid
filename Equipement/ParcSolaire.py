@@ -5,7 +5,7 @@ from Utilitaire.Global import meteoTest
 
 
 class ParcSolaire(Equipement):
-    def __init__(self,nom="ParcSolaire", prod=150, activite=10, nb=50, meteo=meteoTest):
+    def __init__(self,nom="ParcSolaire",prod=150,effa=0,activite=10,nb=50,meteo=meteoTest):
         '''nombre de panneaux solaires dans la ferme'''
         self.nombre = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
@@ -14,7 +14,7 @@ class ParcSolaire(Equipement):
         self.nom = nom
         self.PROD_MAX = prod*self.nombre
         self.activite = activite
-        self.EFFA_MAX = 0
+        self.EFFA_MAX = effa
         self.effacement = 0
         self.cout=0
         
