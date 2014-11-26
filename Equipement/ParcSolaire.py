@@ -51,10 +51,7 @@ class ParcSolaire(Equipement):
 if __name__=='__main__':
     a=ParcSolaire()
     a.simulation()
-<<<<<<< HEAD
     a.calculActivite(Global.temps)
-=======
     a.contraintes(60,0)
->>>>>>> 408496fdcdc307801bec47e41058960ba154c716
     
 #des tests sont à effectuer pour vérifier le comportement en profondeur mais ça semble ok!

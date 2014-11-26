@@ -44,9 +44,10 @@ class BaseDeDonnees:
             sql = """INSERT INTO Etat (t, IDObjet, P, E, C, numTest)
                      VALUES (%s, %s, %s, %s, %s, %s)"""
             try:
-                cur.execute(sql, (temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest))
+                cur.execute(sql, (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest))
                 self.database.commit()
                 IDObjet += 1
             except:
                 self.database.rollback()
                 print "Erreur d'insertion dans Etat"
+        cur.close()
