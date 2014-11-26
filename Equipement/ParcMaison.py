@@ -51,39 +51,24 @@ class ParcMaison (Utilitaire) :
             print("effacement maximum depasse")    
         return self.production_totale
     
+    def etatSuivant(self,consigne=0,effacement=0):
+        p=self.production[Global.temps]
+        if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
+            self.effacement=effacement
+            self.activite=p-effacement*self.EFFA_MAX/self.PROD_MAX
+        else:
+            self.effacement=self.activite
+            self.activite=0.0
+        self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
+        
+    def prevision(self,consigne=0,effacement=0):
+        p=self.production[(Global.temps+1)%1008]
+        if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
+            return (p-effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre)
+        else :
+            return (0,p/100.0*self.PROD_MAX*(80/1000/6)*self.nombre)
+    
     def simulation(self):
-        prod_max = 2*self.nombre                 # en kW
-        prod_min = 0.437*self.nombre
-        cout_min = -80/6000.0*self.production_par_maison #en € par maison
-        cout_max = -80/3000.0*self.production_par_maison  #en € par maison
-        return prod_max, prod_min, cout_min, cout_max
-    
-    def etat_suivant(self, consigne=0, effacement=0):
-        temps=Global.temps
-        self.production = self.consommation_maison()
-        self.production_totale = self.production_elec_totale()
-        self.production_totale = self.effacement_maison()
-        if self.PROD_MAX!=0 :
-            self.activite = self.production_totale/self.PROD_MAX*100.0  #en %
-        else :
-            self.activite = 0
-       
-    
-    def prevision(self):
-        temps=Global.temps
-        if temps>=720 and temps < 1008 :
-            self.consommation_prevue = -1-cos(pi/72*(temps-791))
-        else :
-            self.consommation_prevue =  -1-cos(pi/144.0*(temps+31.0))*cos(3.0*(pi/144.0*(temps+31.0)))
-        print (self.consommation_prevue)
-        return self.consommation_prevue   
-            
-if __name__=='__main__':
-    temps =0
-    parc = ParcMaison("maisons1")
-    parc.ajouterMaison(100)
-    while temps<=1008 :
-        parc.donner_conso()
-        parc.prevision()
-        parc.etat_suivant()
-        temps+=1
+        (prod_min,cout_min)=self.prevision(0,0)  
+        (prod_max,cout_max)=self.prevision(0,100) 
+        return(prod_min,prod_max,cout_min,self.cout,cout_max)      
