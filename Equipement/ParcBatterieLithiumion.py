@@ -44,10 +44,11 @@ class ParcBatterieLithiumion:
         self.compteur_surtension = 0
         self.compteur_pause = 0
         
-    def etat_suivant(self, consigne=0., effacement=0.): #consigne : pourcentage d'utilisation de la capacit� souhait�
-        self.reste = consigne*self.capacite/100
+    def etat_suivant(self, consigne=0.): #consigne*prod = puissance envoyée de la batterie vers les clients
+        self.activite = prevision(consigne)[0]
+        self.reste += self.activite*self.PROD_MAX/6
         
-    def prevision(self,consigne=0.,effacement=0.):
+    def prevision(self,consigne=0.):
         puissance = self.reste - consigne/100*self.capacite
         prix = self.cout*abs(puissance)
         return (puissance/self.capacite*100, prix)
