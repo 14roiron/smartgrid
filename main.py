@@ -82,13 +82,19 @@ while Global.temps<6*24*7: #boucle principale
                     prod_provisoire += (simulations_stock[ind][1] - equip.activite)/10*equip.PROD_MAX
                 
             
-            eff_max = [simulations_conso[i][1] for i in range(ville.nombreEquipementConso)]
-            if consigne_stock==stock_max :
-                while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future and consigne_conso != eff_max):
+            conso_min = [-simulations_conso[i][1] for i in range(len(simulations_conso))]
+            '''production = - consommation ; 
+               prod_min = - conso_max = conso sans effacement ;
+               prod_max = - conso_min = conso avec effacement ; => cout_max = cout pour effacer
+               effacement = prod_max - prod_min 
+               attention prod_min = equipement.activite = -conso
+            '''
+            if consigne_stock == stock_max : #le stockage ne suffit plus
+                while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future and consigne_conso != conso_min):
                     ind = ind_eqpascher(simulations_conso, consigne_conso)
                     equip = ville.equipConso[ind]
                     consigne_conso[ind] = simulations_conso[ind][1]
-                    conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][1])*equip.PROD_MAX #on retire à conso_future l'effacement
+                    conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][0])*equip.PROD_MAX #on retire à conso_future l'effacement
                     
     else:
         min=sum(simulations[i][0] for i in range(len(simulations)))
