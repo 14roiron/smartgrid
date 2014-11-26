@@ -47,12 +47,12 @@ while Global.temps < 6*24*7: #boucle principale
     conso_future = sum(i.activite*i.PROD_MAX for i in ville.equipConso)
 
     diff = conso_future-prod_actuelle # différence conso-production actuelle
+    
     effacement_actuel = 0.
     
     consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
     simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
     
-
     consigne_stock=[i.activite for i in ville.equipStockage] # "" de stockage
     simulations_stock=[i.simulation() for i in ville.equipStockage]
     
@@ -104,7 +104,7 @@ while Global.temps < 6*24*7: #boucle principale
                 while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future and consigne_conso != conso_min):
                     ind = ind_eqpascher(simulations_conso, consigne_conso)
                     equip = ville.equipConso[ind]
-                    consigne_conso[ind] = simulations_conso[ind][1]
+                    consigne_conso[ind] = (simulations_conso[ind][1]-equip.activite)*(-equip.PROD_MAX)/equip.EFFA_MAX #attention cette consigne est un effacement
                     effacement_actuel += (simulations_conso[ind][1]-simulations_conso[ind][0])*equip.PROD_MAX
                     conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][0])*equip.PROD_MAX #on retire à conso_future l'effacement
                     
@@ -143,15 +143,21 @@ while Global.temps < 6*24*7: #boucle principale
                     
     ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
     print effacement_actuel
+    
+    '''envoie des consignes et effacements pour la prochaine étape :) '''
 
-
-    for i in ville.equipConso:
+    for i in range(len(consigne)):
         #print i.nom
-        i.etatSuivant(100,0)
-
-    for i in ville.equipProduction:
+        ville.equipProduction[i].etatSuivant(consigne[i],0)
+    
+    for i in range(len(consigne_stock)):
         #print i.nom
-        i.etatSuivant(100,0)
+        ville.equipStockage[i].etatSuivant(consigne_stock[i],0)
+    
+    for i in range(len(consigne_conso)):
+        #print i.nom
+        ville.equipConso[i].etatSuivant(0,consigne_conso[i])
+    
 
     Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, 0)        
     Global.tempsinc()#temps+=1
