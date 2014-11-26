@@ -97,33 +97,37 @@ while Global.temps<6*24*7: #boucle principale
                     conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][0])*equip.PROD_MAX #on retire à conso_future l'effacement
                     
     else:
-        min=sum(simulations[i][0] for i in range(len(simulations)))
-        
-        if min<=conso_future: # si on peut atteindre la valeur de la consommation...
+        min=sum(i.simulation()[0]*i.PROD_MAX for i in ville.equipProduction) #capacite de production minimale à l'etat suivant
+
+        if min <= conso_future: # si on peut atteindre la valeur de la consommation...
             prod_provisoire = prod_actuelle
 
-            while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future): #tant que ecart > 2% ou prod > conso
-                ind = ind_eqpascher(simulations,consigne) #indice de l'equipement le moins cher qu'on met au max
+            while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future): #tant que ecart > 2% et prod > conso
+                ind = ind_eqpascher2(simulations,consigne) #indice de l'equipement le moins cher qu'on met au min
                 equip = ville.equipProduction[ind]
                 
-                if (simulations[ind][0] < simulations[ind][1]):
+                if (simulations[ind][0] < simulations[ind][1]): #equipement à production laissant marge de maneuvre ex : centrale (et pas PV)
                     while (prod_provisoire > conso_future and consigne[ind] > simulations[ind][0]):
-                        consigne[ind] += (simulations[ind][0]-equip.activite)/10 #...on le met progressivement au max
-                        prod_provisoire += (simulations[ind][0]-equip.activite)/10*equip.PROD_MAX #maj
+                        consigne[ind] -= (equip.activite-simulations[ind][0])/10 #on met progressivement la production au min
+                        prod_provisoire -= (equip.activite-simulations[ind][0])/10*equip.PROD_MAX #maj
                 else:
-                    consigne[ind] = simulations[ind][0]
-                    prod_provisoire = prod_provisoire - equip.activite*equip.PROD_MAX + simulations[ind][0]*equip.PROD_MAX #max
-        else:
-            for i in range (len(simulations)): # on met tout au max
+                    consigne[ind] = simulations[ind][0] #sinon on met à la production min = max (on n'a pas le choix)
+                    prod_provisoire -= (equip.activite-simulations[ind][0])*equip.PROD_MAX #maj
+
+        else: #on ne peut pas baisser suffisamment la production
+            for i in range (len(simulations)): # on met tout au min
                 consigne[i] = simulations[i][0]
             prod_provisoire = sum(simulations[i][0]*ville.equipProduction[i].PROD_MAX for i in range(len(simulations)))
-            
-            # il faut maintenant compenser la différence prod-conso avec de l'effacement et du stockage
-            stock_min = [0. for i in range(len(consigne_stock))]
+
+            # il faut maintenant compenser la différence prod-conso avec du stockage
+            stock_min = [simulations_stock[i][0] for i in range(len(simulations_stock))] #tous les stockages sont en mode "remplissage maximal"
             while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future and consigne_stock != stock_min):
-                ind = ind_eqpascher(simulations_stock,consigne_stock)
-                consigne_stock[ind]=0.
-                prod_provisoire-=ville.equipStockage[ind].PROD_MAX
+                ind = ind_eqpascher2(simulations_stock,consigne_stock) #stockage le moins cher à remplir
+                equip = ville.equipStockage[ind]
+                
+                while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future and consigne_stock[ind] != stock_min[ind]):
+                    consigne_stock[ind] -= (equip.activite - simulations_stock[ind][0])/10
+                    prod_provisoire -= (equip.activite - simulations_stock[ind][0])/10*equip.PROD_MAX
 
     for i in ville.equipConso:
         #print i.nom
