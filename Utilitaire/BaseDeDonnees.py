@@ -8,7 +8,7 @@ class BaseDeDonnees:
     def __init__(self):
         self.database = MySQLdb.connect(host="localhost", user = "root", passwd = "migse", db = "Smartgrid1")
     
-    def importerTable(self, nom):
+    def importerMeteo(self, nom):
         cur = self.database.cursor()
         l = []
         cur.execute("SELECT * FROM " + nom)
