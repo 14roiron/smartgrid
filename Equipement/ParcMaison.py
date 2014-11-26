@@ -6,17 +6,17 @@ from math import *
 
 class ParcMaison (Utilitaire) : 
     def __init__(self, nom, production = 1, nombre = 0): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
-       self.nombre=nombre      
-       self.production = production # en kW/maison
-       self.production_totale = 0.0
-       self.production = 0
-       self.PROD_MAX=2.0*nombre  # consommation de 2kW par maison (pic)
-       self.effacement=0.0 # en %
-       self.activite=50.0
-       self.EFFA_MAX = 0.1 # en kWglobal 
-       prod=[]
-       for i in range(0,721):
-           prod.append(1+cos(pi/144.0*(i+30.0))*cos(3.0*(pi/144*(i+30))))
+        self.nombre=nombre      
+        self.production = production # en kW/maison
+        self.production_totale = 0.0
+        self.production = 0
+        self.PROD_MAX=2.0*nombre  # consommation de 2kW par maison (pic)
+        self.effacement=0.0 # en %
+        self.activite=50.0
+        self.EFFA_MAX = 0.1 # en kWglobal 
+        prod=[]
+        for i in range(0,721):
+            prod.append(1+cos(pi/144.0*(i+30.0))*cos(3.0*(pi/144*(i+30))))
         for i in range(721,1008):
             prod.append(1+cos(pi/72*(i-792)))
         self.production=prod

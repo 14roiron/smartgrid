@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import MySQLdb
-from Utilitaire import Global
+import Global
 
 class BaseDeDonnees:
         

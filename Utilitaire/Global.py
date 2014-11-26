@@ -1,4 +1,4 @@
-from Utilitaire.BaseDeDonnees import BaseDeDonnees
+from BaseDeDonnees import BaseDeDonnees
 temps=0
 db = BaseDeDonnees()
 meteo1 = db.importerMeteo("Semaine1")
