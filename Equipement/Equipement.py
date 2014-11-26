@@ -18,7 +18,7 @@ class Equipement:
 		pour l'étape suivante"""
 		return (0,0,0,0,0)
 	
-	def etatSuivant(self,consigne=0,effacement=0):
+	def etat_Suivant(self,consigne=0,effacement=0):
 		"""modifie les attributs à partir de la consigne"""
 		self.activite=consigne
 		self.effacement=effacement

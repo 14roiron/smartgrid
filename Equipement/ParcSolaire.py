@@ -16,7 +16,7 @@ class ParcSolaire(Equipement):
         self.activite = activite
         self.EFFA_MAX = effa
         self.effacement = 0
-        self.cout=0
+        self.cout=10
         
     def prevision(self, consigne, effacement):
         """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""
@@ -41,13 +41,18 @@ class ParcSolaire(Equipement):
     
     def calculActivite(self,temps):
         """formule de test, lien avec les données météo à faire"""
-        return self.meteo[temps]["GHI"] / 1000 * 100
+        return int(self.meteo[temps]["GHI"])+1
         
 #pour les tests
 if __name__=='__main__':
     a=ParcSolaire()
     a.simulation()
     a.calculActivite(Global.temps)
+    Global.temps=3
+    print a.meteo
     a.contraintes(60,0)
+    a.etatSuivant(100, 100)
+    print int(a.meteo[Global.temps]["GHI"])
+    print "act:={}".format(a.activite)
     
 #des tests sont à effectuer pour vérifier le comportement en profondeur mais ça semble ok!
