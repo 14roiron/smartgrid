@@ -27,12 +27,13 @@ class BaseDeDonnees:
             sql = """INSERT INTO ID (IDObjet, Nom, Pmax, Emax, numTest)
                      VALUES (%s, %s, %s, %s, %s)"""
             try:
-                cur.execute(sql, (IDObjet, equipement.Nom, equipement.PROD_MAX, equipement.EFFA_MAX, numTest))
+                cur.execute(sql, (IDObjet, equipement.nom, equipement.PROD_MAX, equipement.EFFA_MAX, numTest))
                 self.database.commit()
                 IDObjet += 1
-            except:
+            except Exception as e:
                 self.database.rollback()
                 print "Erreur d'insertion dans ID"
+                print e
         cur.close()
     
     def enregistrerEtape(self, listeProd, listeConso, numTest):

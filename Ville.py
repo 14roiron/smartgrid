@@ -18,7 +18,7 @@ class Ville:
 
 	def __init__(self):
 		self.equipProduction=[ParcSolaire("meteo1",250,10,50,meteo1),ParcSolaire("meteo2",250,10,50,meteo2),
-							  ParcTurbineAGaz()]#,ParcEolien(nom="eolienne,meteo1",n=100,eolienne="eolienne5",meteoVent=meteoTest),ParcEolien(nom="eolienne,meteo2",n=5,eolienne="eolienne1500",meteoVent=meteoTest)]
+							  ParcTurbineAGaz("turbine")]#,ParcEolien(nom="eolienne,meteo1",n=100,eolienne="eolienne5",meteoVent=meteoTest),ParcEolien(nom="eolienne,meteo2",n=5,eolienne="eolienne1500",meteoVent=meteoTest)]
 		self.equipConso=[ParcMaison("parc1",1,100),ParcUsine("Usine1",2000.0,100.0,1)]
 		self.equipStockage=[]
 		self.nombreEquipementProduction=len(self.equipProduction)

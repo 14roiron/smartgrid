@@ -88,8 +88,7 @@ while temps<6*24-1:#*7:
                     equip = ville.equipConso[ind]
                     consigne_conso[ind] = simulations_conso[ind][1]
                     conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][1])*equip.PROD_MAX
-                        
-            
+
             
 Global.tempsinc()#temps+=1
     
