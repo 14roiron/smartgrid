@@ -17,8 +17,10 @@ class Ville:
 		self.equipProduction=[ParcSolaire(250,10,50,meteo1),ParcSolaire(250,10,50,meteo2),
 							  ParcTurbineAGaz()]
 		self.equipConso=[]#ParcMaison()]
-		self.nombreEquipementProduction=len((self.equipProduction,))
-		self.nombreEquipementConso=len((self.equipConso,))
+		self.equipStockage=[]
+		self.nombreEquipementProduction=len(self.equipProduction)
+		self.nombreEquipementConso=len(self.equipConso)
+		self.nombreEquipementStockage=len(equipStockage)
 
 #pour les tests
 if __name__=='__main__':
