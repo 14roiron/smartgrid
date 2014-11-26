@@ -4,7 +4,7 @@ from  Utilitaire import Global
 from Utilitaire.Global import meteoTest
 
 
-class ParcSolaire(Equipement.Equipement):
+class ParcSolaire(Equipement):
     
     def __init__(self, nom ="ParcSolaire", prod=150, effa=0, activite=10, nb=50, meteo=meteoTest):
         '''nombre de panneaux solaires dans la ferme'''
