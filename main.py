@@ -21,6 +21,7 @@ ville = Ville()
 temps=0 #t=0 -> Lun 00h00
 
 def ind_eqpascher(liste,consigne): #pour prod MAX !! indice de l'equipement le moins cher, liste comme simulations
+
     i=0
     cout_min = liste[0][4]
     for j in range (1,len(liste)):
@@ -42,7 +43,6 @@ Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
 #print len(Global.meteo2)
 while Global.temps<6*24*7: #boucle principale
     """conso = sum(i.PROD_MAX*(-1)*i.activite for i in ville.equipConso) # Consommation totale pour l'étape en cours"""
-    
 
     prod_actuelle = sum(i.activite*i.PROD_MAX for i in ville.equipProduction)
     conso_future = sum(i.activite*i.PROD_MAX for i in ville.equipConso)
@@ -52,6 +52,7 @@ while Global.temps<6*24*7: #boucle principale
     consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
     simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
     
+
     consigne_stock=[i.activite for i in ville.equipStockage] # "" de stockage
     simulations_stock=[i.simulation() for i in ville.equipStockage]
     
@@ -138,9 +139,14 @@ while Global.temps<6*24*7: #boucle principale
                 while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future and consigne_stock[ind] != stock_min[ind]):
                     consigne_stock[ind] -= (equip.activite - simulations_stock[ind][0])/10
                     prod_provisoire -= (equip.activite - simulations_stock[ind][0])/10*equip.PROD_MAX
-       
-                
+
+
+    for i in ville.equipConso:
+        #print i.nom
+        i.etatSuivant(100,0)
+
     for i in ville.equipProduction:
+        #print i.nom
         i.etatSuivant(100,0)
 
     Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, 0)        

@@ -21,7 +21,7 @@ class BaseDeDonnees:
     def enregistrerID(self, listeProd, listeConso, numTest):
         cur = self.database.cursor()
         IDObjet = 0
-        liste = listeProd
+        liste = list(listeProd)
         liste += listeConso
         for equipement in liste:
             sql = """INSERT INTO ID (IDObjet, Nom, Pmax, Emax, numTest)
