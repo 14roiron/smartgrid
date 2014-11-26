@@ -6,11 +6,13 @@ from Utilitaire.Global import meteoTest
 
 class ParcSolaire(Equipement):
     
-    def __init__(self, prod=150, activite=10, nb=50, meteo=meteoTest):
+    def __init__(self, prod=150, activite=10, nb=50, meteo=meteoTest, nom="ParcSolaire"):
         '''nombre de panneaux solaires dans la ferme'''
         self.nb = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
         self.meteo = meteo
+        '''nom du Parc'''
+        self.nom = nom
         
         self.PROD_MAX = self.nb*prod
         self.activite = activite
@@ -41,7 +43,7 @@ class ParcSolaire(Equipement):
         else:
             return False
     
-    def calculActivite(self, temps):
+    def calculActivite(self,temps):
         """formule de test, lien avec les données météo à faire"""
         return self.meteo[temps]["GHI"] / 1000 * 100
         
@@ -49,5 +51,7 @@ class ParcSolaire(Equipement):
 if __name__=='__main__':
     a=ParcSolaire()
     a.simulation()
+    a.calculActivite(Global.temps)
+    a.contraintes(60,0)
     
 #des tests sont à effectuer pour vérifier le comportement en profondeur mais ça semble ok!

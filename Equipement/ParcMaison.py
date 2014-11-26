@@ -1,82 +1,43 @@
 # -*-coding:Utf-8 -*
 from Equipement import Equipement
 from Utilitaire.heure import Utilitaire
+from Utilitaire import Global
 from math import *
 
 class ParcMaison (Utilitaire) : 
-    def __init__(self, production = -1, nombre = 0): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
-       self.nombre=nombre      
-       self.production = production # en kW/maison
-       self.production_totale = 0.0
-       self.production = 0
-       
-       self.PROD_MAX=2.0*nombre  # consommation de 2kW par maison (pic)
+    def __init__(self,nom,prod=-2.0,effa=0.1,activite=0, nb=300): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
+       self.PROD_MAX=prod*nb  # consommation de 2kW par maison (pic)
+       self.EFFA_MAX=effa*nb # en kWglobal
+       self.nombre=nb
+       self.activite=activite
        self.effacement=0.0 # en %
-       self.activite=50.0
-       self.EFFA_MAX = 0.1 # en kW
+       self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
+       self.nom=nom
+       prod=[]
+       for i in range(0,721):
+           prod.append(50*(1+cos(pi/144.0*(i+30.0))*cos(3.0*(pi/144*(i+30)))))
+        for i in range(721,1008):
+            prod.append(50*(1+cos(pi/72*(i-792))))
+        self.production=prod
     
-    def ajouterMaison(self,nombre_maisons):
-        self.nombre += nombre_maisons
-        print("{0} maisons dans le parc".format(self.nombre))
+    def etatSuivant(self,consigne=0,effacement=0):
+        p=self.production[Global.temps]
+        if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
+            self.effacement=effacement
+            self.activite=p-effacement*self.EFFA_MAX/self.PROD_MAX
+        else:
+            self.effacement=self.activite
+            self.activite=0.0
+        self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
         
-    def consommation_maison(self):
-        global temps
-        if temps>720 and temps<=1008:
-            self.production = -1-cos(pi/72*(temps-792))
+    def prevision(self,consigne=0,effacement=0):
+        p=self.production[(Global.temps+1)%1008]
+        if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
+            return (p-effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre)
         else :
-            self.production = -1 - cos(pi/144.0*(temps+30.0))*cos(3.0*(pi/144.0*(temps+30)))
-        return self.production
-    
-    def production_elec_totale(self):
-        self.production_totale = self.production * self.nombre
-        return self.production_totale
-        
-
-    def donner_conso(self):
-        global temps
-        print ("{0} minutes , total production : {1}  kW").format(temps*10, self.production_elec_totale())
-
-    def effacement_maison(self, pourcentage=0):  
-        self.effacement_absolu =  pourcentage*self.consommation_maison()/100.0
-        if self.effacement_absolu< self.EFFA_MAX :
-            self.production_totale=(100-pourcentage)*self.production_totale/100
-            self.effacement = pourcentage
-        else : 
-            print("effacement maximum depasse")    
-        return self.production_totale
+            return (0,p/100.0*self.PROD_MAX*(80/1000/6)*self.nombre)
     
     def simulation(self):
-        prod_max = 2*self.nombre                 # en kW
-        prod_min = 0.437*self.nombre
-        cout_min = -80/6000.0*self.production_par_maison #en € par maison
-        cout_max = -80/3000.0*self.production_par_maison  #en € par maison
-        return prod_max, prod_min, cout_min, cout_max
-    
-    def etat_suivant(self, consigne=0, effacement=0):
-        global temps
-        temps=temps + 1
-        self.production = self.consommation_maison()
-        self.production_totale = self.production_elec_totale()
-        self.production_totale = self.effacement_maison()
-        if self.PROD_MAX!=0 :
-            self.activite = self.production_totale/self.PROD_MAX*100.0  #en %
-        else :
-            self.activite = 0
-       
-    
-    def prevision(self):
-        if temps>=720 and temps < 1008 :
-            self.consommation_prevue = -1-cos(pi/72*(temps-791))
-        else :
-            self.consommation_prevue =  -1-cos(pi/144.0*(temps+31.0))*cos(3.0*(pi/144.0*(temps+31.0)))
-        print (self.consommation_prevue)
-        return self.consommation_prevue   
-            
-if __name__=='__main__':
-    temps =0
-    parc = ParcMaison()
-    parc.ajouterMaison(100)
-    while temps<=1008 :
-        parc.donner_conso()
-        parc.prevision()
-        parc.etat_suivant()
+        (prod_min,cout_min)=self.prevision(0,0)  
+        (prod_max,cout_max)=self.prevision(0,100) 
+        return(prod_min,prod_max,cout_min,self.cout,cout_max)      

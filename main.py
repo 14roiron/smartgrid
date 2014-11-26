@@ -5,10 +5,12 @@
 
 from Ville import Ville
 from Utilitaire.heure import Utilitaire
+from Utilitaire import Global
 from Utilitaire.Global import temps
 from Utilitaire.Global import meteo1
 from Utilitaire.Global import meteo2
 from Utilitaire.Global import meteoTest
+from Utilitaire.BaseDeDonnees import BaseDeDonnees
 
 """Import de la base de données"""
 
@@ -31,6 +33,9 @@ def ind_eqpascher(liste,consigne): #indice de l'equipement le moins cher, liste 
         if (liste[j][4] < cout_min and consigne[j] != liste[j][1]): #si moins cher et pas encore mis au max
             i=j
     return i
+
+
+Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
 
 while temps<6*24-1:#*7:
     # Définition des consignes de production

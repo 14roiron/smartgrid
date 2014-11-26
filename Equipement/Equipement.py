@@ -1,11 +1,13 @@
 # -*-coding:Utf-8 -*
 class Equipement:
-	def __init__(self,prod,effa,activite):
+	def __init__(self,nom,prod,effa,activite):
 		"""int production maximale, effacement maximal en %"""
+		self.nom=nom
 		self.PROD_MAX=prod
 		self.activite=activite
 		self.EFFA_MAX=effa
 		self.effacement=0
+		self.cout=0
 	
 	def prevision(self,consigne=0,effacement=0):
 		""" renvoie le tuple (production prévue, coût prévu) pour la consigne donnée"""
