@@ -6,15 +6,14 @@ from Utilitaire.Global import meteoTest
 
 class ParcSolaire(Equipement):
     
-    def __init__(self, prod=150, activite=10, nb=50, meteo=meteoTest, nom="ParcSolaire"):
+    def __init__(self,nom="ParcSolaire", prod=150, activite=10, nb=50, meteo=meteoTest):
         '''nombre de panneaux solaires dans la ferme'''
-        self.nb = nb
+        self.nombre = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
         self.meteo = meteo
         '''nom du Parc'''
         self.nom = nom
-        
-        self.PROD_MAX = self.nb*prod
+        self.PROD_MAX = self.nombre*prod
         self.activite = activite
         self.EFFA_MAX = 0
         self.effacement = 0
@@ -26,19 +25,16 @@ class ParcSolaire(Equipement):
     def simulation(self):
         """pas de consigne ou d'effacement possible pour un panneau solaire :
         puissance min = puissance max et le coût est toujours le même (que le panneau produise ou pas)"""
-        temps= Global.temps
-        return (self.calculActivite(temps+1), self.calculActivite(temps+1), 0, 0, 0)
+        return (self.calculActivite(Global.temps+1), self.calculActivite(Global.temps+1), 0, 0, 0)
         
     def etatSuivant(self, consigne, effacement):
         """consignes et effacement en %"""
-        temps=Global.temps
-        self.activite = self.calculActivite(temps+1)
+        self.activite = self.calculActivite(Global.temps+1)
         
     def contraintes(self, consigne, effacement):
         """consignes et effacement en %
         si la consigne correspond à la prochaine activité prévue pas de problème et sinon ça ne marche pas"""
-        temps=Global.temps
-        if consigne == self.calculActivite(temps+1) and effacement == 0:
+        if consigne == self.calculActivite(Global.temps+1) and effacement == 0:
             return True
         else:
             return False
