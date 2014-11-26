@@ -35,7 +35,7 @@ def ind_eqpascher(liste,consigne): #indice de l'equipement le moins cher, liste 
     return i
 
 
-Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
+#Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
 print len(Global.meteo1)
 print len(Global.meteo2)
 while Global.temps<6*6-1:#*7:
@@ -133,7 +133,7 @@ while Global.temps<6*6-1:#*7:
             
 
             
-    Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, 0)        
+    #Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, 0)        
     Global.tempsinc()#temps+=1
     print Global.temps
     
