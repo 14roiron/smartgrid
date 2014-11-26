@@ -6,7 +6,7 @@ from Utilitaire.Global import meteoTest
 
 class ParcSolaire(Equipement):
     
-    def __init__(self, prod=150, activite=10, nb=50, meteo=meteoTest, nom="ParcSolaire"):
+    def __init__(self,nom="ParcSolaire", prod=150, activite=10, nb=50, meteo=meteoTest ):
         '''nombre de panneaux solaires dans la ferme'''
         self.nb = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
@@ -18,6 +18,7 @@ class ParcSolaire(Equipement):
         self.activite = activite
         self.EFFA_MAX = 0
         self.effacement = 0
+        self.cout=0
         
     def prevision(self, consigne, effacement):
         """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""

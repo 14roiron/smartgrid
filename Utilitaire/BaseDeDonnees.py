@@ -26,8 +26,11 @@ class BaseDeDonnees:
         for equipement in liste:
             sql = """INSERT INTO ID (IDObjet, Nom, Pmax, Emax, numTest)
                      VALUES (%s, %s, %s, %s, %s)"""
+            sql2 = """INSERT INTO ID (IDObjet, Nom, Pmax, Emax, numTest)
+                     VALUES ({}, {}, {}, {}, {})"""
             try:
                 cur.execute(sql, (IDObjet, equipement.nom, equipement.PROD_MAX, equipement.EFFA_MAX, numTest))
+                #print sql2.format(IDObjet, equipement.nom, equipement.PROD_MAX, equipement.EFFA_MAX, numTest)
                 self.database.commit()
                 IDObjet += 1
             except Exception as e:
@@ -47,8 +50,10 @@ class BaseDeDonnees:
             try:
                 cur.execute(sql, (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest))
                 self.database.commit()
+                print sql % (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest)
                 IDObjet += 1
-            except:
+            except Exception as e:
                 self.database.rollback()
                 print "Erreur d'insertion dans Etat"
+                print e
         cur.close()
