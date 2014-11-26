@@ -5,20 +5,19 @@ from Utilitaire import Global
 from math import *
 
 class ParcMaison (Utilitaire) : 
-    def __init__(self, nom, production = 1, nombre = 0): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
-        self.nombre=nombre      
-        self.production = production # en kW/maison
-        self.production_totale = 0.0
-        self.production = 0
-        self.PROD_MAX=2.0*nombre  # consommation de 2kW par maison (pic)
-        self.effacement=0.0 # en %
-        self.activite=50.0
-        self.EFFA_MAX = 0.1 # en kWglobal 
-        prod=[]
-        for i in range(0,721):
-            prod.append(1+cos(pi/144.0*(i+30.0))*cos(3.0*(pi/144*(i+30))))
+    def __init__(self,nom,prod=-2.0,effa=0.1,activite=0, nb=300): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
+       self.PROD_MAX=prod*nb  # consommation de 2kW par maison (pic)
+       self.EFFA_MAX=effa*nb # en kWglobal
+       self.nombre=nb
+       self.activite=activite
+       self.effacement=0.0 # en %
+       self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
+       self.nom=nom
+       prod=[]
+       for i in range(0,721):
+           prod.append(50*(1+cos(pi/144.0*(i+30.0))*cos(3.0*(pi/144*(i+30)))))
         for i in range(721,1008):
-            prod.append(1+cos(pi/72*(i-792)))
+            prod.append(50*(1+cos(pi/72*(i-792))))
         self.production=prod
     
     def etatSuivant(self,consigne=0,effacement=0):
