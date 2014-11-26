@@ -38,26 +38,26 @@ def ind_eqpascher(liste,consigne): #indice de l'equipement le moins cher, liste 
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
 #print len(Global.meteo1)
 #print len(Global.meteo2)
-while Global.temps<6*24*7:#*7:'id': 0L, 'windSpeed': 0.0, 'T': De
-    # Définition des consignes de production
+while Global.temps<6*24*7: #boucle principale
     """conso = sum(i.PROD_MAX*(-1)*i.activite for i in ville.equipConso) # Consommation totale pour l'étape en cours"""
-    simulations = [i.simulation() for i in ville.equipProduction]
-    
-    prod_actuelle = sum(i.PROD_MAX*i.activite for i in ville.equipProduction)
-    conso_future = exemple_conso_j[temps+1]
+    simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
+
+    prod_actuelle = sum((i.PROD_MAX)*i.activite for i in ville.equipProduction)
+    conso_future = 1000. #a modifier
+
     diff=conso_future-prod_actuelle # différence conso-production actuelle
-    consigne = [i.activite for i in ville.equipProduction] # on initialise la consigne
+    consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
     
-    consigne_stock=[i.activite for i in ville.equipStockage]
+    consigne_stock=[i.activite for i in ville.equipStockage] # "" de stockage
     simulations_stock=[i.simulation() for i in ville.equipStockage]
     
-    consigne_conso=[0 for i in range(ville.nombreEquipementConso)]
+    consigne_conso=[0 for i in range(ville.nombreEquipementConso)] # "" de consommation
     simulations_conso=[i.simulation() for i in ville.equipConso]
 
-    if diff>0: #on consomme plus qu'on ne produit
-        max=sum(simulations[i][0] for i in range(len(simulations)))
+    if diff > 0: #on consommera plus qu'on ne produit
+        max=sum(i.simulation()[1]*i.PROD_MAX for i in ville.equipProduction) #capacite de production maximale à l'etat suivant
 
-        if max>=conso_future: # si on peut atteindre la valeur de la consommation...
+        if max >= conso_future: # si on peut atteindre la valeur de la consommation...
             prod_provisoire = prod_actuelle
 
             while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future): #tant que ecart > 2% ou prod > conso
