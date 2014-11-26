@@ -66,18 +66,20 @@ while Global.temps<6*24*7: #boucle principale
                     consigne[ind] = simulations[ind][1] #sinon on met à la production min = max (on n'a pas le choix)
                     prod_provisoire += (simulations[ind][1]- equip.activite)*equip.PROD_MAX #maj
 
-        else:
+        else: #on n'a pas suffisamment de production disponible
             for i in range (len(simulations)): # on met tout au max
                 consigne[i] = simulations[i][1]
             prod_provisoire = sum(simulations[i][1]*ville.equipProduction[i].PROD_MAX for i in range(len(simulations)))
 
-            # il faut maintenant compenser la différence prod-conso avec de l'effacement et du stockage
-            stock_max = [simulations_stock[i][1] for i in range(len(consigne_stock))]
+            # il faut maintenant compenser la différence prod-conso avec du stockage et eventuellement de l'effacement
+            stock_max = [simulations_stock[i][1] for i in range(len(simulations_stock))] #tous les stockages sont en mode "vidage maximal"
             while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future and consigne_stock != stock_max):
-                ind = ind_eqpascher(simulations_stock,consigne_stock)
+                ind = ind_eqpascher(simulations_stock,consigne_stock) #stockage le moins cher à vider
+                equip = ville.equipStockage[ind]
+                
                 while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future and consigne_stock[ind] != stock_max[ind]):
-                    consigne_stock[ind] += (stock_max[ind] - ville.equipStockage[ind].activite)/10
-                    prod_provisoire += (stock_max[ind] - ville.equipStockage[ind].activite)/10*ville.equipStockage[ind].PROD_MAX
+                    consigne_stock[ind] += (simulations_stock[ind][1] - equip.activite)/10
+                    prod_provisoire += (simulations_stock[ind][1] - equip.activite)/10*equip.PROD_MAX
                 
             
             eff_max = [simulations_conso[i][1] for i in range(ville.nombreEquipementConso)]
