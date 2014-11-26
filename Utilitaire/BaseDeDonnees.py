@@ -50,7 +50,7 @@ class BaseDeDonnees:
             try:
                 cur.execute(sql, (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest))
                 self.database.commit()
-                print sql % (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest)
+                #print sql % (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest)
                 IDObjet += 1
             except Exception as e:
                 self.database.rollback()
