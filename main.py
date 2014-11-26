@@ -41,13 +41,13 @@ def ind_eqpascher2(liste,consigne): #pour prod MIN !! indice de l'equipement le 
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
 #print len(Global.meteo1)
 #print len(Global.meteo2)
-while Global.temps<6*24*7: #boucle principale
-    """conso = sum(i.PROD_MAX*(-1)*i.activite for i in ville.equipConso) # Consommation totale pour l'étape en cours"""
+while Global.temps < 6*24*7: #boucle principale
 
     prod_actuelle = sum(i.activite*i.PROD_MAX for i in ville.equipProduction)
     conso_future = sum(i.activite*i.PROD_MAX for i in ville.equipConso)
 
     diff = conso_future-prod_actuelle # différence conso-production actuelle
+    effacement_actuel = 0.
     
     consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
     simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
@@ -105,6 +105,7 @@ while Global.temps<6*24*7: #boucle principale
                     ind = ind_eqpascher(simulations_conso, consigne_conso)
                     equip = ville.equipConso[ind]
                     consigne_conso[ind] = simulations_conso[ind][1]
+                    effacement_actuel += (simulations_conso[ind][1]-simulations_conso[ind][0])*equip.PROD_MAX
                     conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][0])*equip.PROD_MAX #on retire à conso_future l'effacement
                     
     else:
@@ -139,6 +140,9 @@ while Global.temps<6*24*7: #boucle principale
                 while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future and consigne_stock[ind] != stock_min[ind]):
                     consigne_stock[ind] -= (equip.activite - simulations_stock[ind][0])/10
                     prod_provisoire -= (equip.activite - simulations_stock[ind][0])/10*equip.PROD_MAX
+                    
+    ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
+    print effacement_actuel
 
 
     for i in ville.equipConso:
