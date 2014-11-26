@@ -12,7 +12,7 @@ class ParcSolaire(Equipement):
         self.meteo = meteo
         '''nom du Parc'''
         self.nom = nom
-        self.PROD_MAX = prod*self.nombre
+        self.PROD_MAX = int(prod*self.nombre)
         self.activite = activite
         self.EFFA_MAX = effa
         self.effacement = 0
@@ -41,7 +41,6 @@ class ParcSolaire(Equipement):
     
     def calculActivite(self,temps):
         """formule de test, lien avec les données météo à faire"""
-        print temps
         return self.meteo[temps]["GHI"] / 1000 * 100
         
 #pour les tests

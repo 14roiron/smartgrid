@@ -2,7 +2,7 @@ from Equipement.ParcSolaire import ParcSolaire
 from Equipement.ParcMaison import ParcMaison
 from Equipement.ParcTurbineAGaz import ParcTurbineAGaz
 from Equipement.ParcUsine import ParcUsine
-#from Equipement.ParcEolien import ParcEolien
+from Equipement.ParcEolien import ParcEolien
 from Utilitaire.Global import meteo1
 from Utilitaire.Global import meteo2
 from Utilitaire.Global import meteoTest
@@ -17,8 +17,8 @@ exemple_conso_j = [21,22,23,23,24,24,25,25,25,24,25,26,27,28,28,29,30,30,30,29,2
 class Ville:
 
 	def __init__(self):
-		self.equipProduction=[ParcSolaire("meteo1",250,10,50,meteo1),ParcSolaire("meteo2",250,10,50,meteo2),
-							  ParcTurbineAGaz("turbine")]#,ParcEolien(nom="eolienne,meteo1",n=100,eolienne="eolienne5",meteoVent=meteoTest),ParcEolien(nom="eolienne,meteo2",n=5,eolienne="eolienne1500",meteoVent=meteoTest)]
+		self.equipProduction=[ParcSolaire(nom="emeteo1",prod=250,effa=10,activite=50,nb=10,meteo=meteo1),ParcSolaire("emeteo2",prod=250,effa=10,activite=50,nb=10,meteo=meteo1),
+							  ParcTurbineAGaz("turbine"),ParcEolien(nom="eolienne,meteo1",n=100,eolienne="eolienne5",meteoVent=meteo1),ParcEolien(nom="eolienne,meteo2",n=5,eolienne="eolienne1500",meteoVent=meteo2)]
 		self.equipConso=[ParcMaison("parc1",1,100),ParcUsine("Usine1",2000.0,100.0,1)]
 		self.equipStockage=[]
 		self.nombreEquipementProduction=len(self.equipProduction)
