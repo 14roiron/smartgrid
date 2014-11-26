@@ -94,44 +94,33 @@ while Global.temps<6*6-1:#*7:
                     conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][1])*equip.PROD_MAX #on retire à conso_future l'effacement
                     
     else:
-        min=sum(simulations[i][] for i in range(len(simulations)))
+        min=sum(simulations[i][0] for i in range(len(simulations)))
 
-        if max>=conso_future: # si on peut atteindre la valeur de la consommation...
+        if min<=conso_future: # si on peut atteindre la valeur de la consommation...
             prod_provisoire = prod_actuelle
 
-            while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future): #tant que ecart > 2% ou prod > conso
+            while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future): #tant que ecart > 2% ou prod > conso
                 ind = ind_eqpascher(simulations,consigne) #indice de l'equipement le moins cher qu'on met au max
                 equip = ville.equipProduction[ind]
                 
                 if (simulations[ind][0] < simulations[ind][1]):
-                    while (prod_provisoire < conso_future and consigne[ind] < simulations[ind][1]):
-                        consigne[ind] += (simulations[ind][1]-equip.activite)/10 #...on le met progressivement au max
-                        prod_provisoire += (simulations[ind][1]-equip.activite)/10*equip.PROD_MAX #maj
+                    while (prod_provisoire > conso_future and consigne[ind] > simulations[ind][0]):
+                        consigne[ind] += (simulations[ind][0]-equip.activite)/10 #...on le met progressivement au max
+                        prod_provisoire += (simulations[ind][0]-equip.activite)/10*equip.PROD_MAX #maj
                 else:
-                    consigne[ind] = simulations[ind][1]
-                    prod_provisoire = prod_provisoire - equip.activite*equip.PROD_MAX + simulations[ind][1]*equip.PROD_MAX #maj
-
+                    consigne[ind] = simulations[ind][0]
+                    prod_provisoire = prod_provisoire - equip.activite*equip.PROD_MAX + simulations[ind][0]*equip.PROD_MAX #max
         else:
             for i in range (len(simulations)): # on met tout au max
-                consigne[i] = simulations[i][1]
-            prod_provisoire = sum(simulations[i][1]*ville.equipProduction[i].PROD_MAX for i in range(len(simulations)))
+                consigne[i] = simulations[i][0]
+            prod_provisoire = sum(simulations[i][0]*ville.equipProduction[i].PROD_MAX for i in range(len(simulations)))
 
             # il faut maintenant compenser la différence prod-conso avec de l'effacement et du stockage
-            stock_max = [100. for i in range(len(consigne_stock))]
-            while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future and consigne_stock != stock_max):
+            stock_min = [0. for i in range(len(consigne_stock))]
+            while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future and consigne_stock != stock_max):
                 ind = ind_eqpascher(simulations_stock,consigne_stock)
-                consigne_stock[ind]=100
-                prod_provisoire+=ville.equipStockage[ind].PROD_MAX
-            
-            eff_max = [simulations_conso[i][1] for i in range(ville.nombreEquipementConso)]
-            if consigne_stock==stock_max :
-                while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future and consigne_conso != eff_max):
-                    ind = ind_eqpascher(simulations_conso, consigne_conso)
-                    equip = ville.equipConso[ind]
-                    consigne_conso[ind] = simulations_conso[ind][1]
-                    conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][1])*equip.PROD_MAX #on retire à conso_future l'effacement
-            
-            
+                consigne_stock[ind]=0.
+                prod_provisoire-=ville.equipStockage[ind].PROD_MAX
             
 
             
