@@ -92,7 +92,7 @@ while Global.temps<6*6-1:#*7:
                     conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][1])*equip.PROD_MAX #on retire à conso_future l'effacement
                     
     else:
-        min=sum(simulations[i][] for i in range(len(simulations)))
+        min=sum(simulations[i][0] for i in range(len(simulations)))
 
         if max>=conso_future: # si on peut atteindre la valeur de la consommation...
             prod_provisoire = prod_actuelle
