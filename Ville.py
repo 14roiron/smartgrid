@@ -1,5 +1,5 @@
 from Equipement.ParcSolaire import ParcSolaire
-#from Equipement.ParcMaison import ParcMaison
+from Equipement.ParcMaison import ParcMaison
 from Equipement.ParcTurbineAGaz import ParcTurbineAGaz
 from Utilitaire.Global import meteo1
 from Utilitaire.Global import meteo2
@@ -16,7 +16,7 @@ class Ville:
 	def __init__(self):
 		self.equipProduction=[ParcSolaire(250,10,50,meteo1),ParcSolaire(250,10,50,meteo2),
 							  ParcTurbineAGaz()]
-		self.equipConso=[]#ParcMaison()]
+		self.equipConso=[ParcMaison()]
 		self.equipStockage=[]
 		self.nombreEquipementProduction=len(self.equipProduction)
 		self.nombreEquipementConso=len(self.equipConso)

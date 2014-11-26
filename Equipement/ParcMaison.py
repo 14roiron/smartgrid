@@ -1,10 +1,11 @@
 # -*-coding:Utf-8 -*
 from Equipement import Equipement
 from Utilitaire.heure import Utilitaire
+from Utilitaire import Global
 from math import *
 
 class ParcMaison (Utilitaire) : 
-    def __init__(self, production = -1, nombre = 0): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
+    def __init__(self, production = 1, nombre = 0): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
        self.nombre=nombre      
        self.production = production # en kW/maison
        self.production_totale = 0.0
@@ -13,14 +14,14 @@ class ParcMaison (Utilitaire) :
        self.PROD_MAX=2.0*nombre  # consommation de 2kW par maison (pic)
        self.effacement=0.0 # en %
        self.activite=50.0
-       self.EFFA_MAX = 0.1 # en kW
+       self.EFFA_MAX = 0.1 # en kWglobal 
     
     def ajouterMaison(self,nombre_maisons):
         self.nombre += nombre_maisons
         print("{0} maisons dans le parc".format(self.nombre))
         
     def consommation_maison(self):
-        global temps
+        temps=Global.temps
         if temps>720 and temps<=1008:
             self.production = -1-cos(pi/72*(temps-792))
         else :
@@ -33,7 +34,7 @@ class ParcMaison (Utilitaire) :
         
 
     def donner_conso(self):
-        global temps
+        temps=Global.temps
         print ("{0} minutes , total production : {1}  kW").format(temps*10, self.production_elec_totale())
 
     def effacement_maison(self, pourcentage=0):  
@@ -53,8 +54,7 @@ class ParcMaison (Utilitaire) :
         return prod_max, prod_min, cout_min, cout_max
     
     def etat_suivant(self, consigne=0, effacement=0):
-        global temps
-        temps=temps + 1
+        temps=Global.temps
         self.production = self.consommation_maison()
         self.production_totale = self.production_elec_totale()
         self.production_totale = self.effacement_maison()
@@ -69,7 +69,7 @@ class ParcMaison (Utilitaire) :
             self.consommation_prevue = -1-cos(pi/72*(temps-791))
         else :
             self.consommation_prevue =  -1-cos(pi/144.0*(temps+31.0))*cos(3.0*(pi/144.0*(temps+31.0)))
-        print (self.consommation_prevue)
+        #print (self.consommation_prevue)
         return self.consommation_prevue   
             
 if __name__=='__main__':
@@ -80,3 +80,4 @@ if __name__=='__main__':
         parc.donner_conso()
         parc.prevision()
         parc.etat_suivant()
+        temps+=1
