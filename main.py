@@ -38,8 +38,7 @@ def ind_eqpascher(liste,consigne): #indice de l'equipement le moins cher, liste 
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
 #print len(Global.meteo1)
 #print len(Global.meteo2)
-#print list((i.nom,i.PROD_MAX*i.activite) for i in ville.equipProduction)
-while Global.temps<1:#*7:'id': 0L, 'windSpeed': 0.0, 'T': De
+while Global.temps<6*24*7:#*7:'id': 0L, 'windSpeed': 0.0, 'T': De
     # Définition des consignes de production
     """conso = sum(i.PROD_MAX*(-1)*i.activite for i in ville.equipConso) # Consommation totale pour l'étape en cours"""
     simulations = [i.simulation() for i in ville.equipProduction]
@@ -119,14 +118,17 @@ while Global.temps<1:#*7:'id': 0L, 'windSpeed': 0.0, 'T': De
 
             # il faut maintenant compenser la différence prod-conso avec de l'effacement et du stockage
             stock_min = [0. for i in range(len(consigne_stock))]
-            while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future and consigne_stock != stock_max):
+            while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire > conso_future and consigne_stock != stock_min):
                 ind = ind_eqpascher(simulations_stock,consigne_stock)
                 consigne_stock[ind]=0.
                 prod_provisoire-=ville.equipStockage[ind].PROD_MAX
             
 
-            
-    #Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, 0)        
+    for i in ville.equipConso:
+        i.etatSuivant(100,0)
+    for i in ville.equipProduction:
+        i.etatSuivant(100,0)
+    Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, 0)        
     Global.tempsinc()#temps+=1
     print Global.temps
     

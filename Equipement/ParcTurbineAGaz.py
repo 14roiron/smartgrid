@@ -35,6 +35,6 @@ class ParcTurbineAGaz:
         (prodmax,coutmax)=self.prevision(100)
         return(prodmin,prodmax,coutmin,self.cout,coutmax)
         
-    def etatSuivant(self,consigne):
+    def etatSuivant(self,consigne,effacement):
         self.activite=consigne
         self.cout=self.activite/100.0*self.PROD_MAX*(80/1000/6)*self.nombre
