@@ -20,7 +20,7 @@ class Ville:
 		self.equipStockage=[]
 		self.nombreEquipementProduction=len(self.equipProduction)
 		self.nombreEquipementConso=len(self.equipConso)
-		self.nombreEquipementStockage=len(equipStockage)
+		self.nombreEquipementStockage=len(self.equipStockage)
 
 #pour les tests
 if __name__=='__main__':
