@@ -50,8 +50,4 @@ class BaseDeDonnees:
             except:
                 self.database.rollback()
                 print "Erreur d'insertion dans Etat"
-<<<<<<< HEAD
         cur.close()
-=======
-        cur.close()
->>>>>>> 758f34fa3f3ad9ca09f480a2d0cdc72b64873020
