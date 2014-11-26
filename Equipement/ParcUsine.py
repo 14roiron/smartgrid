@@ -18,8 +18,10 @@ class ParcUsine(Equipement):
     def etatSuivant(self,consigne=0,effacement=0):
         p=self.production[Global.temps%144]
         if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
+            self.effacement=effacement
             self.activite=p-effacement*self.EFFA_MAX/self.PROD_MAX
         else:
+            self.effacement=self.activite
             self.activite=0.0
         self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
         
