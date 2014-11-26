@@ -36,3 +36,4 @@ class ParcTurbineAGaz:
         
     def etatSuivant(self,consigne):
         self.activite=consigne
+        self.cout=self.activite/100.0*self.PROD_MAX*(80/1000/6)*self.nombre
