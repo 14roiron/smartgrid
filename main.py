@@ -107,7 +107,6 @@ while Global.temps<6*24*7: #boucle principale
                 else:
                     consigne[ind] = simulations[ind][0]
                     prod_provisoire = prod_provisoire - equip.activite*equip.PROD_MAX + simulations[ind][0]*equip.PROD_MAX #max
-                break;
         else:
             for i in range (len(simulations)): # on met tout au max
                 consigne[i] = simulations[i][0]
