@@ -6,20 +6,24 @@ from Utilitaire.Global import meteoTest
 
 class ParcSolaire(Equipement):
     
-    def __init__(self,nom="ParcSolaire", prod=150, effa=0, activite=10, nb=50, meteo=meteoTest):
-        Equipement.__init__(self,nom,prod,effa,activite)
+    def __init__(self, prod=150, activite=10, nb=50, meteo=meteoTest, nom="ParcSolaire"):
         '''nombre de panneaux solaires dans la ferme'''
         self.nb = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
         self.meteo = meteo
+        '''nom du Parc'''
+        self.nom = nom
         
         self.PROD_MAX = self.nb*prod
+        self.activite = activite
+        self.EFFA_MAX = 0
+        self.effacement = 0
         
     def prevision(self, consigne, effacement):
         """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""
         return (self.calculActivite(Global.temps+1), 0)
     
-    def simulation(self,activite=100,effacement=0):
+    def simulation(self):
         """pas de consigne ou d'effacement possible pour un panneau solaire :
         puissance min = puissance max et le coût est toujours le même (que le panneau produise ou pas)"""
         temps= Global.temps
@@ -47,6 +51,10 @@ class ParcSolaire(Equipement):
 if __name__=='__main__':
     a=ParcSolaire()
     a.simulation()
+<<<<<<< HEAD
     a.calculActivite(Global.temps)
+=======
+    a.contraintes(60,0)
+>>>>>>> 408496fdcdc307801bec47e41058960ba154c716
     
 #des tests sont à effectuer pour vérifier le comportement en profondeur mais ça semble ok!
