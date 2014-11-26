@@ -5,10 +5,10 @@ from Utilitaire import Global
 
 class ParcUsine(Equipement):
     
-    def __init__(self,nom="usine",prod=3000.0,effa=1000.0,activite=0,nb=2) :
-        self.PROD_MAX=prod*nb #en kW, c'est une puissance instantanée
-        self.EFFA_MAX=effa*nb
+    def __init__(self,nom="usine",prod=-3000.0,effa=1000.0,activite=0,nb=2) :
         self.nombre=nb
+        self.PROD_MAX=prod*self.nombre #en kW, c'est une puissance instantanée
+        self.EFFA_MAX=effa*self.nombre
         self.activite=activite
         self.effacement=0.0
         self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
@@ -17,9 +17,9 @@ class ParcUsine(Equipement):
     
     def etatSuivant(self,consigne=0,effacement=0):
         p=self.production[Global.temps%144]
-        if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
+        if p>=-effacement*self.EFFA_MAX/self.PROD_MAX:
             self.effacement=effacement
-            self.activite=p-effacement*self.EFFA_MAX/self.PROD_MAX
+            self.activite=p+effacement*self.EFFA_MAX/self.PROD_MAX
         else:
             self.effacement=self.activite
             self.activite=0.0
@@ -27,10 +27,10 @@ class ParcUsine(Equipement):
         
     def prevision(self,consigne=0,effacement=0):
         p=self.production[(Global.temps+1)%144]
-        if p>=effacement*self.EFFA_MAX/self.PROD_MAX:
-            return (p-effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre)
+        if p>=-effacement*self.EFFA_MAX/self.PROD_MAX:
+            return (p+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre)
         else :
-            return (0,p/100.0*self.PROD_MAX*(80/1000/6)*self.nombre)
+            return (0,-p/100.0*self.PROD_MAX*(80/1000/6)*self.nombre)
     
     def simulation(self):
         (prod_min,cout_min)=self.prevision(0,0)  
