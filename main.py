@@ -43,7 +43,7 @@ while Global.temps<6*6-1:#*7:
     """conso = sum(i.PROD_MAX*(-1)*i.activite for i in ville.equipConso) # Consommation totale pour l'étape en cours"""
     simulations = [i.simulation() for i in ville.equipProduction]
     prod_actuelle = sum((i.PROD_MAX)*i.activite for i in ville.equipProduction)
-    conso_future = exemple_conso_j[temps+1]
+    conso_future = exemple_conso_j[Global.temps+1]
     diff=conso_future-prod_actuelle # différence conso-production actuelle
     consigne = [i.activite for i in ville.equipProduction] # on initialise la consigne
     
