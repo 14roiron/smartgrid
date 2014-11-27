@@ -82,6 +82,7 @@ while Global.temps < 6*24*7: #boucle principale
                 consigne[i] = simulations[i][1]
             prod_provisoire = sum(simulations[i][1]/100.*ville.equipProduction[i].PROD_MAX for i in range(len(simulations)))
 
+
             # il faut maintenant compenser la différence prod-conso avec du stockage et eventuellement de l'effacement
             stock_max = [simulations_stock[i][1] for i in range(len(simulations_stock))] #tous les stockages sont en mode "vidage maximal"
             while (abs(prod_provisoire-conso_future)/conso_future > 2./100 and prod_provisoire < conso_future and consigne_stock != stock_max):
