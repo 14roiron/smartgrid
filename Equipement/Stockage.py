@@ -2,7 +2,7 @@
 from Equipement import Equipement
 class Stockage(Equipement):
 
-	def __init__(self, capacite = 50000., prop = 1/2, cout=2.,prod = 20):
+	def __init__(self, capacite = 50000., prop = 1./2, cout=2.,prod = 20.):
 		self.capacite = capacite
 		self.reste = self.capacite*prop #pas un pourcentage
 		self.cout = cout
@@ -11,15 +11,15 @@ class Stockage(Equipement):
 
 	def etat_suivant(self, consigne=0., effacement=0.):
 		self.activite = consigne
-		self.reste -= self.activite*self.PROD_MAX*600 # on retire la puissance dégagée * 600s
+		self.reste -= self.activite/100.*self.PROD_MAX*600. # on retire la puissance dégagée * 600s
 
 	def prevision(self,consigne=0.,effacement=0.):
-		puissance = self.reste - consigne/100*self.capacite
+		puissance = self.reste - consigne/100.*self.capacite
 		prix = self.cout*abs(puissance)
-		return (puissance/self.capacite*100, prix)
+		return (puissance/self.capacite*100., prix)
 
 	def simulation(self):
-		if self.reste>self.PROD_MAX*600*100: # si on a assez d'énergie pour débiter à fond...
+		if self.reste>self.PROD_MAX*600.*100.: # si on a assez d'énergie pour débiter à fond...
 			prod_max=100.
 		else:
 			prod_max=self.reste/(self.PROD_MAX*600) 
