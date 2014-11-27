@@ -22,7 +22,7 @@ class Stockage(Equipement):
 		if self.reste>self.PROD_MAX*600.*100.: # si on a assez d'énergie pour débiter à fond...
 			prod_max=100.
 		else:
-			prod_max=self.reste/(self.PROD_MAX*600) 
+			prod_max=self.reste/(self.PROD_MAX*600.) 
 		prix_min = 0.
 		prix_stable = self.activite*self.cout*self.PROD_MAX
 		prix_max = prod_max*self.PROD_MAX*self.cout
