@@ -42,7 +42,6 @@ Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
 #print len(Global.meteo1)
 #print len(Global.meteo2)
 while Global.temps < 6*24*7: #boucle principale
-
     prod_actuelle = sum(i.activite*i.PROD_MAX for i in ville.equipProduction)
     conso_future = sum(i.activite*i.PROD_MAX for i in ville.equipConso)
 
@@ -125,7 +124,7 @@ while Global.temps < 6*24*7: #boucle principale
                 else:
                     consigne[ind] = simulations[ind][0] #sinon on met à la production min = max (on n'a pas le choix)
                     prod_provisoire -= (equip.activite-simulations[ind][0])*equip.PROD_MAX #maj
-
+                
         else: #on ne peut pas baisser suffisamment la production
             for i in range (len(simulations)): # on met tout au min
                 consigne[i] = simulations[i][0]
@@ -143,7 +142,6 @@ while Global.temps < 6*24*7: #boucle principale
                     
     ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
     print effacement_actuel
-    
     '''envoie des consignes et effacements pour la prochaine étape :) '''
 
     for i in range(len(consigne)):
