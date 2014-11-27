@@ -44,7 +44,7 @@ Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
 while Global.temps < 6*24*7: #boucle principale
 
     prod_actuelle = sum(i.activite/100.*i.PROD_MAX for i in ville.equipProduction)
-    conso_future = sum(i.activite/100.*i.PROD_MAX for i in ville.equipConso)
+    conso_future = sum(i.production[Global.temps + 1]/100.*i.PROD_MAX for i in ville.equipConso)
 
     diff = conso_future-prod_actuelle # différence conso-production actuelle
     
