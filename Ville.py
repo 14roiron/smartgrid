@@ -3,6 +3,7 @@ from Equipement.ParcMaison import ParcMaison
 from Equipement.ParcTurbineAGaz import ParcTurbineAGaz
 from Equipement.ParcUsine import ParcUsine
 from Equipement.ParcEolien import ParcEolien
+from Equipement.Stockage import Stockage
 from Utilitaire.Global import meteo1
 from Utilitaire.Global import meteo2
 from Utilitaire.Global import meteoTest
@@ -16,7 +17,7 @@ class Ville:
 		                        ParcEolien(nom="eolienne,meteo2",n=5,eolienne="eolienne1500",meteoVent=meteo2)]
 		self.equipConso = [ParcMaison("parc1",1,100),\
 		                   ParcUsine("Usine1",2000.0,100.0,1)]
-		self.equipStockage = []
+		self.equipStockage = [Stockage("Stockage 1")]
 		self.nombreEquipementProduction = len(self.equipProduction)
 		self.nombreEquipementConso = len(self.equipConso)
 		self.nombreEquipementStockage = len(self.equipStockage)

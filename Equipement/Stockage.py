@@ -2,14 +2,14 @@
 from Equipement import Equipement
 class Stockage(Equipement):
 
-	def __init__(self, capacite = 50000., prop = 1./2, cout=2.,prod = 20.):
+	def __init__(self,nom="Stockage", capacite = 50000., prop = 1./2., cout=2.,prod = 20.):
 		self.capacite = capacite
 		self.reste = self.capacite*prop #pas un pourcentage
 		self.cout = cout
 		self.PROD_MAX=prod
 		self.activite = 0.
 
-	def etat_suivant(self, consigne=0., effacement=0.):
+	def etatSuivant(self, consigne=0., effacement=0.):
 		self.activite = consigne
 		self.reste -= self.activite/100.*self.PROD_MAX*600. # on retire la puissance dégagée * 600s
 
