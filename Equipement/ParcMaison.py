@@ -13,7 +13,7 @@ from math import *
 '''
 
 class ParcMaison (Utilitaire) : 
-    def __init__(self, nom, prod=-2., effa=0.1, activite=0., nb=300.): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
+    def __init__(self, nom="maison", prod=-2., effa=0.1, activite=0., nb=300.): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
         self.nombre=nb
         self.PROD_MAX=prod*self.nombre  # consommation de 2kW par maison (pic) Attention production toujours négative
         self.EFFA_MAX=effa*self.nombre # en kWglobal
