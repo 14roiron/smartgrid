@@ -45,6 +45,6 @@ class ParcMaison (Utilitaire) :
             return (0.,-p/100.*self.PROD_MAX*(80./1000./6.)*self.nombre)
     
     def simulation(self):
-        (prod_min,cout_min)=self.prevision(0,0)  
-        (prod_max,cout_max)=self.prevision(0,100) 
+        (prod_min,cout_min)=self.prevision(0.,0.)  
+        (prod_max,cout_max)=self.prevision(0.,100.) 
         return(prod_min,prod_max,cout_min,self.cout,cout_max)      
