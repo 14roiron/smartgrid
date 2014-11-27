@@ -148,15 +148,15 @@ while Global.temps < 6*24*7: #boucle principale
     '''envoie des consignes et effacements pour la prochaine étape :) '''
 
     for i in range(len(consigne)):
-        #print i.nom
+       
         ville.equipProduction[i].etatSuivant(consigne[i],0)
     
     for i in range(len(consigne_stock)):
-        #print i.nom
+       
         ville.equipStockage[i].etatSuivant(consigne_stock[i],0)
     
     for i in range(len(consigne_conso)):
-        #print i.nom
+        
         ville.equipConso[i].etatSuivant(0,consigne_conso[i])
     
 
