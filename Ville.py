@@ -11,12 +11,12 @@ from Utilitaire.Global import meteoTest
 class Ville:
 
 	def __init__(self):
-		self.equipProduction = [ParcSolaire(nom="PVmeteo1",prod=250,effa=10,activite=50,nb=10,meteo=meteo1),\
-		                        ParcSolaire("PVmeteo2",prod=250,effa=10,activite=50,nb=10,meteo=meteo1),\
-		                        ParcTurbineAGaz("turbine"),ParcEolien(nom="eolienne,meteo1",n=100,eolienne="eolienne5",meteoVent=meteo1),\
-		                        ParcEolien(nom="eolienne,meteo2",n=5,eolienne="eolienne1500",meteoVent=meteo2)]
-		self.equipConso = [ParcMaison("parc1",1,100),\
-		                   ParcUsine("Usine1",2000.0,100.0,1)]
+		self.equipProduction = [ParcSolaire(nom="PVmeteo1",prod=250.,effa=10.,activite=50.,nb=10.,meteo=meteo1),\
+		                        ParcSolaire("PVmeteo2",prod=250.,effa=10.,activite=50.,nb=10.,meteo=meteo1),\
+		                        ParcTurbineAGaz("turbine"),ParcEolien(nom="eolienne,meteo1",n=100.,eolienne="eolienne5",meteoVent=meteo1),\
+		                        ParcEolien(nom="eolienne,meteo2",n=5.,eolienne="eolienne1500",meteoVent=meteo2)]
+		self.equipConso = [ParcMaison("parc1"),\
+		                   ParcUsine("Usine1")]
 		self.equipStockage = [Stockage("Stockage 1")]
 		self.nombreEquipementProduction = len(self.equipProduction)
 		self.nombreEquipementConso = len(self.equipConso)
