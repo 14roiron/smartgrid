@@ -19,7 +19,7 @@ si c'est possible elle stockera gentiment une puissance de abs(consigne)/100 * P
 
 class ParcBatterieLithiumion:
     
-    def __init__(self, nom="un petit parc", nombre = 10, prop = 1/2, activite=0):
+    def __init__(self, nom="un petit parc", nombre = 10, prop = 1/2, activite=0): #activité en %
         self.nom=nom
         '''nombre de batterie dans le parc'''
         self.nombre = nombre
@@ -28,34 +28,34 @@ class ParcBatterieLithiumion:
         '''énergie stockée dans le parc en kWh'''
         self.reste = self.capacite*prop #pas un pourcentage
         '''production maximale en kW'''
-        self.PROD_MAX = 23
-        self.COUT_MAX = 0.8
+        self.PROD_MAX = 23*self.nombre
+        self.COUT_MAX = 0.7
         '''production normale en kW'''
-        self.PROD_NOR = 20
-        self.COUT_NOR = 0.2
+        self.PROD_NOR = 20*self.nombre
+        self.COUT_NOR = 0.1
         '''production minimale en kW'''
-        self.PROD_MIN = 17
-        self.COUT_MIN = 0.2
+        self.PROD_MIN = 17*self.nombre
+        self.COUT_MIN = 0.1
         '''Les prix sont en €/kWh'''
         
+        '''l'activité est en %'''
         self.activite = activite
         '''les compteurs permet d'éviter une trop longue mise en surtension. Au bout
         de 2 pas la batterie se voit obliger d'arrêter le plein régime pour 8 pas de repos'''
         self.compteur_surtension = 0
-        self.compteur_pause = 0
+        self.compteur_pause = 8
         
-    def etat_suivant(self, consigne=0.): #consigne*prod = puissance envoyée de la batterie vers les clients
-        self.activite = prevision(consigne)[0]
-        self.reste += self.activite*self.PROD_MAX/6
+    def etat_suivant(self, consigne=0): #consigne en pourcentage de PROD_MAX
+        self.reste = consigne*self.capacite/100
         
-    def prevision(self,consigne=0.):
+    def prevision(self,consigne=0.): #consigne en pourcentage
         puissance = self.reste - consigne/100*self.capacite
         prix = self.cout*abs(puissance)
         return (puissance/self.capacite*100, prix)
     
     def simulation_destockage(self):
     
-        if self.compteur_surtension == 2 or self.compteur_pause <= 8:
+        if self.compteur_surtension == 2 or self.compteur_pause < 8:
             '''cas où la batterie commence ou continue une pause due à une surtension'''
             prod_min=0
             prod_max=0
@@ -63,45 +63,47 @@ class ParcBatterieLithiumion:
             prix_max=0
             prix_normal=0
             
-        elif self.reste>=self.PROD_MAX*self.nombre/6:
+        elif self.reste>=self.PROD_MAX/6:
             '''cas idéal où il reste assez pour décharger à volonté'''
             prix_min = self.COUT_MIN*self.PROD_MIN/6
-            prod_min = self.PROD_MIN/self.PROD_MAX
-            prix_max = self.COUT_MAX*self.PROD_MAX*self.nombre/6
-            prod_max = self.nombre
-            if abs(self.activite)*self.PROD_MAX > self.PROD_NOR:
-                prix_normal = 10000*(1-1/self.activite)/1700 + self.COUT_NOR
+            prod_min = self.PROD_MIN/self.PROD_MAX*100
+            prix_max = self.COUT_MAX*self.PROD_MAX/6
+            prod_max = 100
+            activite = abs(self.activite)
+            if activite*self.PROD_MAX > self.PROD_NOR:
+                prix_normal = 10000*(1-1/activite)/1700 + self.COUT_NOR
             else:
-                prix_normal = self.COUT_NOR*self.activite*self.PROD_MAX/6
+                prix_normal = self.COUT_NOR*activite*self.PROD_MAX/6
 
         else:
             '''cas où il faut prendre en compte le reste'''
             prix_min = self.COUT_MIN*self.PROD_MIN/6
-            prod_min = self.PROD_MIN/self.PROD_MAX
-            activite_maximum = self.reste/(self.PROD_MAX/6)
-            if activite_maximum > abs(self.activite):
-                prod_max = self.nombre*activite_maximum
+            prod_min = self.PROD_MIN/self.PROD_MAX*100
+            activite = abs(self.activite)
+            activite_maximum = self.reste/(self.PROD_MAX/6)*100
+            if activite_maximum > activite:
+                prod_max = activite_maximum
                 if activite_maximum*self.PROD_MAX > self.PROD_NOR:
                     prix_max = 10000*(1-1/activite_maximum)/1700 + self.COUT_NOR
                 else:
                     prix_max = self.COUT_NOR*activite_maximum*self.PROD_MAX/6
                 if abs(self.activite)*self.PROD_MAX > self.PROD_NOR:
-                    prix_normal = 10000*(1-1/abs(self.activite))/1700 + self.COUT_NOR
+                    prix_normal = 10000*(1-1/activite)/1700 + self.COUT_NOR
                 else:
-                    prix_normal = self.COUT_NOR*abs(self.activite)*self.PROD_MAX/6
+                    prix_normal = self.COUT_NOR*activite*self.PROD_MAX/6
             else:
-                prod_max = self.nombre*activite_maximum
+                prod_max = activite_maximum
                 if activite_maximum*self.PROD_MAX > self.PROD_NOR:
                     prix_max = 10000*(1-1/activite_maximum)/1700 + self.COUT_NOR
                     prix_normal = prix_max
                 else:
                     prix_max = self.COUT_NOR*activite_maximum*self.PROD_MAX/6
                     prix_normal = prix_max
-        return (prod_min,prod_max, prix_min, prix_normal, prix_max)
+        return (-prod_min,-prod_max, prix_min, prix_normal, prix_max)
     
     def simulation_stockage(self):
     
-        if self.compteur_surtension == 2 or self.compteur_pause <= 8:
+        if self.compteur_surtension == 2 or self.compteur_pause < 8:
             '''cas où la batterie commence ou continue une pause due à une surtension'''
             prod_min=0
             prod_max=0
@@ -109,12 +111,12 @@ class ParcBatterieLithiumion:
             prix_max=0
             prix_normal=0
             
-        elif self.capacite-self.reste>=self.PROD_MAX*self.nombre/6:
+        elif self.capacite-self.reste>=self.PROD_MAX/6:
             '''cas idéal où il reste assez pour charger à volonté'''
             prix_min = self.COUT_MIN*self.PROD_MIN/6
-            prod_min = self.PROD_MIN/self.PROD_MAX
-            prix_max = self.COUT_MAX*self.PROD_MAX*self.nombre/6
-            prod_max = self.nombre
+            prod_min = self.PROD_MIN/self.PROD_MAX*100
+            prix_max = self.COUT_MAX*self.PROD_MAX/6
+            prod_max = 100
             if abs(self.activite)*self.PROD_MAX > self.PROD_NOR:
                 prix_normal = 10000*(1-1/self.activite)/1700 + self.COUT_NOR
             else:
@@ -123,10 +125,10 @@ class ParcBatterieLithiumion:
         else:
             '''cas où il faut prendre en compte le reste'''
             prix_min = self.COUT_MIN*self.PROD_MIN/6
-            prod_min = self.PROD_MIN/self.PROD_MAX
-            activite_maximum = (self.capacite-self.reste)/(self.PROD_MAX/6)
+            prod_min = self.PROD_MIN/self.PROD_MAX*100
+            activite_maximum = (self.capacite-self.reste)/(self.PROD_MAX/6)*100
             if activite_maximum > abs(self.activite):
-                prod_max = self.nombre*activite_maximum
+                prod_max = activite_maximum
                 if activite_maximum*self.PROD_MAX > self.PROD_NOR:
                     prix_max = 10000*(1-1/activite_maximum)/1700 + self.COUT_NOR
                 else:
@@ -136,28 +138,26 @@ class ParcBatterieLithiumion:
                 else:
                     prix_normal = self.COUT_NOR*abs(self.activite)*self.PROD_MAX/6
             else:
-                prod_max = self.nombre*activite_maximum
+                prod_max = activite_maximum
                 if activite_maximum*self.PROD_MAX > self.PROD_NOR:
                     prix_max = 10000*(1-1/activite_maximum)/1700 + self.COUT_NOR
                     prix_normal = prix_max
                 else:
                     prix_max = self.COUT_NOR*activite_maximum*self.PROD_MAX/6
                     prix_normal = prix_max
-        return (-prod_min, -prod_max, prix_min, prix_normal, prix_max)    
+        return (prod_min, prod_max, prix_min, prix_normal, prix_max)    
     
-    def contraintes(self,consigne):
+    def contraintes(self,consigne): #consigne en pourcentage
         '''si la puissance demandée (à produire comme à stocker) est 
-        - supérieure à celle possible à fournir par tout le parc
-        - inférieure à la minimale pour une seule batterie
-        ça ne marche pas'''
-        if abs(consigne) > self.nombre or abs(consigne) < self.PROD_MIN/self.PROD_MAX:
+        inférieure à la minimale que peut fournir le parc ça ne marche pas'''
+        if abs(consigne)/100 < self.PROD_MIN/self.PROD_MAX:
             return False
         else:
             '''s'il n'y a plus assez d'énergie dans le parc on ne peut pas produire '''
-            if consigne > 0 and consigne*self.PROD_MAX > self.reste:
+            if consigne > 0 and consigne*self.PROD_MAX/6 > self.reste:
                 return False
             '''s'il ne reste pas assez de place dans les batteries pour stocker ça ne fonctionnera pas non plus'''
-            if consigne < 0 and consigne*self.PROD_MAX < self.capacite - self.reste:
+            if consigne < 0 and abs(consigne)*self.PROD_MAX/6 > self.capacite - self.reste:
                 return False
             else:
                 return True
