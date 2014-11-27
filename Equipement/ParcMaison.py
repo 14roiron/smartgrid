@@ -21,7 +21,6 @@ class ParcMaison (Utilitaire) :
         self.effacement=0.0 # en %
         self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
         self.nom=nom
-        
         self.production=[]
         for i in range(0,721):
             self.production.append(50*(1+cos(pi/144.0*(i+30.0))*cos(3.0*(pi/144*(i+30))))) #pourcentage qui multiplié par self.PROD_MAX (<0) donne la production (<0)
