@@ -13,7 +13,7 @@ from math import *
 '''
 
 class ParcMaison (Utilitaire) : 
-    def __init__(self, nom, prod=-2.0, effa=0.1, activite=0, nb=300): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
+    def __init__(self, nom, prod=-2.0, effa=0.1, activite=0., nb=300.): #consommation moyenne de environ 1kW/maison -->heure basse 0,7kW/maison
         self.nombre=nb
         self.PROD_MAX=prod*self.nombre  # consommation de 2kW par maison (pic) Attention production toujours négative
         self.EFFA_MAX=effa*self.nombre # en kWglobal
@@ -29,7 +29,7 @@ class ParcMaison (Utilitaire) :
             self.production.append(50*(1+cos(pi/72*(i-792))))
     
     def etatSuivant(self, consigne=0, effacement=0):
-        p = self.consommation[Global.temps] #% de la production à l'étape actuelle, >0
+        p = self.production[Global.temps] #% de la production à l'étape actuelle, >0
         if p >= -effacement*self.EFFA_MAX/self.PROD_MAX: #ie p * PROD_MAX <= -eff * EFFA_MAX ie consommation plus grande l'effacement demandé
             self.effacement=effacement
             self.activite=p+effacement*self.EFFA_MAX/self.PROD_MAX #maj de l'activité
@@ -39,7 +39,7 @@ class ParcMaison (Utilitaire) :
         self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
         
     def prevision(self, consigne=0, effacement=0):
-        p=self.consommation[(Global.temps+1)%1008] #si l'effacement demandé est inférieur à la consommation...
+        p=self.production[(Global.temps+1)%1008] #si l'effacement demandé est inférieur à la consommation...
         if p>=-effacement*self.EFFA_MAX/self.PROD_MAX:
             return (p+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre)
         else :
