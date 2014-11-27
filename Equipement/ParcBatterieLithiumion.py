@@ -46,7 +46,8 @@ class ParcBatterieLithiumion:
         self.compteur_pause = 8
         
     def etat_suivant(self, consigne=0): #consigne en pourcentage de PROD_MAX
-        self.reste = consigne*self.capacite/100
+        self.activite = self.prevision()[0]
+        self.reste += self.activite/6
         
     def prevision(self,consigne=0.): #consigne en pourcentage
         puissance = self.reste - consigne/100*self.capacite
