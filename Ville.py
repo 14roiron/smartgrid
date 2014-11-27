@@ -27,5 +27,7 @@ if __name__=='__main__':
     #ParcSolaire(10,20,20,30)
     a=Ville()
     print a.equipConso
+    print a.equipStockage
+    print a.equipProduction
     
 

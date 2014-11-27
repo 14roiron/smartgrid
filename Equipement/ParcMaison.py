@@ -21,7 +21,6 @@ class ParcMaison (Utilitaire) :
         self.effacement=0.0 # en %
         self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
         self.nom=nom
-        
         self.production=[]
         for i in range(0,721):
             self.production.append(50*(1+cos(pi/144.0*(i+30.0))*cos(3.0*(pi/144*(i+30))))) #pourcentage qui multiplié par self.PROD_MAX (<0) donne la production (<0)
@@ -29,7 +28,7 @@ class ParcMaison (Utilitaire) :
             self.production.append(50*(1+cos(pi/72*(i-792))))
     
     def etatSuivant(self, consigne=0, effacement=0):
-        p = self.consommation[Global.temps] #% de la production à l'étape actuelle, >0
+        p = self.production[Global.temps] #% de la production à l'étape actuelle, >0
         if p >= -effacement*self.EFFA_MAX/self.PROD_MAX: #ie p * PROD_MAX <= -eff * EFFA_MAX ie consommation plus grande l'effacement demandé
             self.effacement=effacement
             self.activite=p+effacement*self.EFFA_MAX/self.PROD_MAX #maj de l'activité
@@ -39,7 +38,7 @@ class ParcMaison (Utilitaire) :
         self.cout=self.effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre
         
     def prevision(self, consigne=0, effacement=0):
-        p=self.consommation[(Global.temps+1)%1008] #si l'effacement demandé est inférieur à la consommation...
+        p=self.production[(Global.temps+1)%1008] #si l'effacement demandé est inférieur à la consommation...
         if p>=-effacement*self.EFFA_MAX/self.PROD_MAX:
             return (p+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80/1000/6)*self.nombre)
         else :
