@@ -31,7 +31,7 @@ class ParcEolien(Equipement):
 			self.PROD_MAX = 120 * n
 			self.cout = 65 #"""cout en euro par MWh"""
 			
-		self.nbEolienne = n
+		self.nbEolienne = long(n)
 		self.dictPV = dictPV
 		self.listVent = []
 		for i in range(len(meteoVent)):
@@ -67,7 +67,7 @@ class ParcEolien(Equipement):
 
 	def etatSuivant(self, consigne=100, effacement=0):
 		if (consigne/100)*self.PROD_MAX<self.prevision()[0]:		
-			self.nbEolienne = int(self.nbEolienne*(self.prevision()[0]/self.PROD_MAX))
+			self.nbEolienne = (self.nbEolienne*(self.prevision()[0]/self.PROD_MAX))
 		self.activite=self.prevision()[0]#faux mais non
 	
 if __name__=="__main__":

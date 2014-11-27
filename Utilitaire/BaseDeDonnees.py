@@ -16,6 +16,7 @@ class BaseDeDonnees:
             dico = {"GHI":row[0], "DNI":row[1], "DHI":row[2], "T":row[3],\
                     "windSpeed":float(row[5]), "windGust":float(row[7]), "id":row[8]}
             l.append(dico)
+        cur.close()
         return l
     
     def enregistrerID(self, listeProd, listeConso, numTest):
@@ -50,10 +51,24 @@ class BaseDeDonnees:
             try:
                 cur.execute(sql, (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest))
                 self.database.commit()
-                #print sql % (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest)
+                 #print sql % (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest)
                 IDObjet += 1
             except Exception as e:
                 self.database.rollback()
                 print "Erreur d'insertion dans Etat"
                 print e
+        cur.close()
+    def vide_table(self):
+        cur = self.database.cursor()
+        sql = """TRUNCATE TABLE Etat"""
+        sql2 = """TRUNCATE TABLE ID"""
+        try:
+            cur.execute(sql)
+            self.database.commit()
+            cur.execute(sql2)
+            self.database.commit()
+        except Exception as e:
+            self.database.rollback()
+            print "Erreur d'de vidage dans Etat"
+            print e
         cur.close()
