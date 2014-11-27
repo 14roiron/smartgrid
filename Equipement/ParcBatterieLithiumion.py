@@ -2,7 +2,7 @@
 
 '''    Fonctionnement :
 
-- une batterie débite un courant donnée par activité*PROD_MAX tout comme les autres équipements
+- une batterie débite un courant donné par activité*PROD_MAX tout comme les autres équipements
 NB : si ce courant est négatif c'est que la batterie est en train de stocker
 - pour demander à une batterie de produire de l'énergie envoyez lui une consigne positive en %,
 si c'est possible la puissance débitée sera de consigne/100 * PROD_MAX
@@ -15,14 +15,16 @@ si c'est possible elle stockera gentiment une puissance de abs(consigne)/100 * P
 - la sous tension extensive (destruction de la batterie, rendu impossible par le modèle)
 - le manque de capacité pour stocker/le manque de stock à déstocker'''
 
-#chocolatine
+#pain au chocolat
+
+(self,nom="eclairage_public",prod=-0.112,effa=0.05,activite=0,nb=600)
 
 class ParcBatterieLithiumion:
     
-    def __init__(self, nom="un petit parc", nombre = 10, prop = 1/2, activite=0): #activité en %
+    def __init__(self,nom="batterie",prop = 1/2,effa=0,activite=0,nb = 10): #activité en %
         self.nom=nom
         '''nombre de batterie dans le parc'''
-        self.nombre = nombre
+        self.nombre = nb
         '''capacité en kWh'''
         self.capacite = 6.5*self.nombre
         '''énergie stockée dans le parc en kWh'''
@@ -45,7 +47,7 @@ class ParcBatterieLithiumion:
         self.compteur_surtension = 0
         self.compteur_pause = 8
         
-    def etat_suivant(self, consigne=0): #consigne en pourcentage de PROD_MAX
+    def etat_suivant(self,consigne=0): #consigne en pourcentage de PROD_MAX
         self.activite = self.prevision()[0]
         self.reste += self.activite/6
         
