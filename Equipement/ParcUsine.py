@@ -13,7 +13,20 @@ class ParcUsine(Equipement):
         self.effacement=0.0
         self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre
         self.nom=nom
-        self.production=[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 25.0, 50.0, 75.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 75.0, 50.0, 25.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        
+        courbe = [0. for i in range(144)]
+        courbe[43] = 25.
+        courbe[44] = 50. 
+        courbe[45] = 75. 
+        for i in range(46,117):
+            courbe[i] = 100.
+        courbe[117] = 75. 
+        courbe[118] = 50.
+        courbe[119] = 25. 
+        self.production = []
+        for i in range(7):
+            self.production += courbe
+        
     
     def etatSuivant(self,consigne=0.,effacement=0.):#WTF ? act=0
         p=self.production[Global.temps%144]
@@ -35,4 +48,9 @@ class ParcUsine(Equipement):
     def simulation(self):
         (prod_min,cout_min)=self.prevision(0.,0.)  
         (prod_max,cout_max)=self.prevision(0.,100.) 
-        return(prod_min,prod_max,cout_min,self.cout,cout_max)    
+        return(prod_min,prod_max,cout_min,self.cout,cout_max)  
+    
+if __name__ == "__main__":
+    usine = ParcUsine()
+    print usine.production  
+    print len(usine.production)
