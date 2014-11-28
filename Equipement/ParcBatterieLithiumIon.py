@@ -43,17 +43,17 @@ class ParcBatterieLithiumIon:
         '''les compteurs permet d'éviter une trop longue mise en surtension. Au bout
         de 2 pas la batterie se voit obliger d'arrêter le plein régime pour 8 pas de repos'''
         self.compteur_surtension = 0
-        self.compteur_pause = 8
+        self.compteur_pause = 4
         
     def etat_suivant(self, consigne=0.): #consigne en pourcentage de PROD_MAX
         '''si la pile est depuis trop longtemps en surtension elle s'arrête'''
-        if self.compteur_surtension == 2:
+        if self.compteur_surtension == 1:
             self.compteur_pause = 0
             self.compteur_surtension = 0
             self.activite = 0
             
             '''si la pile est en mode pause et qu'elle doit le prolonger'''
-        elif self.compteur_pause < 8:
+        elif self.compteur_pause < 4:
             self.compteur_pause += 1
             self.activite = 0
         
@@ -67,7 +67,7 @@ class ParcBatterieLithiumIon:
     def prevision(self, consigne=0.): #consigne en pourcentage
         
         '''si la pile entre ou continue son mode de pause'''
-        if self.compteur_surtension == 2 or self.compteur_pause < 8:
+        if self.compteur_surtension == 1 or self.compteur_pause < 4:
             return (0.,0.)
         
         elif self.contraintes(consigne) == False:
@@ -97,7 +97,7 @@ class ParcBatterieLithiumIon:
     
     def simulation_destockage(self):
     
-        if self.compteur_surtension == 2 or self.compteur_pause < 8:
+        if self.compteur_surtension == 1 or self.compteur_pause < 4:
             '''cas où la batterie commence ou continue une pause due à une surtension'''
             prod_min=0
             prod_max=0
@@ -132,7 +132,7 @@ class ParcBatterieLithiumIon:
     
     def simulation_stockage(self):
     
-        if self.compteur_surtension == 2 or self.compteur_pause < 8:
+        if self.compteur_surtension == 1 or self.compteur_pause < 4:
             '''cas où la batterie commence ou continue une pause due à une surtension'''
             prod_min=0
             prod_max=0
@@ -167,7 +167,7 @@ class ParcBatterieLithiumIon:
     
     def contraintes(self,consigne): #consigne en pourcentage
         
-        if self.compteur_surtension == 2 or self.compteur_pause < 8: #cas de la mise en pause
+        if self.compteur_surtension == 1 or self.compteur_pause < 4: #cas de la mise en pause
             if consigne == 0:
                 return True
             else:
