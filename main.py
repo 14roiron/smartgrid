@@ -37,8 +37,9 @@ def ind_eqpascher2(liste,consigne): #pour prod MIN !! indice de l'equipement le 
             i=j
     return i
 
-
+Global.db.vide_table()
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStockage, 0)
+Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, 0) 
 #print len(Global.meteo1)
 #print len(Global.meteo2)
 while Global.temps < 6*24*7-1: #boucle principale

@@ -23,13 +23,15 @@ class ParcUsine(Equipement):
         jour[117] = 75. 
         jour[118] = 50.
         jour[119] = 25. 
-        
         self.production = []
-        for i in range(7):
+        for i in range(6):
             self.production += jour
+        self.production+=[0. for i in range(144)] #usine fermée le dimanche
+        self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
     
+
     def etatSuivant(self,consigne=0.,effacement=0.):
-        pourcentage=self.production[Global.temps%144] #% de la production à l'étape actuelle, >0
+        pourcentage=self.production[Global.temps%1008] #% de la production à l'étape actuelle, >0
         if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #ie pourcentage * PROD_MAX <= -eff * EFFA_MAX ie la consommation est plus grande que l'effacement demandé
             self.effacement=effacement
             self.activite=pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX
@@ -39,7 +41,7 @@ class ParcUsine(Equipement):
         self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre
         
     def prevision(self,consigne=0.,effacement=0.):
-        pourcentage=self.production[(Global.temps+1)%144]
+        pourcentage=self.production[(Global.temps+1)%1008]
         if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #si la consommation est plus grande que l'effacement demandé
             return (pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre)
         else: #sinon, on considère l'effacement maximal possible

@@ -28,13 +28,13 @@ class ParcBatterieLithiumIon:
         '''énergie stockée dans le parc en kWh'''
         self.reste = self.capacite*prop #pas un pourcentage
         '''production maximale en kW'''
-        self.PROD_MAX = 23.*self.nombre
+        self.PROD_MAX = 24.*self.nombre
         self.COUT_MAX = 0.7
         '''production normale en kW'''
         self.PROD_NOR = 20.*self.nombre
         self.COUT_NOR = 0.1
         '''production minimale en kW'''
-        self.PROD_MIN = 17.*self.nombre
+        self.PROD_MIN = 16.*self.nombre
         self.COUT_MIN = 0.1
         '''Les prix sont en €/kWh'''
         
@@ -45,7 +45,7 @@ class ParcBatterieLithiumIon:
         self.compteur_surtension = 0
         self.compteur_pause = 8
         
-    def etat_suivant(self, consigne=0): #consigne en pourcentage de PROD_MAX
+    def etat_suivant(self, consigne=0.): #consigne en pourcentage de PROD_MAX
         '''si la pile est depuis trop longtemps en surtension elle s'arrête'''
         if self.compteur_surtension == 2:
             self.compteur_pause = 0
@@ -59,34 +59,38 @@ class ParcBatterieLithiumIon:
         
             '''sinon si elle est en état de fonctionnement on éxécute la prévision'''
         else:
-            self.activite = self.prevision()[0]
-            self.reste += self.activite/6
+            self.activite = self.prevision(consigne)[0]
+            if abs(self.activite) >= 95:
+                self.compteur_surtension += 1
+            self.reste = self.reste + self.activite*self.PROD_MAX/6/100
         
-    def prevision(self,consigne=0.): #consigne en pourcentage
+    def prevision(self, consigne=0.): #consigne en pourcentage
         
         '''si la pile entre ou continue son mode de pause'''
         if self.compteur_surtension == 2 or self.compteur_pause < 8:
-            return (0,0)
+            return (0.,0.)
+        
+        elif self.contraintes(consigne) == False:
+            return (0.,0.)
         
             '''si le fonctionnement va donner lieu à quelque chose'''
         else:
             
             '''cas du stockage'''
-            if consigne > 0:
+            if consigne > 0.:
                 '''si la capacité restante est limitée'''
-                if self.capacite-self.reste < consigne/100. * self.PROD_MAX/6:
-                    prod = (self.capacite-self.reste)*100 / (self.PROD_MAX/6)
+                if self.capacite - self.reste < consigne/100. * self.PROD_MAX/6:
+                    prod = (self.capacite-self.reste)*100 / (self.PR0OD_MAX/6)
                 else:
                     prod = consigne
                     
                     '''cas du déstockage'''
             else:
                 '''cas où il ne reste pas assez d'énergie dans la pile'''
-                if self.reste < -consigne/100. * self.PROD_MAX/6:
-                    prod = self.reste*100 / (self.PROD_MAX/6)
+                if self.reste < - consigne/100. * self.PROD_MAX/6:
+                    prod = - self.reste*100 / (self.PROD_MAX/6)
                 else:
                     prod = consigne
-            prod = - prod #on déstocke donc la production est négative
         
         prix = self.calculPrix(prod)
         return (prod, prix)
@@ -101,7 +105,7 @@ class ParcBatterieLithiumIon:
             prix_max=0
             prix_normal=0
             
-        elif self.reste>=self.PROD_MAX/6:
+        elif self.reste >= self.PROD_MAX/6:
             '''cas idéal où il reste assez pour décharger à volonté'''
             prix_min = self.COUT_MIN*self.PROD_MIN/6
             prod_min = self.PROD_MIN/self.PROD_MAX*100
@@ -121,7 +125,10 @@ class ParcBatterieLithiumIon:
                 prix_normal = self.calculPrix(activite)
             else:
                 prix_normal = prix_max
-        return (-prod_min,-prod_max, prix_min, prix_normal, prix_max)
+        if prod_min > prod_max:
+            return (0.,0.,0.,0.,0.)
+        else:
+            return (-prod_min,-prod_max, prix_min, prix_normal, prix_max)
     
     def simulation_stockage(self):
     
@@ -152,26 +159,38 @@ class ParcBatterieLithiumIon:
                 prix_normal = self.calculPrix(self.activite)
             else:
                 prix_normal = prix_max
-        return (prod_min, prod_max, prix_min, prix_normal, prix_max)    
+                
+        if prod_min > prod_max:
+            return (0.,0.,0.,0.,0.)
+        else:
+            return (prod_min, prod_max, prix_min, prix_normal, prix_max)    
     
     def contraintes(self,consigne): #consigne en pourcentage
-        '''si la puissance demandée (à produire comme à stocker) est 
-        inférieure à la minimale que peut fournir le parc ça ne marche pas'''
-        if abs(consigne)/100 < self.PROD_MIN/self.PROD_MAX:
-            return False
-        else:
-            '''s'il n'y a plus assez d'énergie dans le parc on ne peut pas produire '''
-            if consigne > 0 and consigne*self.PROD_MAX/6 > self.reste:
-                return False
-            '''s'il ne reste pas assez de place dans les batteries pour stocker ça ne fonctionnera pas non plus'''
-            if consigne < 0 and abs(consigne)*self.PROD_MAX/6 > self.capacite - self.reste:
-                return False
-            else:
+        
+        if self.compteur_surtension == 2 or self.compteur_pause < 8: #cas de la mise en pause
+            if consigne == 0:
                 return True
+            else:
+                return False
+        
+        if consigne > 0: #cas du stockage
+            if consigne >= self.simulation_stockage()[0] and consigne <= self.simulation_stockage()[1]:
+                return True
+            else:
+                return False
+            
+        elif consigne < 0: #cas du déstockage
+            if consigne <= self.simulation_destockage()[0] and consigne >= self.simulation_destockage()[1]:
+                return True
+            else:
+                return False
+        else: #non activité
+            return True
             
     def calculPrix(self, activite):
+        '''cas surtension'''
         if abs(activite)/100*self.PROD_MAX > self.PROD_NOR:
-            prix = 10000*(1-100/activite)/1700 + self.COUT_NOR
+            prix = ((self.COUT_MAX-self.COUT_NOR)*(activite/100)^100 + self.COUT_NOR)*self.PROD_MAX/6
             '''cas normal'''
         else:
             prix = self.COUT_NOR*activite/100*self.PROD_MAX/6
@@ -182,8 +201,20 @@ class ParcBatterieLithiumIon:
     #pour les tests
 if __name__=='__main__':
     a = ParcBatterieLithiumIon(activite=100, prop=1/5)
+    print(a.reste)
+    print(a.contraintes(70.))
+    print(a.prevision(70.))
     print(a.simulation_stockage())
     print(a.simulation_destockage())
-    a.etat_suivant(6)
+    print(a.compteur_surtension)
+    a.etat_suivant(70)
+    print(a.reste)
+    print(a.contraintes(-100))
+    print(a.prevision(-100))
     print(a.simulation_stockage())
+    print(a.simulation_destockage())
+    print(a.compteur_surtension)
+    a.etat_suivant(-100)
+    print(a.reste)
+    print(a.compteur_surtension)
     

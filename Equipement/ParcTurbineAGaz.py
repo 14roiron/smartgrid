@@ -17,7 +17,7 @@ class ParcTurbineAGaz:
             while self.activite>self.demarrage[i]:
                 i+=1
             if consigne<self.demarrage[i+10]: #si l'activité demandée est atteinte avant t+10min
-                return (consigne,2*self.PROD_MAX*(80./1000./6.)*self.nombre)
+                return (consigne,2*self.PROD_MAX*(80./1000./6.)*self.nombre) #nous avons supposé pour l'instant qu'il est deux fois plus cher de mettre la turbine en marche que de l'arrêter, ce qui explique le facteur "2". 
             else:
                 return (self.demarrage[i+10],2*self.PROD_MAX*(80./1000./6.)*self.nombre) #même chose avec l'arrêt
         elif consigne<self.activite:
@@ -25,7 +25,7 @@ class ParcTurbineAGaz:
             while self.activite<self.arret[i]:
                 i+=1
             if consigne>self.arret[i+10]:
-                return (consigne,0.5*self.cout)
+                return (consigne,0.5*self.cout) #voir 8 lignes plus haut pour avoir l'explication du facteur "0.5". c'est assez imprécis comme raisonnement mais pour le moment, il nous manque les données relatives au calcul de ces coûts
             else:
                 return (self.arret[i+10],0.5*self.cout)
         else: #si on garde une activité constante

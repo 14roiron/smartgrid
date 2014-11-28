@@ -4,23 +4,23 @@ import MySQLdb
 import Global
 
 class BaseDeDonnees:
-        
+          
     def __init__(self):
         self.database = MySQLdb.connect(host="localhost", user = "root", passwd = "migse", db = "Smartgrid1")
-    
+        self.cur = self.database.cursor()
+        
     def importerMeteo(self, nom):
-        cur = self.database.cursor()
+        #cur = self.database.cursor()
         l = []
-        cur.execute("SELECT * FROM " + nom)
-        for row in cur.fetchall():
+        self.cur.execute("SELECT * FROM " + nom)
+        for row in self.cur.fetchall():
             dico = {"GHI":row[0], "DNI":row[1], "DHI":row[2], "T":row[3],\
                     "windSpeed":float(row[5]), "windGust":float(row[7]), "id":row[8]}
             l.append(dico)
-        cur.close()
         return l
     
     def enregistrerID(self, listeProd, listeConso, listeStockage, numTest):
-        cur = self.database.cursor()
+        #cur = self.database.cursor()
         IDObjet = 0
         liste = list(listeProd)
         liste += listeConso
@@ -31,7 +31,7 @@ class BaseDeDonnees:
             sql2 = """INSERT INTO ID (IDObjet, Nom, Pmax, Emax, numTest)
                      VALUES ({}, {}, {}, {}, {})"""
             try:
-                cur.execute(sql, (IDObjet, equipement.nom, equipement.PROD_MAX, equipement.EFFA_MAX, numTest))
+                self.cur.execute(sql, (IDObjet, equipement.nom, equipement.PROD_MAX, equipement.EFFA_MAX, numTest))
                 #print sql2.format(IDObjet, equipement.nom, equipement.PROD_MAX, equipement.EFFA_MAX, numTest)
                 self.database.commit()
                 IDObjet += 1
@@ -39,10 +39,9 @@ class BaseDeDonnees:
                 self.database.rollback()
                 print "Erreur d'insertion dans ID"
                 print e
-        cur.close()
     
     def enregistrerEtape(self, listeProd, listeConso, listeStockage, numTest):
-        cur = self.database.cursor()
+        
         IDObjet = 0
         liste = list(listeProd)
         liste += listeConso
@@ -51,7 +50,7 @@ class BaseDeDonnees:
             sql = """INSERT INTO Etat (t, IDObjet, P, E, C, numTest)
                      VALUES (%s, %s, %s, %s, %s, %s)"""
             try:
-                cur.execute(sql, (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest))
+                self.cur.execute(sql, (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest))
                 self.database.commit()
                  #print sql % (Global.temps, IDObjet, equipement.activite, equipement.effacement, equipement.cout, numTest)
                 IDObjet += 1
@@ -59,18 +58,15 @@ class BaseDeDonnees:
                 self.database.rollback()
                 print "Erreur d'insertion dans Etat"
                 print e
-        cur.close()
     def vide_table(self):
-        cur = self.database.cursor()
         sql = """TRUNCATE TABLE Etat"""
         sql2 = """TRUNCATE TABLE ID"""
         try:
-            cur.execute(sql)
+            self.cur.execute(sql)
             self.database.commit()
-            cur.execute(sql2)
+            self.cur.execute(sql2)
             self.database.commit()
         except Exception as e:
             self.database.rollback()
             print "Erreur d'de vidage dans Etat"
             print e
-        cur.close()

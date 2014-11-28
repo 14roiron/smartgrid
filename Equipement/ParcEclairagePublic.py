@@ -18,6 +18,7 @@ class ParcEclairagePublic (Utilitaire) :
                 self.production[i]=0.
             else :
                 self.production[i]=100.
+        self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
     
     def etatSuivant(self,consigne=0.,effacement=0.):
         pourcentage=self.production[Global.temps]
