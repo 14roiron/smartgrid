@@ -17,26 +17,24 @@ si c'est possible elle stockera gentiment une puissance de abs(consigne)/100 * P
 
 #chocolatine
 
-(self,nom="eclairage_public",prod=-0.112,effa=0.,activite=0,nb=600)
-
-class ParcBatterieLithiumion:
+class ParcBatterieLithiumIon:
     
-    def __init__(self,nom="batterie",prop = 1/2,effa=0,activite=0,nb = 10): #activité en %
+    def __init__(self, nom="un petit parc", nombre = 10, prop = 0.5, activite=0.): #activité en %
         self.nom=nom
         '''nombre de batterie dans le parc'''
-        self.nombre = nb
+        self.nombre = nombre
         '''capacité en kWh'''
         self.capacite = 6.5*self.nombre
         '''énergie stockée dans le parc en kWh'''
         self.reste = self.capacite*prop #pas un pourcentage
         '''production maximale en kW'''
-        self.PROD_MAX = 23*self.nombre
+        self.PROD_MAX = 23.*self.nombre
         self.COUT_MAX = 0.7
         '''production normale en kW'''
-        self.PROD_NOR = 20*self.nombre
+        self.PROD_NOR = 20.*self.nombre
         self.COUT_NOR = 0.1
         '''production minimale en kW'''
-        self.PROD_MIN = 17*self.nombre
+        self.PROD_MIN = 17.*self.nombre
         self.COUT_MIN = 0.1
         '''Les prix sont en €/kWh'''
         
@@ -47,7 +45,7 @@ class ParcBatterieLithiumion:
         self.compteur_surtension = 0
         self.compteur_pause = 8
         
-       def etat_suivant(self, consigne=0): #consigne en pourcentage de PROD_MAX
+    def etat_suivant(self, consigne=0): #consigne en pourcentage de PROD_MAX
         '''si la pile est depuis trop longtemps en surtension elle s'arrête'''
         if self.compteur_surtension == 2:
             self.compteur_pause = 0
@@ -78,44 +76,19 @@ class ParcBatterieLithiumion:
                 '''si la capacité restante est limitée'''
                 if self.capacite-self.reste < consigne/100. * self.PROD_MAX/6:
                     prod = (self.capacite-self.reste)*100 / (self.PROD_MAX/6)
-                    '''cas où la pile est en surtension'''
-                    if prod/100*self.PROD_MAX > self.PROD_NOR:
-                        prix = 10000*(1-100/prod)/1700 + self.COUT_NOR
-                        '''cas normal'''
-                    else:
-                        prix = self.COUT_NOR*prod/100*self.PROD_MAX/6
-                        '''s'il reste suffisamment de capacité'''
                 else:
                     prod = consigne
-                    '''cas où la pile est en surtension'''
-                    if prod/100*self.PROD_MAX > self.PROD_NOR:
-                        prix = 10000*(1-100/prod)/1700 + self.COUT_NOR
-                        '''cas normal'''
-                    else:
-                        prix = self.COUT_NOR*prod/100*self.PROD_MAX/6
-                        
-                        '''cas du déstockage'''
+                    
+                    '''cas du déstockage'''
             else:
                 '''cas où il ne reste pas assez d'énergie dans la pile'''
                 if self.reste < -consigne/100. * self.PROD_MAX/6:
                     prod = self.reste*100 / (self.PROD_MAX/6)
-                    '''cas où la pile est en surtension'''
-                    if prod/100*self.PROD_MAX > self.PROD_NOR:
-                        prix = 10000*(1-100/prod)/1700 + self.COUT_NOR
-                        '''cas normal'''
-                    else:
-                        prix = self.COUT_NOR*prod/100*self.PROD_MAX/6
-                        '''s'il reste suffisamment de capacité'''
                 else:
                     prod = consigne
-                    '''cas où la pile est en surtension'''
-                    if prod/100*self.PROD_MAX > self.PROD_NOR:
-                        prix = 10000*(1-100/prod)/1700 + self.COUT_NOR
-                        '''cas normal'''
-                    else:
-                        prix = self.COUT_NOR*prod/100*self.PROD_MAX/6
             prod = - prod #on déstocke donc la production est négative
         
+        prix = self.calculPrix(prod)
         return (prod, prix)
     
     def simulation_destockage(self):
@@ -134,11 +107,7 @@ class ParcBatterieLithiumion:
             prod_min = self.PROD_MIN/self.PROD_MAX*100
             prix_max = self.COUT_MAX*self.PROD_MAX/6
             prod_max = 100
-            activite = abs(self.activite)
-            if activite*self.PROD_MAX > self.PROD_NOR:
-                prix_normal = 10000*(1-1/activite)/1700 + self.COUT_NOR
-            else:
-                prix_normal = self.COUT_NOR*activite*self.PROD_MAX/6
+            prix_normal = self.calculPrix(self.activite)
 
         else:
             '''cas où il faut prendre en compte le reste'''
@@ -146,24 +115,12 @@ class ParcBatterieLithiumion:
             prod_min = self.PROD_MIN/self.PROD_MAX*100
             activite = abs(self.activite)
             activite_maximum = self.reste/(self.PROD_MAX/6)*100
+            prod_max = activite_maximum
+            prix_max = self.calculPrix(activite_maximum)
             if activite_maximum > activite:
-                prod_max = activite_maximum
-                if activite_maximum*self.PROD_MAX > self.PROD_NOR:
-                    prix_max = 10000*(1-1/activite_maximum)/1700 + self.COUT_NOR
-                else:
-                    prix_max = self.COUT_NOR*activite_maximum*self.PROD_MAX/6
-                if abs(self.activite)*self.PROD_MAX > self.PROD_NOR:
-                    prix_normal = 10000*(1-1/activite)/1700 + self.COUT_NOR
-                else:
-                    prix_normal = self.COUT_NOR*activite*self.PROD_MAX/6
+                prix_normal = self.calculPrix(activite)
             else:
-                prod_max = activite_maximum
-                if activite_maximum*self.PROD_MAX > self.PROD_NOR:
-                    prix_max = 10000*(1-1/activite_maximum)/1700 + self.COUT_NOR
-                    prix_normal = prix_max
-                else:
-                    prix_max = self.COUT_NOR*activite_maximum*self.PROD_MAX/6
-                    prix_normal = prix_max
+                prix_normal = prix_max
         return (-prod_min,-prod_max, prix_min, prix_normal, prix_max)
     
     def simulation_stockage(self):
@@ -182,34 +139,19 @@ class ParcBatterieLithiumion:
             prod_min = self.PROD_MIN/self.PROD_MAX*100
             prix_max = self.COUT_MAX*self.PROD_MAX/6
             prod_max = 100
-            if abs(self.activite)*self.PROD_MAX > self.PROD_NOR:
-                prix_normal = 10000*(1-1/self.activite)/1700 + self.COUT_NOR
-            else:
-                prix_normal = self.COUT_NOR*self.activite*self.PROD_MAX/6
-
+            prix_normal = self.calculPrix(self.activite)
+            
         else:
             '''cas où il faut prendre en compte le reste'''
             prix_min = self.COUT_MIN*self.PROD_MIN/6
             prod_min = self.PROD_MIN/self.PROD_MAX*100
             activite_maximum = (self.capacite-self.reste)/(self.PROD_MAX/6)*100
+            prod_max = activite_maximum
+            prix_max = self.calculPrix(activite_maximum)
             if activite_maximum > abs(self.activite):
-                prod_max = activite_maximum
-                if activite_maximum*self.PROD_MAX > self.PROD_NOR:
-                    prix_max = 10000*(1-1/activite_maximum)/1700 + self.COUT_NOR
-                else:
-                    prix_max = self.COUT_NOR*activite_maximum*self.PROD_MAX/6
-                if abs(self.activite)*self.PROD_MAX > self.PROD_NOR:
-                    prix_normal = 10000*(1-1/abs(self.activite))/1700 + self.COUT_NOR
-                else:
-                    prix_normal = self.COUT_NOR*abs(self.activite)*self.PROD_MAX/6
+                prix_normal = self.calculPrix(self.activite)
             else:
-                prod_max = activite_maximum
-                if activite_maximum*self.PROD_MAX > self.PROD_NOR:
-                    prix_max = 10000*(1-1/activite_maximum)/1700 + self.COUT_NOR
-                    prix_normal = prix_max
-                else:
-                    prix_max = self.COUT_NOR*activite_maximum*self.PROD_MAX/6
-                    prix_normal = prix_max
+                prix_normal = prix_max
         return (prod_min, prod_max, prix_min, prix_normal, prix_max)    
     
     def contraintes(self,consigne): #consigne en pourcentage
@@ -226,10 +168,22 @@ class ParcBatterieLithiumion:
                 return False
             else:
                 return True
+            
+    def calculPrix(self, activite):
+        if abs(activite)/100*self.PROD_MAX > self.PROD_NOR:
+            prix = 10000*(1-100/activite)/1700 + self.COUT_NOR
+            '''cas normal'''
+        else:
+            prix = self.COUT_NOR*activite/100*self.PROD_MAX/6
+        return prix
 
 '''vous êtes arrivé au bout félicitations !'''
 
     #pour les tests
 if __name__=='__main__':
-    a = ParcBatterieLithiumion()
+    a = ParcBatterieLithiumIon(activite=100, prop=1/5)
     print(a.simulation_stockage())
+    print(a.simulation_destockage())
+    a.etat_suivant(6)
+    print(a.simulation_stockage())
+    
