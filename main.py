@@ -42,7 +42,7 @@ Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStoc
 Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, 0) 
 #print len(Global.meteo1)
 #print len(Global.meteo2)
-while Global.temps < 6*24*7: #boucle principale
+while Global.temps < 6*24*7-1: #boucle principale
     prod_actuelle = sum(i.activite/100.*i.PROD_MAX for i in ville.equipProduction)
     conso_future = sum(i.production[Global.temps + 1]/100.*i.PROD_MAX for i in ville.equipConso)
 

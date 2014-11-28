@@ -23,7 +23,7 @@ Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStoc
 Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, 0)      
 #print len(Global.meteo1)
 print len(Global.meteo2)
-while Global.temps < 1*24*7: #boucle principale
+while Global.temps < 7*24*6-1: #boucle principale
 
     consigne=[100. for i in range(len(ville.equipProduction))]
     consigne_stock=[100. for i in (range(len(ville.equipStockage)))]
