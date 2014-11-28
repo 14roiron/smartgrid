@@ -1,3 +1,4 @@
+# -*-coding:utf-8 -
 class ParcTurbineAGaz:
     def __init__(self,nom="turbine_a_gaz",prod=885.,effa=0.,activite=0.,nb=3):
         self.nom=nom
@@ -24,7 +25,7 @@ class ParcTurbineAGaz:
                 return (consigne,2*self.PROD_MAX*(80./1000./6.)*self.nombre)
             else:
                 return (self.demarrage[i+10],2*self.PROD_MAX*(80./1000./6.)*self.nombre)
-        """même chose avec l'arrêt"""
+            """même chose avec l'arrêt"""
         elif consigne<self.activite:
             i=0
             while self.activite<=self.arret[i]:
@@ -33,7 +34,7 @@ class ParcTurbineAGaz:
                 return (consigne,0.5*self.cout)
             else:
                 return (self.arret[i+10],0.5*self.cout)
-        """si on garde une activité constante"""
+            """si on garde une activité constante"""
         else:
             return(consigne,self.cout)
             
@@ -45,3 +46,9 @@ class ParcTurbineAGaz:
     def etatSuivant(self,consigne=0.,effacement=0.):
         self.activite=consigne
         self.cout=self.activite/100.*self.PROD_MAX*(80./1000./6.)*self.nombre
+if __name__=="__main__":
+    a=ParcTurbineAGaz()
+    a.etatSuivant(100, 100)
+    a.simulation()
+    print a.activite
+    #bordel le code est faux il devrait mettre au moins une demi-heure pour faire 0-100%
