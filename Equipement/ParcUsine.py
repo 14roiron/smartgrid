@@ -23,10 +23,10 @@ class ParcUsine(Equipement):
         jour[117] = 75. 
         jour[118] = 50.
         jour[119] = 25. 
-        
         self.production = []
         for i in range(7):
             self.production += jour
+        self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
     
     def etatSuivant(self,consigne=0.,effacement=0.):
         pourcentage=self.production[Global.temps%144] #% de la production à l'étape actuelle, >0
