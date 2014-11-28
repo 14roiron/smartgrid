@@ -15,9 +15,9 @@ si c'est possible elle stockera gentiment une puissance de abs(consigne)/100 * P
 - la sous tension extensive (destruction de la batterie, rendu impossible par le modèle)
 - le manque de capacité pour stocker/le manque de stock à déstocker'''
 
-#pain au chocolat
+#chocolatine
 
-(self,nom="eclairage_public",prod=-0.112,effa=0.05,activite=0,nb=600)
+(self,nom="eclairage_public",prod=-0.112,effa=0.,activite=0,nb=600)
 
 class ParcBatterieLithiumion:
     
@@ -47,14 +47,76 @@ class ParcBatterieLithiumion:
         self.compteur_surtension = 0
         self.compteur_pause = 8
         
-    def etat_suivant(self,consigne=0): #consigne en pourcentage de PROD_MAX
-        self.activite = self.prevision()[0]
-        self.reste += self.activite/6
+       def etat_suivant(self, consigne=0): #consigne en pourcentage de PROD_MAX
+        '''si la pile est depuis trop longtemps en surtension elle s'arrête'''
+        if self.compteur_surtension == 2:
+            self.compteur_pause = 0
+            self.compteur_surtension = 0
+            self.activite = 0
+            
+            '''si la pile est en mode pause et qu'elle doit le prolonger'''
+        elif self.compteur_pause < 8:
+            self.compteur_pause += 1
+            self.activite = 0
+        
+            '''sinon si elle est en état de fonctionnement on éxécute la prévision'''
+        else:
+            self.activite = self.prevision()[0]
+            self.reste += self.activite/6
         
     def prevision(self,consigne=0.): #consigne en pourcentage
-        puissance = self.reste - consigne/100*self.capacite
-        prix = self.cout*abs(puissance)
-        return (puissance/self.capacite*100, prix)
+        
+        '''si la pile entre ou continue son mode de pause'''
+        if self.compteur_surtension == 2 or self.compteur_pause < 8:
+            return (0,0)
+        
+            '''si le fonctionnement va donner lieu à quelque chose'''
+        else:
+            
+            '''cas du stockage'''
+            if consigne > 0:
+                '''si la capacité restante est limitée'''
+                if self.capacite-self.reste < consigne/100. * self.PROD_MAX/6:
+                    prod = (self.capacite-self.reste)*100 / (self.PROD_MAX/6)
+                    '''cas où la pile est en surtension'''
+                    if prod/100*self.PROD_MAX > self.PROD_NOR:
+                        prix = 10000*(1-100/prod)/1700 + self.COUT_NOR
+                        '''cas normal'''
+                    else:
+                        prix = self.COUT_NOR*prod/100*self.PROD_MAX/6
+                        '''s'il reste suffisamment de capacité'''
+                else:
+                    prod = consigne
+                    '''cas où la pile est en surtension'''
+                    if prod/100*self.PROD_MAX > self.PROD_NOR:
+                        prix = 10000*(1-100/prod)/1700 + self.COUT_NOR
+                        '''cas normal'''
+                    else:
+                        prix = self.COUT_NOR*prod/100*self.PROD_MAX/6
+                        
+                        '''cas du déstockage'''
+            else:
+                '''cas où il ne reste pas assez d'énergie dans la pile'''
+                if self.reste < -consigne/100. * self.PROD_MAX/6:
+                    prod = self.reste*100 / (self.PROD_MAX/6)
+                    '''cas où la pile est en surtension'''
+                    if prod/100*self.PROD_MAX > self.PROD_NOR:
+                        prix = 10000*(1-100/prod)/1700 + self.COUT_NOR
+                        '''cas normal'''
+                    else:
+                        prix = self.COUT_NOR*prod/100*self.PROD_MAX/6
+                        '''s'il reste suffisamment de capacité'''
+                else:
+                    prod = consigne
+                    '''cas où la pile est en surtension'''
+                    if prod/100*self.PROD_MAX > self.PROD_NOR:
+                        prix = 10000*(1-100/prod)/1700 + self.COUT_NOR
+                        '''cas normal'''
+                    else:
+                        prix = self.COUT_NOR*prod/100*self.PROD_MAX/6
+            prod = - prod #on déstocke donc la production est négative
+        
+        return (prod, prix)
     
     def simulation_destockage(self):
     
