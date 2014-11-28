@@ -12,18 +12,18 @@ class ParcMagasins (Utilitaire) : # des commerces de centre ville aux petits sup
         self.effacement=0. # en %
         self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre
         self.nom=nom
-        self.production=[0. for i in range(0,1009)]
-        for i in range (0,1009):  #eteint entre 8h et 18h  864
-            if i>864 :   #magasins fermés le dimanche et entre 19h et 9h
-                self.production[i]=10. # en %
-            elif (i%144>54 and i%144<112) :
-                self.production[i]=100.
-            elif (i%144>=46 and i%144<54):
-                self.production[i] = self.production[i-1]+10
-            elif (i%144>=112 and i%144<120):  
-                self.production[i] = self.production[i-1]-10
-            else :
-                self.production[i]=10. #consommation des vitrines/frigo/etc...
+        jour=[10.0 for i in range(0,144)] #magasins fermés entre 19h et 9h, mais consommation des vitrines/frigo/etc...
+        for i in range(46,54):
+            jour[i]=jour[i-1]+10
+        for i in range(54,112):
+            jour[i]=100.
+        for i in range(112,120):
+            jour[i]=jour[i-1]-10
+        self.production=[]
+        for i in range(6):
+            self.production += jour
+        self.production += [10.0 for i in range(0,144)] #magasins fermés le dimanche
+        self.production
     
     def etatSuivant(self,consigne=0.,effacement=0.):
         pourcentage=self.production[Global.temps]
