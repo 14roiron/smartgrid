@@ -2,7 +2,7 @@
 from Equipement import Equipement
 class Stockage(Equipement):
 
-	def __init__(self,nom="Stockage", capacite = 50000., prop = 1./2., cout=2., prod = 20.):
+	def __init__(self,nom="Stockage", capacite = 10000., prop = 1./2., cout=2., prod = 20.):
 		self.capacite = capacite
 		self.reste = self.capacite*prop #pas un pourcentage
 		self.cout = cout

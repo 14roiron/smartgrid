@@ -12,7 +12,7 @@ class ParcEolien(Equipement):
 	nbParc=0
 
 	"""Constructeur de parc d'éolienne. Par défaut Eolienne 5 kW"""	
-	def __init__(self,nom="",n=10,eolienne="eolienne5",meteoVent=Global.meteo1):
+	def __init__(self,nom="",n=5., eolienne="eolienne5", meteoVent=Global.meteo1):
 		
 		ParcEolien.nbParc += 1
         
