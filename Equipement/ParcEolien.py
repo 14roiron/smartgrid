@@ -64,8 +64,6 @@ class ParcEolien(Equipement):
 		return(0,self.prevision()[0],0,self.prevision()[1],(self.PROD_MAX/6)*100)
 
 	def etatSuivant(self, consigne=100, effacement=0):
-		if (consigne/100)*self.PROD_MAX<self.prevision()[0]:		
-			self.nbEolienne = int(self.nbEolienne*(self.prevision()[0]/self.PROD_MAX))
 		
 		self.activite = self.prevision()[0]/self.PROD_MAX
 
