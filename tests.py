@@ -24,24 +24,24 @@ Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStoc
 print len(Global.meteo2)
 while Global.temps < 1*24*7: #boucle principale
 
-    consigne=[100 for i in range(len(ville.equipProduction))]
-    consigne_stock=[100 for i in (range(len(ville.equipStockage)))]
-    consigne_conso=[100 for i in (range(len(ville.equipConso)))]
+    consigne=[100. for i in range(len(ville.equipProduction))]
+    consigne_stock=[100. for i in (range(len(ville.equipStockage)))]
+    consigne_conso=[100. for i in (range(len(ville.equipConso)))]
     
     for i in range(len(consigne)):
-        #print i.nom
-        ville.equipProduction[i].etatSuivant(consigne[i],0)
+        
+        ville.equipProduction[i].etatSuivant(consigne[i],0.)
     
     for i in range(len(consigne_stock)):
-        #print i.nom
-        ville.equipStockage[i].etatSuivant(consigne_stock[i],0)
+        
+        ville.equipStockage[i].etatSuivant(consigne_stock[i],0.)
     
     for i in range(len(consigne_conso)):
-        #print i.nom
-        ville.equipConso[i].etatSuivant(0,consigne_conso[i])
+        
+        ville.equipConso[i].etatSuivant(0.,consigne_conso[i])
     
 
-    Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso,ville.equipStockage, 0)        
+    Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, 0)        
     Global.tempsinc()#temps+=1
     print Global.temps
     
