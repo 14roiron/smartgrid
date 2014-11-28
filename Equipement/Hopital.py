@@ -14,13 +14,13 @@ class Hopital(Equipement):
         self.effacement = 0.
         self.temps_effa = 0 # temps pendant lequel l'hôpital s'est effacé
         self.temps_dernier_effa = 0 # temps écoulé depuis le dernier effacement
-        self.cout = 2. # coût arbitraire, de l'ordre de celui de 100 maisons : on efface l'hôpital le moins souvent possible
+        self.cout = 10. # coût arbitraire, de l'ordre de celui de 100 maisons : on efface l'hôpital le moins souvent possible
         
 
     def simulation(self):
-        prod_min = self.production[Global.temps + 1] # pas d'effacement
+        prod_min = self.production[Global.temps + 1] # pas d'effacement 
         if (self.temps_effa >= 3 or self.temps_dernier_effa <18):  # on ne peut pas effacer l'hôpital pendant plus de 30 minutes et il faut attendre 3h avant de l'effacer de nouveau
-            prod_max = prod_min
+            prod_max = prod_min                                    #j'aime l'idée
             cout_max = 0
         else:
             prod_max = self.production[Global.temps + 1] - self.EFFA_MAX/self.PROD_MAX*100
