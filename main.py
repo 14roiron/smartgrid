@@ -97,7 +97,7 @@ while Global.temps < 6*24*7-1: #boucle principale
                prod_min = - conso_max = conso sans effacement ;
                prod_max = - conso_min = conso avec effacement ; => cout_max = cout pour effacer
                effacement = prod_max - prod_min 
-               attention prod_min = equipement.activite = -conso
+               attention prod_min  = -conso
             '''
             if consigne_stock == stock_max : #le stockage ne suffit plus
                 while (abs(prod_provisoire-conso_future)/max(conso_future,1.) > 2./100. and prod_provisoire < conso_future and consigne_conso != conso_min):
