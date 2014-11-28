@@ -28,13 +28,13 @@ class ParcBatterieLithiumIon:
         '''énergie stockée dans le parc en kWh'''
         self.reste = self.capacite*prop #pas un pourcentage
         '''production maximale en kW'''
-        self.PROD_MAX = 23.*self.nombre
+        self.PROD_MAX = 24.*self.nombre
         self.COUT_MAX = 0.7
         '''production normale en kW'''
         self.PROD_NOR = 20.*self.nombre
         self.COUT_NOR = 0.1
         '''production minimale en kW'''
-        self.PROD_MIN = 15.*self.nombre
+        self.PROD_MIN = 16.*self.nombre
         self.COUT_MIN = 0.1
         '''Les prix sont en €/kWh'''
         
@@ -190,7 +190,7 @@ class ParcBatterieLithiumIon:
     def calculPrix(self, activite):
         '''cas surtension'''
         if abs(activite)/100*self.PROD_MAX > self.PROD_NOR:
-            prix = ((self.COUT_MAX-self.COUT_NOR)*activite/100 + self.COUT_NOR)*self.PROD_MAX/6
+            prix = ((self.COUT_MAX-self.COUT_NOR)*(activite/100)^100 + self.COUT_NOR)*self.PROD_MAX/6
             '''cas normal'''
         else:
             prix = self.COUT_NOR*activite/100*self.PROD_MAX/6
