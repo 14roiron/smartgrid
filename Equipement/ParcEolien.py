@@ -65,7 +65,7 @@ class ParcEolien(Equipement):
 
 	def etatSuivant(self, consigne=100, effacement=0):
 		
-		self.activite = self.prevision()[0]/self.PROD_MAX
+		self.activite = (self.prevision()[0]/self.PROD_MAX)*100
 
 	def contrainte(self):
 		return True
