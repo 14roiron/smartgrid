@@ -41,7 +41,7 @@ class ParcSolaire(Equipement):
     
     def calculActivite(self,temps):
         """formule de test, lien avec les données météo à faire"""
-        return int(self.meteo[temps]["GHI"])+1
+        return self.meteo[temps]["GHI"])*8./100.
         
 #pour les tests
 if __name__=='__main__':
