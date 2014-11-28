@@ -8,7 +8,7 @@ from math import *
     production = - consommation ; 
     prod_min = - conso_max = conso sans effacement ;
     prod_max = - conso_min = conso avec effacement ; => cout_max = cout pour effacer
-    effacement = prod_max - prod_min 
+    effacement = prod_max - prod_min --> faux ?
     attention prod_min = equipement.activite = -conso
 '''
 
@@ -45,6 +45,6 @@ class ParcMaison (Utilitaire) :
             return (0.,-p/100.*self.PROD_MAX*(80./1000./6.)*self.nombre)
     
     def simulation(self):
-        (prod_min,cout_min)=self.prevision(0.,0.)  
-        (prod_max,cout_max)=self.prevision(0.,100.) 
+        (prod_min,cout_min)=self.prevision(-2.0,0.)  
+        (prod_max,cout_max)=self.prevision(0.43*self.nombre-self.EFFA_MAX,100.)  #minimum de la conso*nombre de maisons - effacement max 
         return(prod_min,prod_max,cout_min,self.cout,cout_max)      
