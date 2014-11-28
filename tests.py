@@ -143,7 +143,7 @@ while Global.temps < 6*24*7: #boucle principale
     ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
     print effacement_actuel
     '''envoie des consignes et effacements pour la prochaine étape :) '''
-)
+
     for i in range(len(consigne)):
         #print i.nom
         ville.equipProduction[i].etatSuivant(consigne[i],0)
