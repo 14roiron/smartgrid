@@ -6,17 +6,17 @@ class Equipement:
 		self.PROD_MAX=prod
 		self.activite=activite
 		self.EFFA_MAX=effa
-		self.effacement=0
-		self.cout=0
+		self.effacement=0.
+		self.cout=0.
 	
-	def prevision(self,consigne=0,effacement=0):
+	def prevision(self,consigne=0.,effacement=0.):
 		""" renvoie le tuple (production prévue, coût prévu) pour la consigne donnée"""
-		return (0,0)
+		return (0.,0.)
 	
 	def simulation(self):
 		"""renvoie le tuple (prod minimale, prod maximale, coût minimal, coût stable, coût maximal)
 		pour l'étape suivante"""
-		return (0,0,0,0,0)
+		return (0.,0.,0.,0.,0.)
 	
 	def etat_Suivant(self,consigne=0,effacement=0):
 		"""modifie les attributs à partir de la consigne"""
