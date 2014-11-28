@@ -20,6 +20,7 @@ ville = Ville()
 temps=0 #t=0 -> Lun 00h00
 Global.db.vide_table()
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStockage, 0)
+Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, 0)      
 #print len(Global.meteo1)
 print len(Global.meteo2)
 while Global.temps < 1*24*7: #boucle principale
