@@ -14,47 +14,20 @@ from Utilitaire.BaseDeDonnees import BaseDeDonnees
 
 """Import de la base de données"""
 
-
 """initialisation de la Ville dans l'objet Ville"""
 ville = Ville()
 
 temps=0 #t=0 -> Lun 00h00
-
-def ind_eqpascher(liste,consigne): #pour prod MAX !! indice de l'equipement le moins cher, liste comme simulations
-
-    i=0
-    cout_min = liste[0][4]
-    for j in range (1,len(liste)):
-        if (liste[j][4] < cout_min and consigne[j] != liste[j][1]): #si moins cher et pas encore mis au max
-            i=j
-    return i
-
-def ind_eqpascher2(liste,consigne): #pour prod MIN !! indice de l'equipement le moins cher, liste comme simulations
-    i=0
-    cout_min = liste[0][3]
-    for j in range (1,len(liste)):
-        if (liste[j][3] < cout_min and consigne[j] != liste[j][0]): #si moins cher et pas encore mis au max
-            i=j
-    return i
-
-
+Global.db.vide_table()
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, 0)
 #print len(Global.meteo1)
-#print len(Global.meteo2)
+print len(Global.meteo2)
 while Global.temps < 6*24*7: #boucle principale
-    prod_actuelle = sum(i.activite*i.PROD_MAX for i in ville.equipProduction)
-    conso_future = sum(i.activite*i.PROD_MAX for i in ville.equipConso)
 
-    diff = conso_future-prod_actuelle # différence conso-production actuelle
-    
-    effacement_actuel = 0.
-    
-    consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
-    simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
-    
-    consigne_stock=[i.activite for i in ville.equipStockage] # "" de stockage
-    simulations_stock=[i.simulation() for i in ville.equipStockage]
-    
+    consigne=[100 for i in range(len(ville.equipProduction))]
+    consigne_stock=[100 for i in (range(len(ville.equipStockage)))]
+    consigne_conso=[100 for i in (range(len(ville.equipConso)))]
+
     consigne_conso=[0 for i in range(ville.nombreEquipementConso)] # "" de consommation
     simulations_conso=[i.simulation() for i in ville.equipConso]
 
@@ -143,6 +116,7 @@ while Global.temps < 6*24*7: #boucle principale
     ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
     print effacement_actuel
     '''envoie des consignes et effacements pour la prochaine étape :) '''
+
 
     for i in range(len(consigne)):
         #print i.nom

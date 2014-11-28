@@ -10,7 +10,7 @@ class ParcUsine(Equipement):
         self.PROD_MAX=prod*self.nombre #en kW, c'est une puissance instantanée
         self.EFFA_MAX=effa*self.nombre
         self.activite=activite
-        self.effacement=0.0
+        self.effacement=0.
         self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre
         self.nom=nom
         
@@ -41,7 +41,7 @@ class ParcUsine(Equipement):
     def prevision(self,consigne=0.,effacement=0.):
         p=self.production[(Global.temps+1)%144]
         if p>=-effacement*self.EFFA_MAX/self.PROD_MAX:
-            return (p+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.0*self.EFFA_MAX*(80./1000./6.)*self.nombre)
+            return (p+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre)
         else :
             return (0.,-p/100.*self.PROD_MAX*(80./1000./6.)*self.nombre)
     
