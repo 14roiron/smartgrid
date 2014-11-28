@@ -48,7 +48,10 @@ class ParcTurbineAGaz:
         self.cout=self.activite/100.*self.PROD_MAX*(80./1000./6.)*self.nombre
 if __name__=="__main__":
     a=ParcTurbineAGaz()
-    a.etatSuivant(100, 100)
+    #a.etatSuivant(100, 100)
     a.simulation()
     print a.activite
+    a.etatSuivant(100, 100)
+    print a.activite
+    print a.prevision(100, 100)
     #bordel le code est faux il devrait mettre au moins une demi-heure pour faire 0-100%
