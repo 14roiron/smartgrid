@@ -142,6 +142,7 @@ while Global.temps < 6*24*7-1: #boucle principale
                     prod_provisoire -= (equip.activite - simulations_stock[ind][0])/100./10.*equip.PROD_MAX
                     
     ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
+    ville.equipProduction[0].effacement = ecart
     ''' print effacement_actuel'''
     '''envoie des consignes et effacements pour la prochaine étape :) '''
 

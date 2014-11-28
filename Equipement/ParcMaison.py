@@ -19,7 +19,7 @@ class ParcMaison (Utilitaire) :
         self.EFFA_MAX=effa*self.nombre # en kWglobal
         self.activite=activite
         self.effacement=0. # en %
-        self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre
+        self.cout=self.EFFA_MAX*(80./1000./6.)*self.nombre #a retravailler
         self.nom=nom
         self.production=[]
         for i in range(0,721):
@@ -48,4 +48,9 @@ class ParcMaison (Utilitaire) :
     def simulation(self):
         (prod_min,cout_min)=self.prevision(0.,0.)  
         (prod_max,cout_max)=self.prevision(0.,100.)
-        return(prod_min,prod_max,cout_min,self.cout,cout_max)      
+        return(prod_min,prod_max,cout_min,self.cout,cout_max)   
+    
+if __name__ == "__main__":
+    maison = ParcMaison()
+    print maison.cout
+   
