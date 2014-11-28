@@ -17,9 +17,7 @@ si c'est possible elle stockera gentiment une puissance de abs(consigne)/100 * P
 
 #chocolatine
 
-(self,nom="eclairage_public",prod=-0.112,effa=0.,activite=0,nb=600)
-
-class ParcBatterieLithiumion:
+class ParcBatterieLithiumIon:
     
     def __init__(self, nom="un petit parc", nombre = 10, prop = 0.5, activite=0.): #activité en %
         self.nom=nom
