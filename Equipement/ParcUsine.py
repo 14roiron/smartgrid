@@ -24,10 +24,12 @@ class ParcUsine(Equipement):
         jour[118] = 50.
         jour[119] = 25. 
         self.production = []
-        for i in range(7):
+        for i in range(6):
             self.production += jour
+        self.production+=[0. for i in range(144)] #usine fermée le dimanche
         self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
     
+
     def etatSuivant(self,consigne=0.,effacement=0.):
         pourcentage=self.production[Global.temps%144] #% de la production à l'étape actuelle, >0
         if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #ie pourcentage * PROD_MAX <= -eff * EFFA_MAX ie la consommation est plus grande que l'effacement demandé
