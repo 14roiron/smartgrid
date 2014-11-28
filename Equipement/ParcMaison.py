@@ -26,6 +26,7 @@ class ParcMaison (Utilitaire) :
             self.production.append(50.*(1.+cos(pi/144.*(i+30.))*cos(3.*(pi/144.*(i+30.))))) #pourcentage qui multiplié par self.PROD_MAX (<0) donne la production (<0)
         for i in range(721,1008):
             self.production.append(50.*(1.+cos(pi/72.*(i-792.))))
+        self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
     
     def etatSuivant(self, consigne=0., effacement=0.):
         pourcentage = self.production[Global.temps] #% de la production à l'étape actuelle, >0
@@ -41,7 +42,7 @@ class ParcMaison (Utilitaire) :
         pourcentage=self.production[(Global.temps+1)%1008]
         if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #si la consommation est plus grande que l'effacement demandé
             return (pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre)
-        else : #sinon, on considère l'effacement maximal possible
+        else: #sinon, on considère l'effacement maximal possible
             return (0.,-pourcentage/100.*self.PROD_MAX*(80./1000./6.)*self.nombre)
     
     def simulation(self):
