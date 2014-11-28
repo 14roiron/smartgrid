@@ -41,11 +41,7 @@ class ParcSolaire(Equipement):
     
     def calculActivite(self,temps):
         """formule de test, lien avec les données météo à faire"""
-        max = 0.
-        for i in range(len(self.meteo)):
-            if self.meteo[i]["GHI"] > max:
-                max = self.meteo[i]["GHI"]
-        return (self.meteo[temps]["GHI"])/max*100.*80./100. #loi de murphy, on a env. 80% de la production imaginée
+        return (self.meteo[temps]["GHI"])/1000.*80./100.*100. #loi de murphy, on a env. 80% de la production imaginée, on divise par 1000 W . m-2, intensité de ref
         
 #pour les tests
 if __name__=='__main__':
