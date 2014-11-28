@@ -181,7 +181,7 @@ class ParcBatterieLithiumIon:
 
     #pour les tests
 if __name__=='__main__':
-    a = ParcBatterieLithiumion(activite=100, prop=1/5)
+    a = ParcBatterieLithiumIon(activite=100, prop=1/5)
     print(a.simulation_stockage())
     print(a.simulation_destockage())
     a.etat_suivant(6)
