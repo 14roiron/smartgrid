@@ -8,6 +8,9 @@ class Stockage(Equipement):
 		self.cout = cout
 		self.PROD_MAX=prod
 		self.activite = 0.
+		self.EFFA_MAX = 0.
+		self.effacement = 0.
+		self.nom = nom
 
 	def etatSuivant(self, consigne=0., effacement=0.):
 		self.activite = consigne

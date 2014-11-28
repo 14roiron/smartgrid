@@ -19,11 +19,12 @@ class BaseDeDonnees:
         cur.close()
         return l
     
-    def enregistrerID(self, listeProd, listeConso, numTest):
+    def enregistrerID(self, listeProd, listeConso, listeStockage, numTest):
         cur = self.database.cursor()
         IDObjet = 0
         liste = list(listeProd)
         liste += listeConso
+        liste += listeStockage
         for equipement in liste:
             sql = """INSERT INTO ID (IDObjet, Nom, Pmax, Emax, numTest)
                      VALUES (%s, %s, %s, %s, %s)"""
@@ -40,11 +41,12 @@ class BaseDeDonnees:
                 print e
         cur.close()
     
-    def enregistrerEtape(self, listeProd, listeConso, numTest):
+    def enregistrerEtape(self, listeProd, listeConso, listeStockage, numTest):
         cur = self.database.cursor()
         IDObjet = 0
         liste = list(listeProd)
         liste += listeConso
+        liste += listeStockage
         for equipement in liste:
             sql = """INSERT INTO Etat (t, IDObjet, P, E, C, numTest)
                      VALUES (%s, %s, %s, %s, %s, %s)"""
