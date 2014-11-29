@@ -3,6 +3,9 @@ import MySQLdb
 import matplotlib.pyplot as plt
 from Ville import Ville
 from Utilitaire import heure
+
+#nécéssite matplotlib!!!!
+
 assert __name__ == '__main__'
 numtest=0
 
