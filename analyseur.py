@@ -2,13 +2,17 @@
 import MySQLdb
 import matplotlib.pyplot as plt
 from Ville import Ville
-from Utilitaire import heure
+from Utilitaire.heure import Utilitaire
 from numpy import where
 
 #nécéssite matplotlib!!!!
 
 assert __name__ == '__main__'
 numtest=0
+#pas pour l'affichage des légendes
+pas=24#2H
+export=True
+affichage=False
 
 database = MySQLdb.connect(host="localhost", user = "root", passwd = "migse", db = "Smartgrid1")
 cur = database.cursor()
@@ -36,6 +40,11 @@ for i in range(len(ID)):
        
 #on a besoin de séparer les consos/prods/stocks
 ville=Ville()
+
+
+abscissea=list(range(len(etat)))
+abscisseb=["J{}:H{}".format(Utilitaire.calculDate(i)["Jour"],Utilitaire.calculDate(i)["Heure"]) if (i%12 == 0) else "" for i in range(len(etat))]
+
 color=["blue","green","red","cyan","magenta","yellow"]
 #génération des graphs individuels:
 #je vais expliquer le premier les autres sont identique, soit ils concernent d'autre objets soit on ne sépare pas les graphs
@@ -50,6 +59,10 @@ for i in range(ville.nombreEquipementProduction):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("production")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphIndivProd.png', bbox_inches='tight')
 
 f,a=plt.subplots(ville.nombreEquipementConso, sharex=True)
 for k in range(ville.nombreEquipementConso):
@@ -61,8 +74,13 @@ for k in range(ville.nombreEquipementConso):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("consomation")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphIndivConso.png', bbox_inches='tight')
 
 
+"""
 f,a=plt.subplots(ville.nombreEquipementStockage, sharex=True)
 a=[a,]
 for k in range(ville.nombreEquipementStockage):
@@ -74,7 +92,12 @@ for k in range(ville.nombreEquipementStockage):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("stockage")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphIndivStockage.png', bbox_inches='tight')
 
+"""
 #tous sur le même graphe
 f,a=plt.subplots(sharex=True)
 for i in range(ville.nombreEquipementProduction):
@@ -85,6 +108,11 @@ for i in range(ville.nombreEquipementProduction):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("production")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphUniProd.png', bbox_inches='tight')
+
           
 f,a=plt.subplots(sharex=True)
 for k in range(ville.nombreEquipementConso):
@@ -96,7 +124,14 @@ for k in range(ville.nombreEquipementConso):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("consomation")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphUniConso.png', bbox_inches='tight')
+
+
 """
+
 f,a=plt.subplots(sharex=True)
 for k in range(ville.nombreEquipementStockage):
     i=k+ville.nombreEquipementProduction+ville.nombreEquipementConso
@@ -107,6 +142,11 @@ for k in range(ville.nombreEquipementStockage):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("Stockage")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphUniStockage.png', bbox_inches='tight')
+
 """
 #tous sur le même graphe en ajout
 f,a=plt.subplots(sharex=True)
@@ -121,6 +161,12 @@ for i in range(ville.nombreEquipementProduction):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("production")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphSommeProd.png', bbox_inches='tight')
+
+
 
 f,a=plt.subplots(sharex=True)
 for i in range(ville.nombreEquipementConso):
@@ -136,6 +182,11 @@ for i in range(ville.nombreEquipementConso):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("Consomation")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphSommeConso.png', bbox_inches='tight')
+
 """
 f,a=plt.subplots(sharex=True)
 for i in range(ville.nombreEquipementConso):
@@ -151,13 +202,18 @@ for i in range(ville.nombreEquipementConso):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("Stockage")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphSommeStock.png', bbox_inches='tight')
+
 """
 
 #affichage de la différence:
 f,a=plt.subplots(sharex=True)
 c=ville.nombreEquipementConso
 b=ville.nombreEquipementProduction
-y1=[sum([-etat[j][l]*ID[l]["Pmax"] for l in range(b)]) for j in range(len(etat))]
+y1=[sum([etat[j][l]*ID[l]["Pmax"] for l in range(b)]) for j in range(len(etat))]
 y0=[sum([etat[j][l]*ID[l]["Pmax"] for l in range(b,b+c)]) for j in range(len(etat))]
 a.plot(list(range(len(etat))), y0, linewidth=1, label="production",color=color[1%6])
 a.plot(list(range(len(etat))), y1, linewidth=1, label="conso",color=color[2%6])
@@ -168,6 +224,13 @@ a.axis(xmin=0, xmax=len(etat))
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("difference")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphDifferenceC.png', bbox_inches='tight')
+
+
+
 
 #affichage de la différence en mode somme:
 f,a=plt.subplots(sharex=True)
@@ -181,8 +244,14 @@ a.axis(xmin=0, xmax=len(etat))
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("difference")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphDifference.png', bbox_inches='tight')
 
-plt.show()
+
+if affichage==True:
+    plt.show()
 
 
 

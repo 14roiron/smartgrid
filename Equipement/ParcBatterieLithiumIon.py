@@ -38,6 +38,12 @@ class ParcBatterieLithiumIon:
         self.COUT_MIN = 0.1
         '''Les prix sont en €/kWh'''
         
+        '''EFFACEMENT minimale en kW'''
+        self.EFFA_MAX = self.PROD_MAX
+        self.effacement=0
+
+        '''Les prix sont en €/kWh'''
+        
         '''l'activité est en %'''
         self.activite = activite
         '''les compteurs permet d'éviter une trop longue mise en surtension. Au bout
