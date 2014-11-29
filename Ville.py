@@ -18,10 +18,10 @@ class Ville:
 		self.equipProduction = [ParcSolaire(nom="PVmeteo1",prod=250.,activite=50.,nb=10.,meteo=meteo1),\
 		                        ParcSolaire("PVmeteo2",prod=250.,activite=50.,nb=10.,meteo=meteo1),\
 		                        ParcTurbineAGaz("turbine"),\
-		                        ParcEolien(nom="eolienne,meteo1",n=5., eolienne="eolienne5", meteoVent=meteo1),\
+		                        ParcEolien(nom="eolienne,meteo1",n=500., eolienne="eolienne5", meteoVent=meteo1),\
 		                        ParcEolien(nom="eolienne,meteo2",n=5., eolienne="eolienne1500", meteoVent=meteo2)]
 		self.equipConso = [ParcUsine38("Usine2-38"),\
-						   ParcMaison("parcmaison1"),\
+						   ParcMaison("parcmaison1",nombre=1200),\
 		                   ParcUsine("Usine1"),\
 		                   ParcEclairagePublic(),Hopital(),ParcMagasins()]
 		self.equipStockage = [Stockage()]#,ParcBatterieLithiumIon()]

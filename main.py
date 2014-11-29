@@ -17,6 +17,9 @@ from Utilitaire.BaseDeDonnees import BaseDeDonnees
 
 """initialisation de la Ville dans l'objet Ville"""
 ville = Ville()
+numTest=0
+duree=1*24*6
+
 
 
 def ind_eqpascher(liste,consigne): #pour prod MAX !! indice de l'equipement le moins cher, liste comme simulations
@@ -36,10 +39,10 @@ def ind_eqpascher2(liste,consigne): #pour prod MIN !! indice de l'equipement le 
             i=j
     return i
 
-Global.db.vide_table()
-Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStockage, 0)
-Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, 0) 
-while Global.temps < 1*24*7-1: #boucle principale
+#Global.db.vide_table()
+Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)
+Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest) 
+while Global.temps < duree-1: #boucle principale
     prod_actuelle = sum(i.activite/100.*i.PROD_MAX for i in ville.equipProduction)
     conso_future = sum(i.production[Global.temps + 1]/100.*i.PROD_MAX for i in ville.equipConso)
 
@@ -156,7 +159,7 @@ while Global.temps < 1*24*7-1: #boucle principale
         ville.equipConso[i].etatSuivant(0.,consigne_conso[i])
     
 
-    Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, 0)        
+    Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)        
     Global.tempsinc()#temps+=1
     print Global.temps
     
