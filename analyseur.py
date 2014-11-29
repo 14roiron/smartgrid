@@ -3,6 +3,7 @@ import MySQLdb
 import matplotlib.pyplot as plt
 from Ville import Ville
 from Utilitaire import heure
+from numpy import where
 
 #nécéssite matplotlib!!!!
 
@@ -35,7 +36,7 @@ for i in range(len(ID)):
        
 #on a besoin de séparer les consos/prods/stocks
 ville=Ville()
-
+color=["blue","green","red","cyan","magenta","yellow"]
 #génération des graphs individuels:
 #je vais expliquer le premier les autres sont identique, soit ils concernent d'autre objets soit on ne sépare pas les graphs
 #on génère une suite d'objets plot et dans chaque plot on génère deux liste, celle des instants t list(range(len(Etat)) 
@@ -88,7 +89,6 @@ plt.title("production")
 f,a=plt.subplots(sharex=True)
 for k in range(ville.nombreEquipementConso):
     i=k+ville.nombreEquipementProduction
-    print i
     a.plot(list(range(len(etat))), [-etat[j][i]*ID[i]["Pmax"] for j in range(len(etat))], linewidth=1, label=ID[i]["nom"].decode('unicode-escape'))
     handles, labels = a.get_legend_handles_labels()
     a.legend(handles, labels)  
@@ -96,7 +96,91 @@ for k in range(ville.nombreEquipementConso):
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("consomation")
-          
+"""
+f,a=plt.subplots(sharex=True)
+for k in range(ville.nombreEquipementStockage):
+    i=k+ville.nombreEquipementProduction+ville.nombreEquipementConso
+    a.plot(list(range(len(etat))), [-etat[j][i]*ID[i]["Pmax"] for j in range(len(etat))], linewidth=1, label=ID[i]["nom"].decode('unicode-escape'))
+    handles, labels = a.get_legend_handles_labels()
+    a.legend(handles, labels)  
+    a.axis(xmin=0, xmax=len(etat))
+plt.ylabel("puissance kW")
+plt.xlabel('Temps')
+plt.title("Stockage")
+"""
+#tous sur le même graphe en ajout
+f,a=plt.subplots(sharex=True)
+for i in range(ville.nombreEquipementProduction):
+    y1=[sum([etat[j][l]*ID[l]["Pmax"] for l in range(i+1)]) for j in range(len(etat))]
+    y0=[sum([etat[j][l]*ID[l]["Pmax"] for l in range(i)]) for j in range(len(etat))]
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[i]["nom"].decode('unicode-escape'),color=color[i%6])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[i%6], interpolate=True)
+    handles, labels = a.get_legend_handles_labels()
+    a.legend(handles, labels)  
+    a.axis(xmin=0, xmax=len(etat))
+plt.ylabel("puissance kW")
+plt.xlabel('Temps')
+plt.title("production")
+
+f,a=plt.subplots(sharex=True)
+for i in range(ville.nombreEquipementConso):
+    k=i+ville.nombreEquipementProduction
+    b=ville.nombreEquipementProduction
+    y1=[sum([-etat[j][l]*ID[l]["Pmax"] for l in range(b,k+1)]) for j in range(len(etat))]
+    y0=[sum([-etat[j][l]*ID[l]["Pmax"] for l in range(b,k)]) for j in range(len(etat))]
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[k]["nom"].decode('unicode-escape'),color=color[i%6])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[i%6])
+    handles, labels = a.get_legend_handles_labels()
+    a.legend(handles, labels)  
+    a.axis(xmin=0, xmax=len(etat))
+plt.ylabel("puissance kW")
+plt.xlabel('Temps')
+plt.title("Consomation")
+"""
+f,a=plt.subplots(sharex=True)
+for i in range(ville.nombreEquipementConso):
+    k=i+ville.nombreEquipementProduction+ville.nombreEquipementConso
+    b=ville.nombreEquipementProduction+ville.nombreEquipementConso
+    y1=[sum([-etat[j][l]*ID[l]["Pmax"] for l in range(b,k+1)]) for j in range(len(etat))]
+    y0=[sum([-etat[j][l]*ID[l]["Pmax"] for l in range(b,k)]) for j in range(len(etat))]
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[k]["nom"].decode('unicode-escape'),color=color[i%6])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[i%6])
+    handles, labels = a.get_legend_handles_labels()
+    a.legend(handles, labels)  
+    a.axis(xmin=0, xmax=len(etat))
+plt.ylabel("puissance kW")
+plt.xlabel('Temps')
+plt.title("Stockage")
+"""
+
+#affichage de la différence:
+f,a=plt.subplots(sharex=True)
+c=ville.nombreEquipementConso
+b=ville.nombreEquipementProduction
+y1=[sum([-etat[j][l]*ID[l]["Pmax"] for l in range(b)]) for j in range(len(etat))]
+y0=[sum([etat[j][l]*ID[l]["Pmax"] for l in range(b,b+c)]) for j in range(len(etat))]
+a.plot(list(range(len(etat))), y0, linewidth=1, label="production",color=color[1%6])
+a.plot(list(range(len(etat))), y1, linewidth=1, label="conso",color=color[2%6])
+a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[3%6])
+handles, labels = a.get_legend_handles_labels()
+a.legend(handles, labels)  
+a.axis(xmin=0, xmax=len(etat))
+plt.ylabel("puissance kW")
+plt.xlabel('Temps')
+plt.title("difference")
+
+#affichage de la différence en mode somme:
+f,a=plt.subplots(sharex=True)
+c=ville.nombreEquipementConso
+b=ville.nombreEquipementProduction
+y1=[sum([etat[j][l]*ID[l]["Pmax"] for l in range(c+b)]) for j in range(len(etat))]
+a.plot(list(range(len(etat))), y1, linewidth=1, label="difference",color=color[1%6])
+handles, labels = a.get_legend_handles_labels()
+a.legend(handles, labels)  
+a.axis(xmin=0, xmax=len(etat))
+plt.ylabel("puissance kW")
+plt.xlabel('Temps')
+plt.title("difference")
 
 plt.show()
 
