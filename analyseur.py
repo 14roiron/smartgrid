@@ -8,9 +8,10 @@ from numpy import where
 #nécéssite matplotlib!!!!
 
 assert __name__ == '__main__'
+
 numtest=1
 #pas pour l'affichage des légendes
-pas=12*6#6H
+pas=2*6#6H
 export=True
 affichage=False
 

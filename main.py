@@ -17,7 +17,7 @@ from Utilitaire.BaseDeDonnees import BaseDeDonnees
 
 """initialisation de la Ville dans l'objet Ville"""
 ville = Ville()
-numTest=0
+numTest=1
 duree=1*24*6
 
 
