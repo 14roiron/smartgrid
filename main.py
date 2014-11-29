@@ -18,7 +18,6 @@ from Utilitaire.BaseDeDonnees import BaseDeDonnees
 """initialisation de la Ville dans l'objet Ville"""
 ville = Ville()
 
-temps=0 #t=0 -> Lun 00h00
 
 def ind_eqpascher(liste,consigne): #pour prod MAX !! indice de l'equipement le moins cher, liste comme simulations
 
@@ -40,9 +39,7 @@ def ind_eqpascher2(liste,consigne): #pour prod MIN !! indice de l'equipement le 
 Global.db.vide_table()
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStockage, 0)
 Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, 0) 
-#print len(Global.meteo1)
-#print len(Global.meteo2)
-while Global.temps < 6*24*7-1: #boucle principale
+while Global.temps < 1*24*7-1: #boucle principale
     prod_actuelle = sum(i.activite/100.*i.PROD_MAX for i in ville.equipProduction)
     conso_future = sum(i.production[Global.temps + 1]/100.*i.PROD_MAX for i in ville.equipConso)
 

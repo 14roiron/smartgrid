@@ -21,7 +21,11 @@ for row in cur.fetchall():
 
 #on génère une liste de liste
 #on a une liste correspondant à la consommation à chaque instant t de chaque équipement i
-etat=[[] for i in range(6*24*7)]
+cur.execute("""SELECT count( * )
+FROM `Etat`
+WHERE `IDObjet` =0""")
+nb=int(cur.fetchall()[0][0])
+etat=[[] for i in range(nb)]
 for i in range(len(ID)):
     cur.execute("SELECT * FROM Etat WHERE (numTest={} AND IDObjet={}) ORDER BY `Etat`.`t`".format(numtest,i))
     j=0
