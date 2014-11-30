@@ -78,7 +78,7 @@ plt.title("production")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,15)
-    f.savefig('resultats/graphIndivProdNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}IndivProd.png'.format(numtest), bbox_inches='tight')
 
 f,a=plt.subplots(ville.nombreEquipementConso, sharex=True)
 for k in range(ville.nombreEquipementConso):
@@ -93,7 +93,7 @@ plt.title("consomation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,15)
-    f.savefig('resultats/graphIndivConsoNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}IndivConso.png'.format(numtest), bbox_inches='tight')
 
 
 """
@@ -111,7 +111,7 @@ plt.title("stockage")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,15)
-    f.savefig('resultats/graphIndivStockageNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}IndivStockage.png'.format(numtest), bbox_inches='tight')
 
 """
 #tous sur le même graphe
@@ -127,7 +127,7 @@ plt.title("production")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
-    f.savefig('resultats/graphUniProdNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}UniProd.png'.format(numtest), bbox_inches='tight')
 
           
 f,a=plt.subplots(sharex=True)
@@ -143,7 +143,7 @@ plt.title("consomation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
-    f.savefig('resultats/graphUniConsoNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}UniConso.png'.format(numtest), bbox_inches='tight')
 
 
 """
@@ -161,7 +161,7 @@ plt.title("Stockage")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
-    f.savefig('resultats/graphUniStockageNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}UniStockage.png'.format(numtest), bbox_inches='tight')
 
 """
 #tous sur le même graphe en ajout
@@ -180,7 +180,7 @@ plt.title("production")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
-    f.savefig('resultats/graphSommeProdNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}SommeProd.png'.format(numtest), bbox_inches='tight')
 
 
 
@@ -201,7 +201,7 @@ plt.title("Consomation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
-    f.savefig('resultats/graphSommeConsoNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}SommeConso.png'.format(numtest), bbox_inches='tight')
 
 """
 f,a=plt.subplots(sharex=True)
@@ -221,7 +221,7 @@ plt.title("Stockage")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
-    f.savefig('resultats/graphSommeStockNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}SommeStock.png'.format(numtest), bbox_inches='tight')
 
 """
 
@@ -243,7 +243,7 @@ plt.title("difference")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
-    f.savefig('resultats/graphDifferenceCNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}DifferenceC.png'.format(numtest), bbox_inches='tight')
 
 
 
@@ -263,7 +263,7 @@ plt.title("difference")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
-    f.savefig('resultats/graphDifferenceNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}Difference.png'.format(numtest), bbox_inches='tight')
 
 
 #affichage des consignes en pourcents:
@@ -279,7 +279,7 @@ plt.title("production")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementProduction)
-    f.savefig('resultats/graphIndivConsigneProdNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}IndivConsigneProd.png'.format(numtest), bbox_inches='tight')
 
 #consignes de conso:
 f,a=plt.subplots(ville.nombreEquipementConso, sharex=True)
@@ -295,7 +295,7 @@ plt.title("consomation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementConso)
-    f.savefig('resultats/graphIndivConsigneConsoNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}IndivConsigneConso.png'.format(numtest), bbox_inches='tight')
 
 
 """
@@ -313,7 +313,7 @@ plt.title("stockage")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementStockage)
-    f.savefig('resultats/graphIndivConsigneStockageNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}IndivConsigneStockage.png'.format(numtest), bbox_inches='tight')
 
 """
 
@@ -336,7 +336,7 @@ plt.title("production")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementProduction)
-    f.savefig('resultats/graphIndivConsigneProdDiffNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}IndivConsigneProdDiff.png'.format(numtest), bbox_inches='tight')
 
 #consignes de conso:
 f,a=plt.subplots(ville.nombreEquipementConso, sharex=True)
@@ -356,7 +356,7 @@ plt.title("consomation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementConso)
-    f.savefig('resultats/graphIndivConsigneConsoDiffNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}IndivConsigneConsoDiff.png'.format(numtest), bbox_inches='tight')
 
 
 """
@@ -378,7 +378,7 @@ plt.title("consomation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementStockage)
-    f.savefig('resultats/graphIndivConsigneStockageNum{}.png'.format(numtest), bbox_inches='tight')
+    f.savefig('resultats/graphNum{}IndivConsigneStockage.png'.format(numtest), bbox_inches='tight')
 
 #"""
 
