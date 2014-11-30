@@ -1,5 +1,8 @@
 from BaseDeDonnees import BaseDeDonnees
 temps=0
+numtest=0
+duree=6*24
+
 db = BaseDeDonnees()
 meteo1 = db.importerMeteo("Semaine1")
 meteo2 = db.importerMeteo("Semaine2")

@@ -11,15 +11,28 @@ from Utilitaire.Global import meteo1
 from Utilitaire.Global import meteo2
 from Utilitaire.Global import meteoTest
 from Utilitaire.BaseDeDonnees import BaseDeDonnees
+from Utilitaire import Global
+import sys
+
 
 """Import de la base de données"""
 
-
+#commande main.py duree=24*6 nomdutest=0 datededébut=0
+analyseur=False
+if( len(sys.argv)>1):
+    Global.duree=eval(sys.argv[1])
+    
+if(len(sys.argv)>2):
+    Global.numtest=sys.argv[2]
+    analyseur=True
+if(len(sys.argv)>3):
+    Global.temps=eval(sys.argv[3])
 """initialisation de la Ville dans l'objet Ville"""
 ville = Ville()
-numTest=1
-duree=1*24*6
-
+numTest=Global.numtest
+Global.duree+=Global.temps#décalage si présence d'un offset
+duree=Global.duree
+    
 
 
 def ind_eqpascher(liste,consigne): #pour prod MAX !! indice de l'equipement le moins cher, liste comme simulations
@@ -39,9 +52,10 @@ def ind_eqpascher2(liste,consigne): #pour prod MIN !! indice de l'equipement le 
             i=j
     return i
 
-#Global.db.vide_table()
+Global.db.vide_table(numTest)
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)
-Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest) 
+Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)
+Global.db.enregistrerConsigne([0 for i in range(ville.nombreEquipementProduction)], [0 for i in range(ville.nombreEquipementConso)],[0 for i in range(ville.nombreEquipementStockage)], numTest) 
 while Global.temps < duree-1: #boucle principale
     prod_actuelle = sum(i.activite/100.*i.PROD_MAX for i in ville.equipProduction)
     conso_future = sum(i.production[Global.temps + 1]/100.*i.PROD_MAX for i in ville.equipConso)
@@ -158,10 +172,12 @@ while Global.temps < duree-1: #boucle principale
         
         ville.equipConso[i].etatSuivant(0.,consigne_conso[i])
     
-
+    Global.db.enregistrerConsigne(consigne, consigne_conso, consigne_stock, numTest)
     Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)        
     Global.tempsinc()#temps+=1
     print Global.temps
     
 
 print "ok!"
+if(analyseur):
+    execfile("analyseur.py")
