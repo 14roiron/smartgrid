@@ -131,10 +131,12 @@ class ParcBatterieLithiumIon:
                 prix_normal = self.calculPrix(activite)
             else:
                 prix_normal = prix_max
-        if prod_min > prod_max:
-            return (0.,0.,0.,0.,0.)
-        else:
-            return (-prod_min,-prod_max, prix_min, prix_normal, prix_max)
+       if prod_min > prod_max:
+            prod_max = prod_min
+            prix_max = prix_min
+            prix_normal = prix_min
+            
+        return (-prod_min,-prod_max, prix_min, prix_normal, prix_max)
     
     def simulation_stockage(self):
     
@@ -167,9 +169,12 @@ class ParcBatterieLithiumIon:
                 prix_normal = prix_max
                 
         if prod_min > prod_max:
-            return (0.,0.,0.,0.,0.)
-        else:
-            return (prod_min, prod_max, prix_min, prix_normal, prix_max)    
+            if prod_min > prod_max:
+            prod_max = prod_min
+            prix_max = prix_min
+            prix_normal = prix_min
+            
+        return (prod_min, prod_max, prix_min, prix_normal, prix_max)    
     
     def contraintes(self,consigne): #consigne en pourcentage
         
