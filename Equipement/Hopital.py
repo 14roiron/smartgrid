@@ -23,6 +23,7 @@ class Hopital(Equipement):
         if (self.temps_effa >= 3 or self.temps_dernier_effa < 18):  # on ne peut pas effacer l'hôpital pendant plus de 30 minutes et il faut attendre 3h avant de l'effacer de nouveau
             prod_max = prod_min                                     #j'aime l'idée
             cout_max = 0.
+            cout_stable = 0.
         else:
             prod_max = self.production[(Global.temps+1)%1008] + self.EFFA_MAX/self.PROD_MAX*100
             cout_max = self.EFFA_MAX*(80./1000./6.)
