@@ -42,6 +42,7 @@ for i in range(len(ID)):
     for row in cur.fetchall():
         etat[j].append(row[3]) 
         j+=1
+
         
 #liste des consignes
 cur.execute("""SELECT count( * )
@@ -55,6 +56,9 @@ for i in range(len(ID)):
     for row in cur.fetchall():
         consigne[j].append(row[3]) 
         j+=1
+etat=etat[:-1]
+
+
 #on a besoin de séparer les consos/prods/stocks
 ville=Ville()
 
@@ -270,7 +274,7 @@ if export==True:
 #affichage des consignes en pourcents:
 f,a=plt.subplots(ville.nombreEquipementProduction,sharex=True)
 for i in range(ville.nombreEquipementProduction):#en %.. *ID[i]["Pmax"]/100. pour les puissances
-    a[i].plot(list(range(len(etat))), [consigne[j][i] for j in range(len(etat))], "r", linewidth=1, label=ID[i]["nom"].decode('unicode-escape'))
+    a[i].plot(list(range(len(etat))), [consigne[j][i] for j in range(len(consigne))], "r", linewidth=1, label=ID[i]["nom"].decode('unicode-escape'))
     handles, labels = a[i].get_legend_handles_labels()
     a[i].legend(handles, labels)  
     a[i].axis(xmin=0, xmax=len(etat))

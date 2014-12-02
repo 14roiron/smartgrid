@@ -58,7 +58,7 @@ def ind_eqpascher2(liste,consigne): #pour prod MIN !! indice de l'equipement le 
 Global.db.vide_table(numTest)
 Global.db.enregistrerID(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)
 Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)
-Global.db.enregistrerConsigne([0 for i in range(ville.nombreEquipementProduction)], [0 for i in range(ville.nombreEquipementConso)],[0 for i in range(ville.nombreEquipementStockage)], numTest) 
+ 
 
 while Global.temps < duree-1: #boucle principale
     prod_actuelle = sum(i.activite/100.*i.PROD_MAX for i in ville.equipProduction)
@@ -187,7 +187,8 @@ while Global.temps < duree-1: #boucle principale
     Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)        
     Global.tempsinc()#temps+=1
     print Global.temps
-    
+Global.tempsinc()
+Global.db.enregistrerConsigne([0 for i in range(ville.nombreEquipementProduction)], [0 for i in range(ville.nombreEquipementConso)],[0 for i in range(ville.nombreEquipementStockage)], numTest)
 
 print "ok!"
 if(analyseur):
