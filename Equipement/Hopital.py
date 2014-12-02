@@ -20,7 +20,7 @@ class Hopital(Equipement):
 
     def simulation(self):
         prod_min = self.production[(Global.temps+1)%1008] # pas d'effacement 
-        if (self.temps_effa >= 3 or self.temps_dernier_effa < 18):  # on ne peut pas effacer l'hôpital pendant plus de 30 minutes et il faut attendre 3h avant de l'effacer de nouveau
+        if (self.temps_effa >= 3 or 0 < self.temps_dernier_effa < 18):  # on ne peut pas effacer l'hôpital pendant plus de 30 minutes et il faut attendre 3h avant de l'effacer de nouveau
             prod_max = prod_min                                     #j'aime l'idée
             cout_max = 0.
             cout_stable = 0.
