@@ -4,7 +4,7 @@ from Utilitaire.heure import Utilitaire
 from Utilitaire import Global
 
 class ParcEclairagePublic (Utilitaire) : 
-    def __init__(self,nom="eclairage_public",prod=-0.112,effa=0.112,activite=0,nombre=600): #consommation moyenne de environ 0,112 kW/hab avec 2hab/maison
+    def __init__(self,nom="eclairage_public",prod=-0.140,effa=0.112,activite=0,nombre=600): #consommation moyenne de environ 0,112 kW/hab avec 2hab/maison
         self.nombre=nombre
         self.PROD_MAX=prod*self.nombre  # consommation de 0.112 kW/hab pour l'éclairage en régime permanent
         self.EFFA_MAX=effa*self.nombre # en kW global -- effacement total possible
