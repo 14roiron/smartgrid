@@ -170,9 +170,9 @@ class ParcBatterieLithiumIon:
                 
         if prod_min > prod_max:
             if prod_min > prod_max:
-            prod_max = prod_min
-            prix_max = prix_min
-            prix_normal = prix_min
+                prod_max = prod_min
+                prix_max = prix_min
+                prix_normal = prix_min
             
         return (prod_min, prod_max, prix_min, prix_normal, prix_max)    
     

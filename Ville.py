@@ -23,7 +23,7 @@ class Ville:
 		self.equipConso = [ParcUsine38("Usine2-38"),\
 						   ParcMaison("parcmaison1",nombre=1200),\
 		                   ParcUsine("Usine1"),\
-		                   ParcEclairagePublic(),Hopital(),ParcMagasins()]
+		                   ParcEclairagePublic(nombre=2400),Hopital(),ParcMagasins()]
 		self.equipStockage = [Stockage()]#,ParcBatterieLithiumIon()]
 		self.nombreEquipementProduction = len(self.equipProduction)
 		self.nombreEquipementConso = len(self.equipConso)

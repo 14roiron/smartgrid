@@ -73,6 +73,7 @@ while Global.temps < duree-1: #boucle principale
     simulations_conso=[i.simulation() for i in ville.equipConso]
 
     if diff > 0.: #on consommera plus qu'on ne produit
+        print consigne
         max=sum(i.simulation()[1]/100.*i.PROD_MAX for i in ville.equipProduction) #capacite de production maximale à l'etat suivant
         print "max%s"%max
         print "consofutur%s"%conso_future
@@ -94,7 +95,6 @@ while Global.temps < duree-1: #boucle principale
         else: #on n'a pas suffisamment de production disponible
             for i in range (len(simulations)): # on met tout au max
                 consigne[i] = simulations[i][1]
-            print consigne
             prod_provisoire = sum(simulations[i][1]/100.*ville.equipProduction[i].PROD_MAX for i in range(len(simulations)))
             
             # il faut maintenant compenser la différence prod-conso avec du stockage et eventuellement de l'effacement
@@ -124,7 +124,7 @@ while Global.temps < duree-1: #boucle principale
     else:
         
         min=sum(i.simulation()[0]/100.*i.PROD_MAX for i in ville.equipProduction) #capacite de production minimale à l'etat suivant
-
+        print consigne
         if min <= conso_future: # si on peut atteindre la valeur de la consommation...
             prod_provisoire = prod_actuelle
 
@@ -159,7 +159,8 @@ while Global.temps < duree-1: #boucle principale
     ville.equipProduction[0].effacement = ecart
     ''' print effacement_actuel'''
     '''envoie des consignes et effacements pour la prochaine étape :) '''
-
+    print consigne
+    print 
     for i in range(len(consigne)):
        
         ville.equipProduction[i].etatSuivant(consigne[i],0.)

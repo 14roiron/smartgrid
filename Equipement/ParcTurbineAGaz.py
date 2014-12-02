@@ -40,11 +40,9 @@ class ParcTurbineAGaz:
         (self.activite,self.cout)=self.prevision(consigne,effacement)
 
 if __name__=="__main__":
+    l=[]
     a=ParcTurbineAGaz()
-    print a.simulation()
-    a.etatSuivant(100.,0.)
-    print a.activite
-    print a.simulation()
-    a.etatSuivant(100.,0.)
-    print a.activite
-    print a.simulation()
+    for i in range(100):
+        a.etatSuivant(32.,0)
+        l.append(a.activite)
+    print l
