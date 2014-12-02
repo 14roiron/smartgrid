@@ -131,7 +131,7 @@ class ParcBatterieLithiumIon:
                 prix_normal = self.calculPrix(activite)
             else:
                 prix_normal = prix_max
-       if prod_min > prod_max:
+        if prod_min > prod_max:
             prod_max = prod_min
             prix_max = prix_min
             prix_normal = prix_min
