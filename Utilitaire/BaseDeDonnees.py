@@ -68,7 +68,7 @@ class BaseDeDonnees:
             sql = """INSERT INTO consigne (t, IDObjet, consigne, numTest)
                      VALUES (%s, %s, %s, %s)"""
             try:
-                self.cur.execute(sql, (Global.temps, IDObjet, equipement, numTest))
+                self.cur.execute(sql, (Global.temps-1, IDObjet, equipement, numTest))
                 self.database.commit()
                 #print sql % (Global.temps, IDObjet, equipement, numTest)
                 IDObjet += 1
@@ -79,12 +79,14 @@ class BaseDeDonnees:
     def vide_table(self,numTest):
         sql = "DELETE FROM `Etat` WHERE `NumTest` =\"{}\" ".format(numTest)
         sql2 = "DELETE FROM ID WHERE `NumTest` =\"{}\"".format(numTest)
-        sql3 = "DELETE FROM consigne` WHERE `NumTest` =\"{}\"".format(numTest)
+        sql3 = "DELETE FROM `consigne` WHERE `NumTest` =\"{}\"".format(numTest)
         
         try:
             self.cur.execute(sql)
             self.database.commit()
             self.cur.execute(sql2)
+            self.database.commit()
+            self.cur.execute(sql3)
             self.database.commit()
         except Exception as e:
             self.database.rollback()

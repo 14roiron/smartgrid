@@ -3,9 +3,9 @@ import MySQLdb
 import matplotlib.pyplot as plt
 from Ville import Ville
 from Utilitaire.heure import Utilitaire
-from numpy import where
+#from numpy import where
 from Utilitaire import Global
-from mercurial.util import interpolate
+#from mercurial.util import interpolate
 
 #nécéssite matplotlib!!!!
 
@@ -15,7 +15,7 @@ numtest=Global.numtest
 #pas pour l'affichage des légendes
 
 export=True
-affichage=True
+affichage=False
 database = MySQLdb.connect(host="localhost", user = "root", passwd = "migse", db = "Smartgrid1")
 cur = database.cursor()
 #quelle est la durée de l'expérience?
@@ -25,7 +25,6 @@ WHERE (numTest=\"{}\" AND IDObjet=0)""".format(numtest))
 
 nb=int(cur.fetchall()[0][0])
 pas=nb/12
-
 #on génère un dico des IDs
 ID = [] 
 cur.execute("SELECT * FROM ID WHERE numTest=\"{}\"".format(numtest))
@@ -51,12 +50,11 @@ WHERE (numTest=\"{}\" AND IDObjet=0)""".format(numtest))
 nb=int(cur.fetchall()[0][0])
 consigne=[[] for i in range(nb)]
 for i in range(len(ID)):
-    cur.execute("SELECT * FROM consigne WHERE (numTest=\"{}\" AND IDObjet={}) ORDER BY `consigne`.`t`".format(numtest,i))
+    cur.execute("SELECT * FROM consigne WHERE (numTest=\"{}\" AND IDObjet={}) ORDER BY `consigne`.`t` ASC ".format(numtest,i))
     j=0
     for row in cur.fetchall():
         consigne[j].append(row[3]) 
         j+=1
-
 #on a besoin de séparer les consos/prods/stocks
 ville=Ville()
 
@@ -80,8 +78,7 @@ plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,15)
     f.savefig('resultats/graphNum{}IndivProd.png'.format(numtest), bbox_inches='tight')
-print [consigne[j][2] for j in range(len(etat))]
-print [etat[j][2] for j in range(len(etat))]
+
 
 f,a=plt.subplots(ville.nombreEquipementConso, sharex=True)
 for k in range(ville.nombreEquipementConso):
