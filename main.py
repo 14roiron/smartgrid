@@ -121,7 +121,6 @@ while Global.temps < duree-1: #boucle principale
                     consigne_conso[ind] = (simulations_conso[ind][1]-equip.activite)*(-equip.PROD_MAX)/equip.EFFA_MAX #attention cette consigne est un effacement
                     effacement_actuel += (simulations_conso[ind][1]-simulations_conso[ind][0])/100.*equip.PROD_MAX
                     conso_future -= (simulations_conso[ind][1]-simulations_conso[ind][0])/100.*equip.PROD_MAX #on retire à conso_future l'effacement
-                    print 'c'
     else:
         
         min=sum(i.simulation()[0]/100.*i.PROD_MAX for i in ville.equipProduction) #capacite de production minimale à l'etat suivant
@@ -129,7 +128,7 @@ while Global.temps < duree-1: #boucle principale
         if min <= conso_future: # si on peut atteindre la valeur de la consommation...
             prod_provisoire = prod_actuelle
 
-            while (abs(prod_provisoire-conso_future))> 2./100*conso_future) and prod_provisoire > conso_future): #tant que ecart > 2% et prod > conso
+            while (abs(prod_provisoire-conso_future)> 100./100*conso_future and prod_provisoire > conso_future): #tant que ecart > 2% et prod > conso
                 ind = ind_eqpascher2(simulations,consigne) #indice de l'equipement le moins cher qu'on met au min
                 equip = ville.equipProduction[ind]
                 
