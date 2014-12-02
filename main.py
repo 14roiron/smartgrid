@@ -159,8 +159,9 @@ while Global.temps < duree-1: #boucle principale
     ville.equipProduction[0].effacement = ecart
     ''' print effacement_actuel'''
     '''envoie des consignes et effacements pour la prochaine étape :) '''
-    print consigne
-    print 
+    print "consigne fin %s"%consigne
+    print "prod_fin %s"%prod_provisoire
+    print "prod actuelle %s"%prod_actuelle
     for i in range(len(consigne)):
        
         ville.equipProduction[i].etatSuivant(consigne[i],0.)
@@ -172,7 +173,10 @@ while Global.temps < duree-1: #boucle principale
     for i in range(len(consigne_conso)):
         
         ville.equipConso[i].etatSuivant(0.,consigne_conso[i])
-    
+    print "consigne fin %s"%consigne
+    print "prod_fin %s"%prod_provisoire
+    print "prod actuelle %s"%prod_actuelle
+       
     Global.db.enregistrerConsigne(consigne, consigne_conso, consigne_stock, numTest)
     Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)        
     Global.tempsinc()#temps+=1
