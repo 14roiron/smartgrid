@@ -7,7 +7,7 @@ class ParcUsine(Equipement):
     
     def __init__(self,nom="usine",prod=-1500.,effa=1000.,activite=0.,nombre=5,production=[]): #consommation maximale de 3000 kW
         self.nombre=nombre
-        self.PROD_MAX=prod*self.nombre #en kW global ; production négative
+        self.PROD_MAX=prod*self.nombre #en kW global ; production nÃ©gative
         self.EFFA_MAX=effa*self.nombre
         self.activite=activite
         self.effacement=0.#why ??
@@ -63,7 +63,7 @@ class ParcUsine38(Equipement):
         self.nom=nom
         self.production = []
         #construction de self.production sur une semaine (=>taille = 1008)
-        jour = [95. for i in range(144)] #consommation sur la journ�e
+        jour = [95. for i in range(144)] #consommation sur la journée
         for i in range(3):
             jour[i] = 80. + 5.*i
             jour[48 + i] = 80. + 5.*i
@@ -73,12 +73,12 @@ class ParcUsine38(Equipement):
             jour[143 - i] = 85. + 5.*i
         for i in range(7):
             self.production += jour
-        self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
+        self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par dÃ©faut
     
 
     def etatSuivant(self,consigne=0.,effacement=0.):
         pourcentage=self.production[Global.temps%1008] #% de la production à l'étape actuelle, >0
-        if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #ie pourcentage * PROD_MAX <= -eff * EFFA_MAX ie la consommation est plus grande que l'effacement demandé
+        if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #ie pourcentage * PROD_MAX <= -eff * EFFA_MAX ie la consommation est plus grande que l'effacement demandÃ©
             self.effacement=effacement
             self.activite=pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX
         else: #sinon on coupe totalement la consommation en faisant l'effacement maximal possible
@@ -88,7 +88,7 @@ class ParcUsine38(Equipement):
         
     def prevision(self,consigne=0.,effacement=0.):
         pourcentage=self.production[(Global.temps+1)%1008]
-        if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #si la consommation est plus grande que l'effacement demandé
+        if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #si la consommation est plus grande que l'effacement demandÃ©
             return (pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre)
         else: #sinon, on considère l'effacement maximal possible
             return (0.,-pourcentage/100.*self.PROD_MAX*(80./1000./6.)*self.nombre)
