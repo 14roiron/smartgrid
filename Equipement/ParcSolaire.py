@@ -16,16 +16,16 @@ class ParcSolaire(Equipement):
         self.activite = activite
         self.EFFA_MAX = effa
         self.effacement = 0.
-        self.cout=10.
+        self.cout = 0.001*self.nombre
         
     def prevision(self, consigne, effacement):
         """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""
-        return (self.calculActivite(Global.temps+1), 0.)
+        return (self.calculActivite(Global.temps+1), self.cout)
     
     def simulation(self):
         """pas de consigne ou d'effacement possible pour un panneau solaire :
         puissance min = puissance max et le coût est toujours le même (que le panneau produise ou pas)"""
-        return (self.calculActivite(Global.temps+1), self.calculActivite(Global.temps+1), 0., 0., 0.)
+        return (self.calculActivite(Global.temps+1), self.calculActivite(Global.temps+1),self.cout, self.cout, self.cout)
         
     def etatSuivant(self, consigne, effacement):
         """consignes et effacement en %"""
