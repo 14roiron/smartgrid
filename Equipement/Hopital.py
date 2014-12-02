@@ -6,11 +6,11 @@ from Utilitaire import Global
 from math import *
 
 class Hopital(Equipement):
-    def __init__(self, nom = "hopital", prod = -300., effa = 10., activite = 50.):
+    def __init__(self, nom = "hopital", prod = -210., effa = 10., activite = 50.):
         Equipement.__init__(self, nom, prod, effa, activite)
         self.production = []
         for i in range(7):
-            self.production = self.production + [50. for i in range(43)] + [60.] + [70. for i in range(69)] + [60.] + [50. for i in range(30)]
+            self.production = self.production + [71. for i in range(43)] + [86.] + [100. for i in range(69)] + [86.] + [71. for i in range(30)]
         self.effacement = 0.
         self.temps_effa = 0 # temps pendant lequel l'hôpital s'est effacé
         self.temps_dernier_effa = 0 # temps écoulé depuis le dernier effacement
