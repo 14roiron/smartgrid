@@ -13,7 +13,7 @@ class Hopital(Equipement):
             self.production = self.production + [71. for i in range(43)] + [86.] + [100. for i in range(69)] + [86.] + [71. for i in range(30)]
         self.effacement = 0.
         self.temps_effa = 0 # temps pendant lequel l'hôpital s'est effacé
-        self.temps_dernier_effa = 0 # temps écoulé depuis le dernier effacement
+        self.temps_dernier_effa = -1 # temps écoulé depuis le dernier effacement, -1 car self.etatSuivant()
         self.cout = self.effacement/100.*self.EFFA_MAX*(80./1000./6.)
         self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
         
@@ -30,23 +30,29 @@ class Hopital(Equipement):
             cout_stable = self.cout
         return (prod_min, prod_max, 0., cout_stable, cout_max)
 
-    def etatSuivant(self, consigne=0, effacement=0):
+    def etatSuivant(self, consigne=0., effacement=0.):
         if effacement == 0. :
             self.effacement = 0.
             self.activite = self.production[Global.temps]
             self.temps_effa = 0
             self.temps_dernier_effa += 1
         else:
-            self.temps_effa += 1
-            self.temps_dernier_effa = 0
-            pourcentage=self.production[Global.temps%1008] #% de la production à  l'étape actuelle, >0
-            if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #ie pourcentage * PROD_MAX <= -eff * EFFA_MAX ie la consommation est plus grande que l'effacement demandÃ©
-                self.effacement=effacement
-                self.activite=pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX
-            else: #sinon on coupe totalement la consommation en faisant l'effacement maximal possible
-                self.effacement=self.activite
-                self.activite=0.
-            self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)
+            if (self.temps_effa>=3 or 0<self.temps_dernier_effa<18):
+                self.effacement = 0.
+                self.activite = self.production[temps]
+                self.temps_effa = 0
+                self.temps_dernier_effa += 1
+            else:
+                self.temps_effa += 1
+                self.temps_dernier_effa = 0
+                pourcentage=self.production[Global.temps%1008] #% de la production à  l'étape actuelle, >0
+                if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX:
+                    self.effacement=effacement
+                    self.activite=pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX
+                else:
+                    self.effacement=self.activite
+                    self.activite=0.
+        self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)
             
         
        
