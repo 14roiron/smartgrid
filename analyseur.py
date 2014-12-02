@@ -56,8 +56,8 @@ for i in range(len(ID)):
     for row in cur.fetchall():
         consigne[j].append(row[3]) 
         j+=1
-etat=etat[:-1]
-
+print len(etat)
+print len(consigne)
 
 #on a besoin de séparer les consos/prods/stocks
 ville=Ville()
