@@ -86,7 +86,7 @@ class ParcBatterieLithiumIon:
             if consigne > 0.:
                 '''si la capacité restante est limitée'''
                 if self.capacite - self.reste < consigne/100. * self.PROD_MAX/6:
-                    prod = (self.capacite-self.reste)*100 / (self.PR0OD_MAX/6)
+                    prod = (self.capacite-self.reste)*100 / (self.PROD_MAX/6)
                 else:
                     prod = consigne
                     
