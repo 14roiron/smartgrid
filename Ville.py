@@ -28,7 +28,7 @@ class Ville:
 		                        ParcEolien(nom="eolienne,meteo3",n=500., eolienne="eolienne5", meteoVent=meteo3),\
 		                        ParcEolien(nom="eolienne,meteo4",n=5., eolienne="eolienne1500", meteoVent=meteo4),\
 		                        ParcEolien(nom="eolienne,meteo5",n=500., eolienne="eolienne5", meteoVent=meteo5),\
-		                        ParcTurbineAGaz("turbine1",varcout=1.,nombre=6),\
+		                        ParcTurbineAGaz("turbine1",varcout=1.,nombre=30),\
 		                        ParcTurbineAGaz("turbine2",varcout=1.13,nombre=6)]
 		self.equipConso = [ParcUsine38("Usine2-38"),\
 						   ParcMaison("parcmaison1",nombre=1200),\
