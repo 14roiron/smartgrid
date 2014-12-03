@@ -10,7 +10,7 @@ class ParcEolien():
 	nbParc=0
 
 	"""Constructeur de parc d'éolienne. Par défaut Eolienne 5 kW"""	
-	def __init__(self,nom="",n=5., eolienne="eolienne5", meteoVent=Global.meteo1):
+	def __init__(self,nom="",n=5, eolienne="eolienne5", meteoVent=Global.meteo1):
 		
 		ParcEolien.nbParc += 1
         
@@ -47,7 +47,7 @@ class ParcEolien():
 		self.activite = 0
 
 
-	def prevision(self,consigne=0,prevision=0):
+	def prevision(self,consigne=0.,prevision=0.):
 
 		"""On va chercher la liste des vitesses croissantes"""
 		listVitesse = list(self.dictPV.keys())
@@ -58,19 +58,18 @@ class ParcEolien():
 		else:		
 			for i in range(1,len(listVitesse)):
 					if listVitesse[i]>=self.listVent[Global.temps+1]:
-						P = self.nbEolienne*(((self.dictPV[listVitesse[i]]-self.dictPV[listVitesse[i-1]])/(listVitesse[i]-listVitesse[i-1]))*(self.listVent[Global.temps+1]-listVitesse[i-1])+self.dictPV[listVitesse[i-1]])						
+						P = max(0., self.nbEolienne*(((self.dictPV[listVitesse[i]]-self.dictPV[listVitesse[i-1]])/(listVitesse[i]-listVitesse[i-1]))*(self.listVent[Global.temps+1]-listVitesse[i-1])+self.dictPV[listVitesse[i-1]]))						
 						return ((P/self.PROD_MAX)*100,(P/6)*self.cout) 
-
 
 		
 	def simulation(self):
-		return(self.prevision()[0],self.prevision()[0],0,self.prevision()[1],(self.PROD_MAX/6)*100)
+		return(self.prevision()[0],self.prevision()[0],0.,self.prevision()[1],(self.PROD_MAX/6)*100)
 
 	def etatSuivant(self, consigne=100, effacement=0):
 		if consigne<self.prevision()[0] and self.prevision()[0] != 0:
 			self.nbEolienne = max(0,int((consigne/self.prevision()[0])*self.nbEolienne))
 		else:
-			self.nbEolienne =self.nbEolienneMax
+			self.nbEolienne = self.nbEolienneMax
 		self.activite = self.prevision()[0]
 		return ""
 		
