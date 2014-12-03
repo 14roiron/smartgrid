@@ -13,7 +13,7 @@ class ParcSolaire(Equipement):
         self.meteoliss=[]
         for i in range (0,1006):
             self.meteoliss.append(1/2*(meteo[i]["GHI"]+meteo[i+1]["GHI"]))
-            self.meteoliss.append(meteo[1007]["GHI"])
+        self.meteoliss.append(meteo[1007]["GHI"])
         '''nom du Parc'''
         self.nom = nom
         self.PROD_MAX = prod*self.nombre
