@@ -47,3 +47,8 @@ class ParcMagasins (Utilitaire) : # des commerces de centre ville aux petits sup
         (prod_min,cout_min)=self.prevision(0.,0.) 
         (prod_max,cout_max)=self.prevision(0.,100.)
         return(prod_min,prod_max,cout_min,self.cout,cout_max)      
+
+if __name__=="__main__":
+	m=ParcMagasins()
+        print m.activite
+        print m.etatSuivant(100.)
