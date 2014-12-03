@@ -14,6 +14,8 @@ class Stockage(Equipement):
 
 	def etatSuivant(self, consigne=0., effacement=0.):
 		self.activite = consigne
+                if self.activite < 10.**(-3):
+                    self.activite = 0.
 		self.reste = max(0., self.reste - self.activite/100.*self.PROD_MAX*600.) # on retire la puissance dégagée * 600s
 
 	def simulation(self):
@@ -21,7 +23,7 @@ class Stockage(Equipement):
 			prod_max=100.
 		else:
 			prod_max= self.reste*100./(self.PROD_MAX*600.) 
-                        if prod_max < 10**(-3):
+                        if prod_max < 10.**(-3):
                             prod_max =0.
 		prix_min = 0.
 		prix_stable = self.activite/100.*self.cout*self.PROD_MAX
