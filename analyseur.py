@@ -235,8 +235,8 @@ c=ville.nombreEquipementConso
 b=ville.nombreEquipementProduction
 y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(b)]) for j in range(len(etat))]
 y0=[sum([-etat[j][l]*ID[l]["Pmax"]/100. for l in range(b,b+c)]) for j in range(len(etat))]
-a.plot(list(range(len(etat))), y0, linewidth=1, label="production",color=color[1%6])
-a.plot(list(range(len(etat))), y1, linewidth=1, label="conso",color=color[2%6])
+a.plot(list(range(len(etat))), y1, linewidth=1, label="production",color=color[1%6])
+a.plot(list(range(len(etat))), y0, linewidth=1, label="conso",color=color[2%6])
 a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[3%6],interpolate=True)
 #a.fill_between(list(range(len(etat))),y0,y1,where=y0>y1,facecolor=color[4%6])
 handles, labels = a.get_legend_handles_labels()
