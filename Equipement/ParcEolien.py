@@ -60,7 +60,7 @@ class ParcEolien(Equipement):
 			for i in range(1,len(listVitesse)):
 					if listVitesse[i]>=self.listVent[Global.temps+1]:
 						P = self.nbEolienne*(((self.dictPV[listVitesse[i]]-self.dictPV[listVitesse[i-1]])/(listVitesse[i]-listVitesse[i-1]))*(self.listVent[Global.temps+1]-listVitesse[i-1])+self.dictPV[listVitesse[i-1]])						
-						return (P,(P/6)*self.cout) 
+						return ((P/self.PROD_MAX)*100,(P/6)*self.cout) 
 
 
 		
@@ -68,9 +68,9 @@ class ParcEolien(Equipement):
 		return(0,self.prevision()[0],0,self.prevision()[1],(self.PROD_MAX/6)*100)
 
 	def etatSuivant(self, consigne=100, effacement=0):
-		if (consigne/100)*self.PROD_MAX<self.prevision()[0]:
-			self.nbEolienne -= int((1-((consigne/100)*self.PROD_MAX)/self.prevision()[0])*self.nbEolienne)
-		self.activite = (self.prevision()[0]/self.PROD_MAX)*100
+		if consigne<self.prevision()[0]:
+			self.nbEolienne -= int((1-(consigne/self.prevision()[0]))*self.nbEolienne)
+		self.activite = self.prevision()[0]
 
 	def contrainte(self):
 		return True
