@@ -79,8 +79,7 @@ while Global.temps < duree-1: #boucle principale
 
     if diff > 0.: #on consommera plus qu'on ne produit
         max = sum(i.simulation()[1]/100.*i.PROD_MAX for i in ville.equipProduction) #capacite de production maximale à l'etat suivant
-        print "max %s"%max
-        print "consofutur %s"%conso_future
+        
         if max >= conso_future: # si on peut atteindre la valeur de la consommation...
             prod_provisoire = prod_actuelle
             
