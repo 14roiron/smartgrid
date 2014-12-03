@@ -1,6 +1,6 @@
 # -*-coding:utf-8 -
 class ParcTurbineAGaz:
-    def __init__(self,nom="turbine_a_gaz",prod=10000.,effa=0.,activite=0.,varcout = 1., nombre=2., ):
+    def __init__(self,nom="turbine_a_gaz",prod=885.,effa=0.,activite=0.,varcout = 1., nombre=3., ):
         self.nom=nom
         self.nombre=nombre
         self.varcout=varcout
@@ -8,8 +8,8 @@ class ParcTurbineAGaz:
         self.EFFA_MAX=effa
         self.activite=activite
         self.effacement=0.
-        self.demarrage=[22.6,32.,56.5,67.79,74.2,81.51,96.83,100.,100.,100.,98.46,96.04,94.43,94.43,94.43,94.43,94.43,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33] #courbe de montée en puissance, pas de 1 min
-        self.arret=[50.,30.71,0.,0.] #courbe d'arrêt
+        self.demarrage=[0.,0.,0.,0.,22.6,32.,56.5,67.79,74.2,81.51,96.83,100.,100.,100.,98.46,96.04,94.43,94.43,94.43,94.43,94.43,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33,92.33] #courbe de montée en puissance, pas de 1 min
+        self.arret=[100.,100.,100.,100.,100.,100.,100.,100.,100.,30.71,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.] #courbe d'arrêt
         self.cout=self.varcout*self.activite/100.*self.PROD_MAX*(80./1000./6.)*self.nombre
         
     def prevision(self,consigne=0.,effacement=0.):
