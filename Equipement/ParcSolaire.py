@@ -20,9 +20,9 @@ class ParcSolaire(Equipement):
         self.activite = activite
         self.EFFA_MAX = effa
         self.effacement = 0.
-        self.cout = 0.001*self.nombre
+        self.cout = 8.31/6.*self.nombre
         
-    def prevision(self, consigne=0, effacement=0):
+    def prevision(self, consigne=0., effacement=0.):
         """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""
         return (self.calculActivite(Global.temps+1), self.cout)
     
