@@ -23,8 +23,8 @@ class Ville:
 		                        ParcSolaire(nom="PVmeteo3",prod=250.,activite=50.,nb=10.,meteo=meteo3),\
 		                        ParcSolaire(nom="PVmeteo4",prod=250.,activite=50.,nb=10.,meteo=meteo4),\
 		                        ParcSolaire(nom="PVmeteo5",prod=250.,activite=50.,nb=10.,meteo=meteo5),\
-		                        ParcTurbineAGaz("turbine1"),\
-		                        ParcTurbineAGaz("turbine2"),\
+		                        ParcTurbineAGaz("turbine1",varcout=1.),\
+		                        ParcTurbineAGaz("turbine2",varcout=1.13),\
 		                        ParcEolien(nom="eolienne,meteo1",n=500., eolienne="eolienne5", meteoVent=meteo1),\
 		                        ParcEolien(nom="eolienne,meteo2",n=5., eolienne="eolienne1500", meteoVent=meteo2),\
 		                        ParcEolien(nom="eolienne,meteo3",n=500., eolienne="eolienne5", meteoVent=meteo3),\
