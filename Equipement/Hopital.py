@@ -16,7 +16,16 @@ class Hopital(Equipement):
         self.temps_dernier_effa = -1 # temps écoulé depuis le dernier effacement, -1 car self.etatSuivant()
         self.cout = self.effacement/100.*self.EFFA_MAX*(80./1000./6.)
         self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
-        
+    
+    def prevision(self,consigne=0.,effacement=0.):
+        if (self.temps_effa >= 3 or 0 < self.temps_dernier_effa < 18):
+            return(100.,0.)
+        else: 
+            pourcentage=self.production[(Global.temps+1)%1008]
+            if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX:
+                return (pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX,effacement/100.*self.EFFA_MAX*(80./1000./6.))
+            else:
+                return (0.,-pourcentage/100.*self.EFFA_MAX*(80./1000./6.))
 
     def simulation(self):
         prod_min = self.production[(Global.temps+1)%1008] # pas d'effacement 
