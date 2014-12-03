@@ -3,9 +3,8 @@
 
 from math import *
 from Utilitaire import Global
-from Equipement import Equipement
 
-class ParcEolien(Equipement):
+class ParcEolien():
 
 
 	nbParc=0

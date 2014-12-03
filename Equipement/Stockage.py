@@ -21,6 +21,8 @@ class Stockage(Equipement):
 			prod_max=100.
 		else:
 			prod_max= self.reste*100./(self.PROD_MAX*600.) 
+                        if prod_max < 10**(-3):
+                            prod_max =0.
 		prix_min = 0.
 		prix_stable = self.activite/100.*self.cout*self.PROD_MAX
 		prix_max = prod_max/100.*self.PROD_MAX*self.cout
