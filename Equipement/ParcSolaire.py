@@ -10,6 +10,10 @@ class ParcSolaire(Equipement):
         self.nombre = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
         self.meteo = meteo
+        self.meteoliss=[]
+        for i in range (0,1006):
+            self.meteoliss.append(1/2*(meteo[i]["GHI"]+meteo[i+1]["GHI"]))
+            self.meteoliss.append(meteo[1007]["GHI"])
         '''nom du Parc'''
         self.nom = nom
         self.PROD_MAX = prod*self.nombre
@@ -41,7 +45,7 @@ class ParcSolaire(Equipement):
     
     def calculActivite(self,temps):
         """formule de test, lien avec les données météo à faire"""
-        return (self.meteo[temps]["GHI"])/1000.*80./100.*100. #loi de murphy, on a env. 80% de la production imaginée, on divise par 1000 W . m-2, intensité de ref
+        return (self.meteoliss[temps]["GHI"])/1000.*80./100.*100. #loi de murphy, on a env. 80% de la production imaginée, on divise par 1000 W . m-2, intensité de ref
         
 #pour les tests
 if __name__=='__main__':
