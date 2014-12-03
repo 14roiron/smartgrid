@@ -163,6 +163,7 @@ while Global.temps < duree-1: #boucle principale
             while (abs(prod_provisoire-conso_future) > 0.02*conso_future and prod_provisoire > conso_future): #tant que ecart > 2% et prod > conso
                 ind = ind_eqpascher2(simulations,consigne) #indice de l'equipement le moins cher qu'on met au min
                 equip = ville.equipProduction[ind]
+                print "a"
                 
                 if (simulations[ind][0] < simulations[ind][1]): #equipement à production laissant marge de maneuvre ex : centrale (et pas PV)
                     while (prod_provisoire > conso_future and abs(consigne[ind]-simulations[ind][0]) >= simulations[ind][0]*0.05):

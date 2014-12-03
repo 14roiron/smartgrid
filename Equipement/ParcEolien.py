@@ -68,11 +68,12 @@ class ParcEolien():
 
 	def etatSuivant(self, consigne=100, effacement=0):
 		if consigne<self.prevision()[0] and self.prevision()[0] != 0:
-			self.nbEolienne -= int((1-(consigne/self.prevision()[0]))*self.nbEolienne)
+			self.nbEolienne = max(0,int((consigne/self.prevision()[0])*self.nbEolienne))
 		else:
 			self.nbEolienne =self.nbEolienneMax
 		self.activite = self.prevision()[0]
-
+		return ""
+		
 	def contrainte(self):
 		return True
 
