@@ -4,7 +4,6 @@
 from math import *
 from Utilitaire import Global
 from Equipement import Equipement
-from test.regrtest import printlist
 
 class ParcEolien(Equipement):
 
@@ -25,12 +24,18 @@ class ParcEolien(Equipement):
 			self.h = 80
 			self.PROD_MAX = 1500 * n
 			self.cout = 70 #cout en euro par MWh
+		elif eolienne =="eolienne275":
+			dictPV ={3:0,4:3,5:17.9,6:36.5,7:58.4,8:98.1,9:141.1,10:188.7,11:242.8,12:271.7,13:275,14:275,15:275,16:275,17:275,18:275,19:275,20:275,25:275}
+			self.h = 32
+			self.PROD_MAX = 275 * n
+			self.cout = 65 #cout en euro par MWh
 		else:
 			dictPV={1:0,2:0,3:0.014,4:0.210,5:0.576,6:1.104,7:1.783,8:2.542,9:3.349,10:4.077,11:4.628,12:4.911,13:5.066,14:5.141,15:5.141,16:5.159,17:5.217,18:5.212,19:5.242,20:5.235}
-			self.h = 20 
+			self.h = 18 
 			self.PROD_MAX = 5.2 * n
-			self.cout = 65 #cout en euro par MWh
+			self.cout = 60 #cout en euro par MWh
 			
+		self.nbEolienneMax = n
 		self.nbEolienne = n
 		self.dictPV = dictPV
 		listVent = []
@@ -43,7 +48,7 @@ class ParcEolien(Equipement):
 		self.activite = 0
 
 
-	def prevision(self):
+	def prevision(self,consigne=0,prevision=0):
 
 		"""On va chercher la liste des vitesses croissantes"""
 		listVitesse = list(self.dictPV.keys())
@@ -55,7 +60,7 @@ class ParcEolien(Equipement):
 			for i in range(1,len(listVitesse)):
 					if listVitesse[i]>=self.listVent[Global.temps+1]:
 						P = self.nbEolienne*(((self.dictPV[listVitesse[i]]-self.dictPV[listVitesse[i-1]])/(listVitesse[i]-listVitesse[i-1]))*(self.listVent[Global.temps+1]-listVitesse[i-1])+self.dictPV[listVitesse[i-1]])						
-						return (P,(P/6)*self.cout) 
+						return ((P/self.PROD_MAX)*100,(P/6)*self.cout) 
 
 
 		
@@ -63,9 +68,11 @@ class ParcEolien(Equipement):
 		return(0,self.prevision()[0],0,self.prevision()[1],(self.PROD_MAX/6)*100)
 
 	def etatSuivant(self, consigne=100, effacement=0):
-		if (consigne/100)*self.PROD_MAX<self.prevision()[0]:
-			self.nbEolienne -= int((1-((consigne/100)*self.PROD_MAX)/self.prevision()[0])*self.nbEolienne)
-		self.activite = (self.prevision()[0]/self.PROD_MAX)*100
+		if consigne<self.prevision()[0]:
+			self.nbEolienne -= int((1-(consigne/self.prevision()[0]))*self.nbEolienne)
+		else:
+			self.nbEolienne =self.nbEolienneMax
+		self.activite = self.prevision()[0]
 
 	def contrainte(self):
 		return True
