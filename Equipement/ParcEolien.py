@@ -32,7 +32,7 @@ class ParcEolien(Equipement):
 			self.cout = 65 #cout en euro par MWh
 		else:
 			dictPV={1:0,2:0,3:0.014,4:0.210,5:0.576,6:1.104,7:1.783,8:2.542,9:3.349,10:4.077,11:4.628,12:4.911,13:5.066,14:5.141,15:5.141,16:5.159,17:5.217,18:5.212,19:5.242,20:5.235}
-			self.h = 20 
+			self.h = 18 
 			self.PROD_MAX = 5.2 * n
 			self.cout = 60 #cout en euro par MWh
 			
