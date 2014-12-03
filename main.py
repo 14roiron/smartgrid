@@ -74,7 +74,7 @@ while Global.temps < duree-1: #boucle principale
     print "diff : %s" %diff
     effacement_actuel = 0.
     
-    consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
+    consigne = [i.prevision()[0] for i in ville.equipProduction] # liste des consignes equipements de production
     simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
     
     consigne_stock = [i.activite for i in ville.equipStockage] # "" de stockage
@@ -88,7 +88,11 @@ while Global.temps < duree-1: #boucle principale
         print "max : %s" %max
         print "conso future : %s" %conso_future
         if max >= conso_future: # si on peut atteindre la valeur de la consommation...
-            prod_provisoire = prod_actuelle
+            for i in ville.equipProduction:
+                print i.nom
+                print i.prevision()[0]
+            print [i.prevision()[0]/100.*i.PROD_MAX for i in ville.equipProduction]   
+            prod_provisoire =  sum(i.prevision()[0]/100.*i.PROD_MAX for i in ville.equipProduction)
             
             ind_boucle = len(ville.equipProduction) #pour éviter les boucles infinies
             while (abs(prod_provisoire-conso_future) > 2./100.*conso_future and prod_provisoire < conso_future and ind_boucle > 0): #tant que ecart > 2% et prod < conso
