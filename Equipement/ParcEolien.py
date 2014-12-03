@@ -36,6 +36,7 @@ class ParcEolien(Equipement):
 			self.PROD_MAX = 5.2 * n
 			self.cout = 60 #cout en euro par MWh
 			
+		self.nbEolienneMax = n
 		self.nbEolienne = n
 		self.dictPV = dictPV
 		listVent = []
@@ -70,6 +71,8 @@ class ParcEolien(Equipement):
 	def etatSuivant(self, consigne=100, effacement=0):
 		if consigne<self.prevision()[0]:
 			self.nbEolienne -= int((1-(consigne/self.prevision()[0]))*self.nbEolienne)
+		else:
+			self.nbEolienne =self.nbEolienneMax
 		self.activite = self.prevision()[0]
 
 	def contrainte(self):
