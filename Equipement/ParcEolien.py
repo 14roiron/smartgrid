@@ -3,10 +3,6 @@
 
 from math import *
 from Utilitaire import Global
-<<<<<<< HEAD
-=======
-from Equipement import Equipement
->>>>>>> f91cc0d2f74a8525fccd9281383eb4d51a4a7b04
 
 class ParcEolien():
 
