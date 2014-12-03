@@ -16,7 +16,7 @@ class ParcTurbineAGaz:
         if consigne==0 and effacement==-1:
             return (self.activite,(self.varcout*self.activite/100.*self.PROD_MAX*(80./1000./6.)*self.nombre))
         
-        if consigne > self.activite: #si on veut augmenter la puissance, on place l'activité actuelle sur la courbe de montée en puissance et on en déduit l'état à t+10min
+        if consigne > self.activite+1. : #si on veut augmenter la puissance, on place l'activité actuelle sur la courbe de montée en puissance et on en déduit l'état à t+10min, 1. pour les flottants
             i=0
             while self.activite > self.demarrage[i]:
                 i+=1
@@ -24,7 +24,7 @@ class ParcTurbineAGaz:
                 return (consigne,2.*self.varcout*consigne/100.*self.PROD_MAX*(80./1000./6.)*self.nombre) #nous avons supposé pour l'instant qu'il est deux fois plus cher de mettre la turbine en marche que de garder un fonctionnement constant, ce qui explique le facteur "2". 
             else:
                 return (self.demarrage[i+10],2.*self.varcout*self.demarrage[i+10]/100.*self.PROD_MAX*(80./1000./6.)*self.nombre) 
-        elif consigne < self.activite: #même chose avec l'arrêt
+        elif consigne < self.activite-1.: #même chose avec l'arrêt
             i=0
             while self.activite < self.arret[i]:
                 i+=1
