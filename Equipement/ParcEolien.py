@@ -64,7 +64,7 @@ class ParcEolien():
 
 		
 	def simulation(self):
-		return(0,self.prevision()[0],0,self.prevision()[1],(self.PROD_MAX/6)*100)
+		return(self.prevision()[0],self.prevision()[0],0,self.prevision()[1],(self.PROD_MAX/6)*100)
 
 	def etatSuivant(self, consigne=100, effacement=0):
 		if consigne<self.prevision()[0] and self.prevision()[0] != 0:
