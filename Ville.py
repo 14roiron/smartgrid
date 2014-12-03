@@ -27,7 +27,7 @@ class Ville:
 		                        ParcEolien(nom="eolienne,meteo2",n=5., eolienne="eolienne1500", meteoVent=meteo2),\
 		                        ParcEolien(nom="eolienne,meteo3",n=500., eolienne="eolienne5", meteoVent=meteo3),\
 		                        ParcEolien(nom="eolienne,meteo4",n=5., eolienne="eolienne1500", meteoVent=meteo4),\
-		                        ParcEolien(nom="eolienne,meteo5",n=500., eolienne="eolienne5", meteoVent=meteo5),\
+		                        ParcEolien(nom="eolienne,meteo5",n=50., eolienne="eolienne275", meteoVent=meteo5),\
 		                        ParcTurbineAGaz("turbine1",varcout=1.,nombre=6),\
 		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=6),\
 		                        ParcTurbineAGaz("turbine3",varcout=1.13,nombre=6)]

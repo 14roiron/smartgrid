@@ -179,7 +179,6 @@ while Global.temps < duree-1: #boucle principale
                 if ind < len(ville.equipProduction):
                     equip = ville.equipProduction[ind]
                     ind_boucle4 -= 1
-                
                     if (simulations[ind][0] < simulations[ind][1]): #equipement à production laissant marge de maneuvre ex : centrale (et pas PV)
                         ind_boucle5 = 10
                         while (prod_provisoire > conso_future and abs(consigne[ind]-simulations[ind][0]) >= simulations[ind][0]*0.05 and ind_boucle5 > 0):
