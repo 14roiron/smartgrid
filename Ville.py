@@ -18,25 +18,26 @@ from Utilitaire.Global import meteoTest
 class Ville:
 
 	def __init__(self):
-		self.equipProduction = [ParcSolaire(nom="PVmeteo1",prod=250.,activite=50.,nb=10.,meteo=meteo1),\
-		                        ParcSolaire(nom="PVmeteo2",prod=250.,activite=50.,nb=10.,meteo=meteo2),\
-		                        ParcSolaire(nom="PVmeteo3",prod=250.,activite=50.,nb=10.,meteo=meteo3),\
-		                        ParcSolaire(nom="PVmeteo4",prod=250.,activite=50.,nb=10.,meteo=meteo4),\
-		                        ParcSolaire(nom="PVmeteo5",prod=250.,activite=50.,nb=10.,meteo=meteo5),\
-		                        ParcEolien(nom="eolienne,meteo1",n=500., eolienne="eolienne5", meteoVent=meteo1),\
-		                        ParcEolien(nom="eolienne,meteo2",n=5., eolienne="eolienne1500", meteoVent=meteo2),\
-		                        ParcEolien(nom="eolienne,meteo3",n=500., eolienne="eolienne5", meteoVent=meteo3),\
-		                        ParcEolien(nom="eolienne,meteo4",n=5., eolienne="eolienne1500", meteoVent=meteo4),\
-		                        ParcEolien(nom="eolienne,meteo5",n=50., eolienne="eolienne275", meteoVent=meteo5),\
-		                        ParcTurbineAGaz("turbine1",varcout=1.,nombre=6),\
-		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=6),\
-		                        ParcTurbineAGaz("turbine3",varcout=1.13,nombre=6)]
+		self.equipProduction = [ParcTurbineAGaz("turbine1",varcout=0.,nombre=8),\
+ 		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=10),\
+ 		                        ParcTurbineAGaz("turbine3",varcout=5.13,nombre=12),\
+  		                        ParcSolaire(nom="PVmeteo1",prod=250.,activite=50.,nb=10.,meteo=meteo1),\
+ 		                        ParcSolaire(nom="PVmeteo2",prod=250.,activite=50.,nb=10.,meteo=meteo2),\
+ 		                        ParcSolaire(nom="PVmeteo3",prod=250.,activite=50.,nb=10.,meteo=meteo3),\
+ 		                        ParcSolaire(nom="PVmeteo4",prod=250.,activite=50.,nb=10.,meteo=meteo4),\
+ 		                        ParcSolaire(nom="PVmeteo5",prod=250.,activite=50.,nb=10.,meteo=meteo5),\
+ 		                        ParcEolien(nom="eolienne,meteo1",n=500., eolienne="eolienne5", meteoVent=meteo1),\
+ 		                        ParcEolien(nom="eolienne,meteo2",n=5., eolienne="eolienne1500", meteoVent=meteo2),\
+ 		                        ParcEolien(nom="eolienne,meteo3",n=500., eolienne="eolienne5", meteoVent=meteo3),\
+ 		                        ParcEolien(nom="eolienne,meteo4",n=5., eolienne="eolienne1500", meteoVent=meteo4),\
+ 		                        ParcEolien(nom="eolienne,meteo5",n=50., eolienne="eolienne275", meteoVent=meteo5),\
+		                        ]
 		self.equipConso = [ParcUsine38("Usine2-38"),\
 						   ParcMaison("parcmaison1",nombre=1200),\
 		                   ParcUsine("Usine1"),\
 		                   ParcEclairagePublic(nombre=2400),\
                                    ParcMagasins()]
-		self.equipStockage = [Stockage()]#,ParcBatterieLithiumIon()]
+		self.equipStockage = [Stockage(),Stockage(),Stockage()]#,ParcBatterieLithiumIon()]
 		self.nombreEquipementProduction = len(self.equipProduction)
 		self.nombreEquipementConso = len(self.equipConso)
 		self.nombreEquipementStockage = len(self.equipStockage)

@@ -102,10 +102,10 @@ while Global.temps < duree-1: #boucle principale
                     ind_boucle -= 1               
                 
                     if (simulations[ind][0] < simulations[ind][1]): #équipement à production laissant marge de maneuvre ex : centrale (et pas PV)
-                        ind_boucle3 = 10 #boucle de sécurité 
-                        while (prod_provisoire < conso_future and abs(consigne[ind] - simulations[ind][1]) > 10.**(-3) and ind_boucle3 > 0):
-                            consigne[ind] += (simulations[ind][1]-equip.activite)/10. #on met progressivement la production au max
-                            prod_provisoire += (simulations[ind][1]-equip.activite)/100./10.*equip.PROD_MAX #maj
+                        ind_boucle3 = 100 #boucle de sécurité 
+                        while (prod_provisoire < conso_future and abs(consigne[ind] - simulations[ind][1]) > 10.**(-4) and ind_boucle3 > 0):
+                            consigne[ind] += (simulations[ind][1]-equip.activite)/100. #on met progressivement la production au max
+                            prod_provisoire += (simulations[ind][1]-equip.activite)/100./100.*equip.PROD_MAX #maj
                             ind_boucle3 -=1
                         
                        
@@ -114,6 +114,7 @@ while Global.temps < duree-1: #boucle principale
                         prod_provisoire += (simulations[ind][1]- equip.activite)/100.*equip.PROD_MAX #maj                
                 else:
                      print "indice équipement quand max > conso_future récupéré de ind_pascher trop grand"
+                     break
         else: #on n'a pas suffisamment de production disponible
             for i in range (len(simulations)): # on met tout au max
                 consigne[i] = simulations[i][1]
@@ -183,16 +184,17 @@ while Global.temps < duree-1: #boucle principale
                     equip = ville.equipProduction[ind]
                     ind_boucle4 -= 1
                     if (simulations[ind][0] < simulations[ind][1]): #equipement à production laissant marge de maneuvre ex : centrale (et pas PV)
-                        ind_boucle5 = 10
-                        while (prod_provisoire > conso_future and abs(consigne[ind]-simulations[ind][0]) >= simulations[ind][0]*0.05 and ind_boucle5 > 0):
-                            consigne[ind] -= (equip.activite-simulations[ind][0])/10. #on met progressivement la production au min
-                            prod_provisoire -= (equip.activite-simulations[ind][0])/100./10.*equip.PROD_MAX #maj
+                        ind_boucle5 = 100
+                        while (prod_provisoire > conso_future and abs(consigne[ind]-simulations[ind][0]) >= simulations[ind][0]*0.005 and ind_boucle5 > 0):
+                            consigne[ind] -= (equip.activite-simulations[ind][0])/100. #on met progressivement la production au min
+                            prod_provisoire -= (equip.activite-simulations[ind][0])/100./100.*equip.PROD_MAX #maj
                             ind_boucle5 -= 1
                     else:
                         consigne[ind] = simulations[ind][0] #sinon on met à la production min = max (on n'a pas le choix)
                         prod_provisoire -= (equip.activite-simulations[ind][0])/100.*equip.PROD_MAX #maj
                 else:
-                    print "indice équipement quand min < conso_future récupéré de ind_pascher trop grand"  
+                    print "indice équipement quand min < conso_future récupéré de ind_pascher trop grand"
+                    break  
 
         else: #on ne peut pas baisser suffisamment la production
             for i in range (len(simulations)): # on met tout au min

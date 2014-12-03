@@ -304,7 +304,7 @@ if export==True:
 
 
 f,a=plt.subplots(ville.nombreEquipementStockage, sharex=True)
-a=[a,]
+#a=[a,]
 for k in range(ville.nombreEquipementStockage):
     i=k+ville.nombreEquipementProduction+ville.nombreEquipementConso#*ID[i]["Pmax"]/100.
     a[k].plot(list(range(len(etat))), [consigne[j][i] for j in range(len(etat))], "b", linewidth=1, label=ID[i]["nom"].decode('unicode-escape'))
@@ -363,7 +363,7 @@ if export==True:
 
 
 f,a=plt.subplots(ville.nombreEquipementStockage, sharex=True)
-a=[a,]
+#a=[a,]
 for k in range(ville.nombreEquipementStockage):
     i=k+ville.nombreEquipementProduction+ville.nombreEquipementConso#*ID[i]["Pmax"]/100.
     y0=[consigne[j][i]*ID[i]["Pmax"]/100. for j in range(len(etat))]

@@ -4,7 +4,7 @@ from Utilitaire.heure import Utilitaire
 from Utilitaire import Global
 
 class ParcMagasins (Utilitaire) : # des commerces de centre ville aux petits supermarchés
-    def __init__(self,nom="magasins",prod=-10.,effa=50.,activite=0.,nombre=20):
+    def __init__(self,nom="magasins",prod=-10.,effa=2.,activite=0.,nombre=20):
         self.nombre=nombre
         self.PROD_MAX=prod*self.nombre
         self.EFFA_MAX=effa*self.nombre
