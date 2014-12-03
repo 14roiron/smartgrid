@@ -14,8 +14,9 @@ class ParcTurbineAGaz:
         
     def prevision(self,consigne=0.,effacement=-1.):
         if consigne==0 and effacement==-1:
-            return (self.activite,(self.varcout*self.activite/100.*self.PROD_MAX*(80./1000./6.)*self.nombre)
-        elif consigne > self.activite: #si on veut augmenter la puissance, on place l'activité actuelle sur la courbe de montée en puissance et on en déduit l'état à t+10min
+            return (self.activite,(self.varcout*self.activite/100.*self.PROD_MAX*(80./1000./6.)*self.nombre))
+        
+        if consigne > self.activite: #si on veut augmenter la puissance, on place l'activité actuelle sur la courbe de montée en puissance et on en déduit l'état à t+10min
             i=0
             while self.activite > self.demarrage[i]:
                 i+=1
