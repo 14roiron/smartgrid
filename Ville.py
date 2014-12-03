@@ -34,12 +34,7 @@ class Ville:
 						   ParcMaison("parcmaison1",nombre=1200),\
 		                   ParcUsine("Usine1"),\
 		                   ParcEclairagePublic(nombre=2400),\
-<<<<<<< HEAD
                                    ParcMagasins()]
-=======
-		                   #Hopital(),\
-		                   ParcMagasins()]
->>>>>>> f91cc0d2f74a8525fccd9281383eb4d51a4a7b04
 		self.equipStockage = [Stockage()]#,ParcBatterieLithiumIon()]
 		self.nombreEquipementProduction = len(self.equipProduction)
 		self.nombreEquipementConso = len(self.equipConso)
