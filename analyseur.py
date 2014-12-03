@@ -303,7 +303,6 @@ if export==True:
     f.savefig('resultats/graphNum{}IndivConsigneConso.png'.format(numtest), bbox_inches='tight')
 
 
-"""
 f,a=plt.subplots(ville.nombreEquipementStockage, sharex=True)
 a=[a,]
 for k in range(ville.nombreEquipementStockage):
@@ -320,7 +319,6 @@ if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementStockage)
     f.savefig('resultats/graphNum{}IndivConsigneStockage.png'.format(numtest), bbox_inches='tight')
 
-"""
 
 #différence consignes 
 
@@ -364,7 +362,6 @@ if export==True:
     f.savefig('resultats/graphNum{}IndivConsigneConsoDiff.png'.format(numtest), bbox_inches='tight')
 
 
-"""
 f,a=plt.subplots(ville.nombreEquipementStockage, sharex=True)
 a=[a,]
 for k in range(ville.nombreEquipementStockage):
@@ -385,7 +382,6 @@ if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementStockage)
     f.savefig('resultats/graphNum{}IndivConsigneStockage.png'.format(numtest), bbox_inches='tight')
 
-#"""
 
 #différence consignes 
 

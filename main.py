@@ -18,7 +18,7 @@ import sys
 """Import de la base de données"""
 
 #commande main.py duree=24*6 nomdutest=0 datededébut=0
-analyseur=False
+analyseur=True
 if( len(sys.argv)>1):
     Global.duree=eval(sys.argv[1])
     analyseur=True
@@ -38,7 +38,7 @@ def ind_eqpascher(liste,consigne): #pour prod MAX !! indice de l'equipement le m
 
     i=0
     while (abs(consigne[i] - liste[i][1]) <= 0.05*consigne[i]):
-        i += 1
+        i+=1
     cout_min = liste[i][4]
     for j in range (0,len(liste)):
         if (liste[j][4] < cout_min and abs(consigne[j] - liste[j][1]) > 0.05*consigne[j]): #si moins cher et pas encore mis au max
