@@ -39,7 +39,7 @@ class ParcEolien(Equipement):
 		self.listVent = listVent
 		self.EFFA_MAX = 0
 		self.effacement = 0
-		self.nom = "Parc d'éolien n°" + str(ParcEolien.nbParc)
+		self.nom = "Parc Eolien" + str(ParcEolien.nbParc)
 		self.activite = 0
 
 
