@@ -3,10 +3,8 @@
 
 from math import *
 from Utilitaire import Global
-from Equipement import Equipement
-from test.regrtest import printlist
 
-class ParcEolien(Equipement):
+class ParcEolien():
 
 
 	nbParc=0
