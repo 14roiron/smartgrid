@@ -25,11 +25,16 @@ class ParcEolien(Equipement):
 			self.h = 80
 			self.PROD_MAX = 1500 * n
 			self.cout = 70 #cout en euro par MWh
+		elif eolienne =="eolienne275":
+			dictPV ={3:0,4:3,5:17.9,6:36.5,7:58.4,8:98.1,9:141.1,10:188.7,11:242.8,12:271.7,13:275,14:275,15:275,16:275,17:275,18:275,19:275,20:275,25:275}
+			self.h = 32
+			self.PROD_MAX = 275 * n
+			self.cout = 65 #cout en euro par MWh
 		else:
 			dictPV={1:0,2:0,3:0.014,4:0.210,5:0.576,6:1.104,7:1.783,8:2.542,9:3.349,10:4.077,11:4.628,12:4.911,13:5.066,14:5.141,15:5.141,16:5.159,17:5.217,18:5.212,19:5.242,20:5.235}
 			self.h = 20 
 			self.PROD_MAX = 5.2 * n
-			self.cout = 65 #cout en euro par MWh
+			self.cout = 60 #cout en euro par MWh
 			
 		self.nbEolienne = n
 		self.dictPV = dictPV
