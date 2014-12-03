@@ -154,12 +154,11 @@ while Global.temps < duree-1: #boucle principale
                 while (abs(prod_provisoire-conso_future) > 2./100.*conso_future and prod_provisoire < conso_future and abs(sum(consigne_conso) - sum(conso_min)) > sum(conso_min)*0.05 and ind_boucle >0):
                     ind = ind_eqpascher(simulations_conso, consigne_conso)
                     ind_boucle -= 1
-                    print "Etape effacement : %s" %ind_boucle
                     if ind < len(ville.equipConso):
                         equip = ville.equipConso[ind]
                         consigne_conso[ind] = (simulations_conso[ind][1]-equip.activite)*(equip.PROD_MAX)/equip.EFFA_MAX #attention cette consigne est un effacement
                         effacement_actuel += (simulations_conso[ind][1]-equip.activite)/100.*equip.PROD_MAX
-                        conso_future -= simulations_conso[ind][1]-equip.activite/100.*(equip.PROD_MAX) #on retire à conso_future l'effacement
+                        conso_future -= (simulations_conso[ind][1]-equip.activite)/100.*(equip.PROD_MAX) #on retire à conso_future l'effacement
                     else:
                         print "indice effacement récupéré par ind_pascher trop grand"
                         break
