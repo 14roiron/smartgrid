@@ -48,9 +48,8 @@ class ParcEolien(Equipement):
 		"""On va chercher la liste des vitesses croissantes"""
 		listVitesse = list(self.dictPV.keys())
 			
-		t=Global.temps
 		"""Interpolation linéaire à partir de point de la courbe de puissance"""				
-		if self.listVent[t]>listVitesse[len(listVitesse)-1]:	
+		if self.listVent[Global.temps+1]>listVitesse[len(listVitesse)-1]:	
 			return (0,0)
 		else:		
 			for i in range(1,len(listVitesse)):
@@ -64,7 +63,8 @@ class ParcEolien(Equipement):
 		return(0,self.prevision()[0],0,self.prevision()[1],(self.PROD_MAX/6)*100)
 
 	def etatSuivant(self, consigne=100, effacement=0):
-		
+		if (consigne/100)*self.PROD_MAX<self.prevision()[0]:
+			self.nbEolienne -= int((1-((consigne/100)*self.PROD_MAX)/self.prevision()[0])*self.nbEolienne)
 		self.activite = (self.prevision()[0]/self.PROD_MAX)*100
 
 	def contrainte(self):
