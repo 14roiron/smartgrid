@@ -69,10 +69,11 @@ while Global.temps < duree-1: #boucle principale
     effacement_actuel = 0.
     
     consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
-    #consigne = [i.prevision()[0] for i in ville.equipProduction] # liste des consignes equipements de production
     simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
+    
     consigne_stock = [i.activite for i in ville.equipStockage] # "" de stockage
     simulations_stock=[i.simulation() for i in ville.equipStockage]
+    
     consigne_conso = [0. for i in range(len(ville.equipConso))] # "" de consommation étalonné sans effacement
     simulations_conso = [i.simulation() for i in ville.equipConso]
 
@@ -111,7 +112,7 @@ while Global.temps < duree-1: #boucle principale
             
             # il faut maintenant compenser la différence prod-conso avec du stockage et eventuellement de l'effacement
             stock_max = [simulations_stock[i][1] for i in range(len(simulations_stock))] #tous les stockages sont en mode "vidage maximal"
-            while (abs(prod_provisoire-conso_future)/conso_future > 2./100. and prod_provisoire < conso_future and abs(sum(consigne_stock) - sum(stock_max)) >= sum(stock_max)*0.05):
+            while (abs(prod_provisoire-conso_future)/conso_future > 2./100. and prod_provisoire < conso_future and abs(sum(consigne_stock) - sum(stock_max)) > sum(stock_max)*0.05):
                 ind = ind_eqpascher(simulations_stock,consigne_stock) #stockage le moins cher à vider
                 equip = ville.equipStockage[ind]
                 print "stockage :"
@@ -119,11 +120,20 @@ while Global.temps < duree-1: #boucle principale
                 
                 print "conso future :"
                 print conso_future
-                while (abs(prod_provisoire-conso_future)/conso_future > 2./100. and prod_provisoire < conso_future and abs(consigne_stock[ind] - stock_max[ind]) >= 0.05*consigne_stock[ind]):
+                ind_boucle = 10
+                while (abs(prod_provisoire-conso_future)/conso_future > 2./100. and prod_provisoire < conso_future and abs(consigne_stock[ind] - stock_max[ind]) > 0.05*consigne_stock[ind] and ind_boucle > 0):
                     print "e"
+                    print ind
+                    print consigne_stock
+                    print simulations_stock[ind][1]
+                    print equip.activite
                     consigne_stock[ind] += (simulations_stock[ind][1] - equip.activite)/10.
                     prod_provisoire += (simulations_stock[ind][1] - equip.activite)/100./10.*equip.PROD_MAX
+                    ind_boucle -= 1
+                    print ind_boucle
                     #prod_provisoire = sum(simulations[i][1]/100.*ville.equipProduction[i].PROD_MAX for i in range(len(simulations)))
+                if consigne_stock[ind] < 10**(-3):
+                    consigne_stock[ind] = 0.
             conso_min = [(i.simulation()[1]-i.activite)*(i.PROD_MAX)/i.EFFA_MAX for i in ville.equipConso]
             '''production = - consommation ; 
                prod_min = - conso_max = conso sans effacement ;
