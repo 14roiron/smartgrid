@@ -69,11 +69,10 @@ while Global.temps < duree-1: #boucle principale
     effacement_actuel = 0.
     
     consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
+    #consigne = [i.prevision()[0] for i in ville.equipProduction] # liste des consignes equipements de production
     simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
-    
     consigne_stock = [i.activite for i in ville.equipStockage] # "" de stockage
     simulations_stock=[i.simulation() for i in ville.equipStockage]
-    
     consigne_conso = [0. for i in range(len(ville.equipConso))] # "" de consommation étalonné sans effacement
     simulations_conso = [i.simulation() for i in ville.equipConso]
 

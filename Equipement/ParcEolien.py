@@ -43,7 +43,7 @@ class ParcEolien(Equipement):
 		self.activite = 0
 
 
-	def prevision(self):
+	def prevision(self,consigne=0,prevision=0):
 
 		"""On va chercher la liste des vitesses croissantes"""
 		listVitesse = list(self.dictPV.keys())

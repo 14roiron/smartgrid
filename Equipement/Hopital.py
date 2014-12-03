@@ -39,7 +39,7 @@ class Hopital(Equipement):
         else:
             if (self.temps_effa>=3 or 0<self.temps_dernier_effa<18):
                 self.effacement = 0.
-                self.activite = self.production[temps]
+                self.activite = self.production[Global.temps]
                 self.temps_effa = 0
                 self.temps_dernier_effa += 1
             else:

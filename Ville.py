@@ -24,7 +24,7 @@ class Ville:
 		                        ParcSolaire(nom="PVmeteo4",prod=250.,activite=50.,nb=10.,meteo=meteo4),\
 		                        ParcSolaire(nom="PVmeteo5",prod=250.,activite=50.,nb=10.,meteo=meteo5),\
 		                        ParcTurbineAGaz("turbine1",varcout=1.),\
-		                        ParcTurbineAGaz("turbine2",varcout=1.13),\
+		                        ParcTurbineAGaz("turbine2",varcout=1.13,prod=10000),\
 		                        ParcEolien(nom="eolienne,meteo1",n=500., eolienne="eolienne5", meteoVent=meteo1),\
 		                        ParcEolien(nom="eolienne,meteo2",n=5., eolienne="eolienne1500", meteoVent=meteo2),\
 		                        ParcEolien(nom="eolienne,meteo3",n=500., eolienne="eolienne5", meteoVent=meteo3),\
@@ -33,7 +33,9 @@ class Ville:
 		self.equipConso = [ParcUsine38("Usine2-38"),\
 						   ParcMaison("parcmaison1",nombre=1200),\
 		                   ParcUsine("Usine1"),\
-		                   ParcEclairagePublic(nombre=2400),Hopital(),ParcMagasins()]
+		                   ParcEclairagePublic(nombre=2400),\
+		                   #Hopital(),\
+		                   ParcMagasins()]
 		self.equipStockage = [Stockage()]#,ParcBatterieLithiumIon()]
 		self.nombreEquipementProduction = len(self.equipProduction)
 		self.nombreEquipementConso = len(self.equipConso)

@@ -12,7 +12,7 @@ class ParcSolaire(Equipement):
         self.meteo = meteo
         self.meteoliss=[]
         for i in range (len(meteo)-1):
-            self.meteoliss.append(1/2*(meteo[i]["GHI"]+meteo[i+1]["GHI"]))
+            self.meteoliss.append(0.5*(meteo[i]["GHI"]+meteo[i+1]["GHI"]))
         self.meteoliss.append(meteo[len(meteo)-1]["GHI"])
         '''nom du Parc'''
         self.nom = nom
@@ -22,7 +22,7 @@ class ParcSolaire(Equipement):
         self.effacement = 0.
         self.cout = 0.001*self.nombre
         
-    def prevision(self, consigne, effacement):
+    def prevision(self, consigne=0, effacement=0):
         """retourne l'activité à l'état suivant en pourcentage par rapport à PROD_MAX"""
         return (self.calculActivite(Global.temps+1), self.cout)
     

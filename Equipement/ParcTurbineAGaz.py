@@ -1,6 +1,6 @@
 # -*-coding:utf-8 -
 class ParcTurbineAGaz:
-    def __init__(self,nom="turbine_a_gaz",prod=885.,effa=0.,activite=0.,varcout = 1., nombre=3., ):
+    def __init__(self,nom="turbine_a_gaz",prod=885.,effa=0.,activite=20.,varcout = 1., nombre=3., ):
         self.nom=nom
         self.nombre=nombre
         self.varcout=varcout
@@ -12,8 +12,10 @@ class ParcTurbineAGaz:
         self.arret=[100.,100.,100.,100.,100.,100.,100.,100.,100.,30.71,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.] #courbe d'arrêt
         self.cout=self.varcout*self.activite/100.*self.PROD_MAX*(80./1000./6.)*self.nombre
         
-    def prevision(self,consigne=0.,effacement=0.):
-        if consigne > self.activite: #si on veut augmenter la puissance, on place l'activité actuelle sur la courbe de montée en puissance et on en déduit l'état à t+10min
+    def prevision(self,consigne=0.,effacement=-1.):
+        if consigne==0 and effacement==-1:
+            return (self.activite,self.varcout*self.activite/100.*self.PROD_MAX*(80./1000./6.)*self.nombre)
+        elif consigne > self.activite: #si on veut augmenter la puissance, on place l'activité actuelle sur la courbe de montée en puissance et on en déduit l'état à t+10min
             i=0
             while self.activite > self.demarrage[i]:
                 i+=1
