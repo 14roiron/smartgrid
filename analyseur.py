@@ -16,7 +16,7 @@ numtest=Global.numtest
 
 export=True
 affichage=False
-database = MySQLdb.connect(host="localhost", user = "root", passwd = "migse", db = "Smartgrid1")
+database = MySQLdb.connect(host="localhost", user = "migse", passwd = "migse", db = "Smartgrid1")
 cur = database.cursor()
 #quelle est la durée de l'expérience?
 cur.execute("""SELECT count( * )
@@ -32,15 +32,19 @@ for row in cur.fetchall():
     dico = {"nom":row[2], "Pmax":float(row[3]), "Emax":float(row[4])}
     ID.append(dico)
 
-#on génère une liste de liste
-#on a une liste correspondant à la consommation à chaque instant t de chaque équipement i
+#on génère deux listes de listes
+#on a une liste (etat) correspondant à la consommation à chaque instant t de chaque équipement i
+# et une correspondant à l'effacement
 
 etat=[[] for i in range(nb)]
+effacement = [[] for i in range(nb)]
+
 for i in range(len(ID)):
     cur.execute("SELECT * FROM Etat WHERE (numTest=\"{}\" AND IDObjet={}) ORDER BY `Etat`.`t`".format(numtest,i))
     j=0
     for row in cur.fetchall():
-        etat[j].append(row[3]) 
+        etat[j].append(row[3])
+        effacement[j].append(row[4]) 
         j+=1
 
         
@@ -381,6 +385,24 @@ plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementStockage)
     f.savefig('resultats/graphNum{}IndivConsigneStockage.png'.format(numtest), bbox_inches='tight')
+
+# Capacité de stockage restante
+
+f,a=plt.subplots(ville.nombreEquipementStockage, sharex=True)
+for k in range(ville.nombreEquipementStockage):
+    i = k + ville.nombreEquipementProduction + ville.nombreEquipementConso
+    a[k].plot(list(range(len(etat))), [effacement[j][i] for j in range(len(etat))], "b", linewidth=1, label=ID[i]["nom"].decode('unicode-escape'))
+    handles, labels = a[k].get_legend_handles_labels()
+    a[k].legend(handles, labels)  
+    a[k].axis(xmin=0, xmax=len(etat))
+plt.ylabel("Stockage dispo kW.h")
+plt.xlabel('Temps')
+plt.title("Stockage disponible")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(15,15)
+    f.savefig('resultats/graphNum{}IndivStockageRestant.png'.format(numtest), bbox_inches='tight')
+
 
 
 #différence consignes 

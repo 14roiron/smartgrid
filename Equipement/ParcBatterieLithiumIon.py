@@ -41,7 +41,7 @@ class ParcBatterieLithiumIon:
         
         '''EFFACEMENT minimale en kW'''
         self.EFFA_MAX = self.PROD_MAX
-        self.effacement=0
+        self.effacement=self.reste        #Pour le stockage du reste en base de données
 
         '''Les prix sont en €/kWh'''
         
@@ -75,7 +75,8 @@ class ParcBatterieLithiumIon:
                 self.type_de_charge = 0
             else:
                 self.type_de_charge = self.calculType(self.activite)
-            self.reste = self.reste + self.activite*self.PROD_MAX/6/100
+            self.reste = self.reste - self.activite*self.PROD_MAX/6/100
+            self. effacement = self.reste
         
     def prevision(self, consigne=0.): #consigne en pourcentage
         
