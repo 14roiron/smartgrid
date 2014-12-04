@@ -21,11 +21,11 @@ class Ville:
 		self.equipProduction = [ParcTurbineAGaz("turbine1",varcout=1.,nombre=6),\
  		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=6),\
  		                        ParcTurbineAGaz("turbine3",varcout=1.13,nombre=6),\
-  		                        ParcSolaire(nom="PVmeteo1",prod=3.,activite=50.,nb=100.,meteo=meteo1),\
- 		                        ParcSolaire(nom="PVmeteo2",prod=3.,activite=50.,nb=100.,meteo=meteo2),\
- 		                        ParcSolaire(nom="PVmeteo3",prod=3.,activite=50.,nb=100.,meteo=meteo3),\
- 		                        ParcSolaire(nom="PVmeteo4",prod=3.,activite=50.,nb=100.,meteo=meteo4),\
- 		                        ParcSolaire(nom="PVmeteo5",prod=300.,activite=50.,nb=10.,meteo=meteo5),\
+#   		                    ParcSolaire(nom="PVmeteo1",prod=3.,activite=50.,nb=100.,meteo=meteo1),\
+#  		                        ParcSolaire(nom="PVmeteo2",prod=3.,activite=50.,nb=100.,meteo=meteo2),\
+#  		                        ParcSolaire(nom="PVmeteo3",prod=3.,activite=50.,nb=100.,meteo=meteo3),\
+#  		                        ParcSolaire(nom="PVmeteo4",prod=3.,activite=50.,nb=100.,meteo=meteo4),\
+#  		                        ParcSolaire(nom="PVmeteo5",prod=300.,activite=50.,nb=10.,meteo=meteo5),\
  		                        ParcEolien(nom="eolienne,meteo1",n=500., eolienne="eolienne5", meteoVent=meteo1),\
  		                        ParcEolien(nom="eolienne,meteo2",n=5., eolienne="eolienne1500", meteoVent=meteo2),\
  		                        ParcEolien(nom="eolienne,meteo3",n=500., eolienne="eolienne5", meteoVent=meteo3),\

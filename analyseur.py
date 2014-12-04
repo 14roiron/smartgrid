@@ -262,7 +262,8 @@ if export==True:
 f,a=plt.subplots(sharex=True)
 c=ville.nombreEquipementConso
 b=ville.nombreEquipementProduction
-y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(c+b)]) for j in range(len(etat))]
+d=ville.nombreEquipementStockage
+y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(c+d+b)]) for j in range(len(etat))]
 a.plot(list(range(len(etat))), y1, linewidth=1, label="difference",color=color[1%6])
 handles, labels = a.get_legend_handles_labels()
 a.legend(handles, labels)  
