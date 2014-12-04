@@ -67,7 +67,7 @@ Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipS
 Global.db.enregistrerConsigne([0 for i in range(ville.nombreEquipementProduction)], [0 for i in range(ville.nombreEquipementConso)],[0 for i in range(ville.nombreEquipementStockage)], numTest) 
 
 while Global.temps < duree-1: #boucle principale
-    prod_actuelle = sum(i.activite/100.*i.PROD_MAX for i in ville.equipProduction)
+    prod_actuelle = sum(i.prevision()[0]/100.*i.PROD_MAX for i in ville.equipProduction)
     conso_future = sum(-i.production[Global.temps + 1]/100.*i.PROD_MAX for i in ville.equipConso)
 
     diff = conso_future-prod_actuelle # différence conso-production actuelle
