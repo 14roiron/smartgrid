@@ -21,7 +21,7 @@ class ParcEclairagePublic (Utilitaire) :
         self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
     
     def etatSuivant(self,consigne=0.,effacement=0.):
-        pourcentage=self.production[Global.temps]
+        pourcentage=self.production[Global.temps+1]
         if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX:
             self.effacement=effacement
             self.activite=pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX
