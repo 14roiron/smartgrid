@@ -6,7 +6,7 @@ import Global
 class BaseDeDonnees:
           
     def __init__(self):
-        self.database = MySQLdb.connect(host="localhost", user = "migse", passwd = "migse", db = "Smartgrid1")
+        self.database = MySQLdb.connect(host="localhost", user = "root", passwd = "migse", db = "Smartgrid1")
         self.cur = self.database.cursor()
         
     def importerMeteo(self, nom):
