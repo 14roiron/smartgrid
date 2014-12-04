@@ -20,16 +20,20 @@ class Stockage(Equipement):
 		self.effacement = self.reste
 
 	def simulation(self):
-		if self.reste > self.PROD_MAX*600.: # si on a assez d'énergie pour débiter à fond...
+		if self.reste > self.PROD_MAX/6.: # si on a assez d'énergie pour débiter à fond...
 			prod_max=100.
 		else:
 			prod_max= self.reste*100./(self.PROD_MAX/6.) 
                         if prod_max < 10.**(-3):
                             prod_max =0.
-		prix_min = 0.
+		if self.reste+self.PROD_MAX/6.>self.capacite:
+			prod_min= -100
+		else:
+			prod_min=(self.reste-self.capacite)*100./(self.PROD_MAX/6.)
+		prix_min = prod_min/100.*self.PROD_MAX*self.cout
 		prix_stable = self.activite/100.*self.cout*self.PROD_MAX
 		prix_max = prod_max/100.*self.PROD_MAX*self.cout
-		return (0.,prod_max,prix_min,prix_stable,prix_max)
+		return (prod_min,prod_max,prix_min,prix_stable,prix_max)
 	
 if __name__ == "__main__":
     stockage = Stockage()
