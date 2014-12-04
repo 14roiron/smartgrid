@@ -16,7 +16,7 @@ numtest=Global.numtest
 
 export=True
 affichage=False
-database = MySQLdb.connect(host="localhost", user = "root", passwd = "migse", db = "Smartgrid1")
+database = MySQLdb.connect(host="localhost", user = "migse", passwd = "migse", db = "Smartgrid1")
 cur = database.cursor()
 #quelle est la durée de l'expérience?
 cur.execute("""SELECT count( * )
