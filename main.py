@@ -77,7 +77,7 @@ while Global.temps < duree-1: #boucle principale
     consigne = [i.prevision()[0] for i in ville.equipProduction] # liste des consignes equipements de production
     simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
     
-    consigne_stock = [0 for i in ville.equipStockage] # "" de stockage
+    consigne_stock = [0. for i in ville.equipStockage] # "" de stockage
     simulations_stock=[i.simulation() for i in ville.equipStockage]
     
     consigne_conso = [0. for i in range(len(ville.equipConso))] # "" de consommation étalonné sans effacement
@@ -181,11 +181,10 @@ while Global.temps < duree-1: #boucle principale
 		equip = ville.equipStockage[i]
 		if equip.reste < equip.capacite/2.:
 		    ind_boucle=10
-		    while (conso_future<prod_provisoire and ind_boucle<10):
-		        consigne_stock[i]=(equip.reste-equip.capacite/2.)/equip.PROD_MAX*60.
+		    while (conso_future<prod_provisoire and ind_boucle>0):
+			consigne_stock[i]+=(equip.reste-equip.capacite/2.)/equip.PROD_MAX*60.
 		        prod_provisoire-=(equip.capacite/2.-equip.reste)*0.6
 			ind_boucle-=1
-            print [i.reste for i in ville.equipStockage]
             ind_boucle4 = len(ville.equipProduction) #boucle de sécurité
             while (abs(prod_provisoire-conso_future) > 10.**(-3) and prod_provisoire > conso_future and ind_boucle4 > 0): #tant que ecart > 2% et prod > conso
                 ind = ind_eqpascher2(simulations,consigne) #indice de l'equipement le moins cher qu'on met au min
@@ -227,7 +226,7 @@ while Global.temps < duree-1: #boucle principale
                 else:
                     print "indice stockage récupéré par ind_pascher trop grand"
                     break
-                    
+
     stock_max=[i.simulation()[1] for i in ville.equipStockage]
     stock_min=[i.simulation()[0] for i in ville.equipStockage]
     while (abs(conso_future-prod_provisoire)>conso_future*0.005):# and abs(sum(consigne_stock) - sum(stock_max))>sum(stock_max)*0.05 and abs(sum(consigne_stock) - sum(stock_min))>abs(sum(stock_min))*0.05)
@@ -266,9 +265,6 @@ while Global.temps < duree-1: #boucle principale
 		break
 		    
     ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
-    if abs(ecart)>conso_future*0.02:
-        print consigne_stock
-    print ecart
     ville.equipProduction[0].effacement = ecart
     ''' print effacement_actuel'''
     '''envoie des consignes et effacements pour la prochaine étape :) '''
@@ -285,8 +281,6 @@ while Global.temps < duree-1: #boucle principale
         
         ville.equipConso[i].etatSuivant(0.,consigne_conso[i])
 
-    print [i.reste for i in ville.equipStockage]
-    
     Global.db.enregistrerConsigne(consigne, consigne_conso, consigne_stock, numTest)
     Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)        
     Global.tempsinc()#temps+=1
