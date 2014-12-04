@@ -177,7 +177,15 @@ while Global.temps < duree-1: #boucle principale
 
         if min <= conso_future: # si on peut atteindre la valeur de la consommation...
             prod_provisoire = prod_actuelle
-            
+	    for i in range(len(ville.equipStockage)): #cette boucle a pour but de recharger les stockages à 50% de leur capacité
+		equip = ville.equipStockage[i]
+		if equip.reste < equip.capacite/2.:
+		    ind_boucle=10
+		    while (conso_future<prod_provisoire and ind_boucle<10):
+		        consigne_stock[i]=(equip.reste-equip.capacite/2.)/equip.PROD_MAX*60.
+		        prod_provisoire-=(equip.capacite/2.-equip.reste)*0.6
+			ind_boucle-=1
+            print [i.reste for i in ville.equipStockage]
             ind_boucle4 = len(ville.equipProduction) #boucle de sécurité
             while (abs(prod_provisoire-conso_future) > 10.**(-3) and prod_provisoire > conso_future and ind_boucle4 > 0): #tant que ecart > 2% et prod > conso
                 ind = ind_eqpascher2(simulations,consigne) #indice de l'equipement le moins cher qu'on met au min
@@ -276,6 +284,8 @@ while Global.temps < duree-1: #boucle principale
     for i in range(len(consigne_conso)):
         
         ville.equipConso[i].etatSuivant(0.,consigne_conso[i])
+
+    print [i.reste for i in ville.equipStockage]
     
     Global.db.enregistrerConsigne(consigne, consigne_conso, consigne_stock, numTest)
     Global.db.enregistrerEtape(ville.equipProduction, ville.equipConso, ville.equipStockage, numTest)        
