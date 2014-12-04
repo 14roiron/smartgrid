@@ -220,8 +220,10 @@ nbConso = ville.nombreEquipementConso
 nbStock = ville.nombreEquipementStockage
 
 for i in range(ville.nombreEquipementProduction):  # Production
-    y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(i+1)]) for j in range(len(etat))]
-    y0=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(i)]) for j in range(len(etat))]
+    y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(i+1)]) +\
+        sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd+nbConso,nbProd+nbConso+nbStock)]) for j in range(len(etat))]
+    y0=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(i)]) +\
+        sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd+nbConso,nbProd+nbConso+nbStock)]) for j in range(len(etat))]
     a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[i]["nom"].decode('unicode-escape'),color=color[i%6])
     a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[i%6], interpolate=True)
     handles, labels = a.get_legend_handles_labels()
@@ -229,12 +231,12 @@ for i in range(ville.nombreEquipementProduction):  # Production
     a.axis(xmin=0, xmax=len(etat))
 
 for i in range(nbStock):   # Stockage
-    y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd+nbConso, nbProd+nbConso+i+1)]) +\
-        sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd)]) for j in range(len(etat))]
-    y0=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd+nbConso, nbProd+nbConso+i)])  +\
-        sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd)]) for j in range(len(etat))]
-    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[nbProd+nbConso+i]["nom"].decode('unicode-escape'),color=color[i%6])
-    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[i%6], interpolate=True)
+    y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd+nbConso, nbProd+nbConso+i+1)]) for j in range(len(etat))]
+        #sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd)]) for j in range(len(etat))]
+    y0=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd+nbConso, nbProd+nbConso+i)])  for j in range(len(etat))]
+        #sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd)]) for j in range(len(etat))]
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[nbProd+nbConso+i]["nom"].decode('unicode-escape'),color=color[(nbProd+i)%6])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[(nbProd+i)%6], interpolate=True)
     handles, labels = a.get_legend_handles_labels()
     a.legend(handles, labels)  
     a.axis(xmin=0, xmax=len(etat))
