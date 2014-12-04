@@ -109,6 +109,14 @@ class ParcBatterieLithiumIon:
         prix = self.calculPrix(self.calculType(prod))*abs(prod)/100*self.PROD_MAX
         return (prod, prix)
     
+    def simulation(self):
+        prod_min = self.simulation_destockage()[0]
+        prod_max = self.simulation_stockage()[1]
+        prix_min = self.simulation_destockage()[2]
+        prix_nor = max(self.simulation_stockage()[3],self.simulation_destockage()[3])
+        prix_max = self.simulation_stockage()[4]
+        return (prod_min,prod_max,prix_min,prix_nor,prix_max)
+                
     def simulation_destockage(self):
     
         if self.compteur_fin == 1 or self.compteur_pause < 2 or self.activite > 0:
