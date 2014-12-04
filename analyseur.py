@@ -98,7 +98,7 @@ for k in range(ville.nombreEquipementConso):
     a[k].axis(xmin=0, xmax=len(etat))
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,15)
@@ -148,7 +148,7 @@ for k in range(ville.nombreEquipementConso):
     a.axis(xmin=0, xmax=len(etat))
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
@@ -206,7 +206,7 @@ for i in range(ville.nombreEquipementConso):
     a.axis(xmin=0, xmax=len(etat))
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
-plt.title("Consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
@@ -301,7 +301,7 @@ for k in range(ville.nombreEquipementConso):
     a[k].axis(xmin=0, xmax=len(etat))
 plt.ylabel("consigne %")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementConso)
@@ -360,7 +360,7 @@ for k in range(ville.nombreEquipementConso):
     a[k].axis(xmin=0, xmax=len(etat))
 plt.ylabel("Difference Consigne/Conso kW")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementConso)
@@ -381,7 +381,7 @@ for k in range(ville.nombreEquipementStockage):
     a[k].axis(xmin=0, xmax=len(etat))
 plt.ylabel("Difference Consigne/Conso kW")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementStockage)
