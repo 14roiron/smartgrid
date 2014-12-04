@@ -180,7 +180,7 @@ while Global.temps < duree-1: #boucle principale
 	    for i in range(len(ville.equipStockage)): #cette boucle a pour but de recharger les stockages à 50% de leur capacité
 		equip = ville.equipStockage[i]
 		if equip.reste < equip.capacite/2.:
-		    if (equip.reste-equip.capacite)/equip.PROD_MAX*600.<-100.:
+		    if (equip.reste-equip.capacite/2.)/equip.PROD_MAX*600.<-100.:
                         consigne_stock[i]=-100.
                     else:                    
                         ind_boucle=10
