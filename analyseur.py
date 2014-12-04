@@ -32,15 +32,19 @@ for row in cur.fetchall():
     dico = {"nom":row[2], "Pmax":float(row[3]), "Emax":float(row[4])}
     ID.append(dico)
 
-#on génère une liste de liste
-#on a une liste correspondant à la consommation à chaque instant t de chaque équipement i
+#on génère deux listes de listes
+#on a une liste (etat) correspondant à la consommation à chaque instant t de chaque équipement i
+# et une correspondant à l'effacement
 
 etat=[[] for i in range(nb)]
+effacement = [[] for i in range(nb)]
+
 for i in range(len(ID)):
     cur.execute("SELECT * FROM Etat WHERE (numTest=\"{}\" AND IDObjet={}) ORDER BY `Etat`.`t`".format(numtest,i))
     j=0
     for row in cur.fetchall():
-        etat[j].append(row[3]) 
+        etat[j].append(row[3])
+        effacement[j].append(row[4]) 
         j+=1
 
         
@@ -94,7 +98,7 @@ for k in range(ville.nombreEquipementConso):
     a[k].axis(xmin=0, xmax=len(etat))
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,15)
@@ -144,7 +148,7 @@ for k in range(ville.nombreEquipementConso):
     a.axis(xmin=0, xmax=len(etat))
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
@@ -202,7 +206,7 @@ for i in range(ville.nombreEquipementConso):
     a.axis(xmin=0, xmax=len(etat))
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
-plt.title("Consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
@@ -258,7 +262,8 @@ if export==True:
 f,a=plt.subplots(sharex=True)
 c=ville.nombreEquipementConso
 b=ville.nombreEquipementProduction
-y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(c+b)]) for j in range(len(etat))]
+d=ville.nombreEquipementStockage
+y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(c+d+b)]) for j in range(len(etat))]
 a.plot(list(range(len(etat))), y1, linewidth=1, label="difference",color=color[1%6])
 handles, labels = a.get_legend_handles_labels()
 a.legend(handles, labels)  
@@ -297,7 +302,7 @@ for k in range(ville.nombreEquipementConso):
     a[k].axis(xmin=0, xmax=len(etat))
 plt.ylabel("consigne %")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementConso)
@@ -356,7 +361,7 @@ for k in range(ville.nombreEquipementConso):
     a[k].axis(xmin=0, xmax=len(etat))
 plt.ylabel("Difference Consigne/Conso kW")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementConso)
@@ -377,11 +382,29 @@ for k in range(ville.nombreEquipementStockage):
     a[k].axis(xmin=0, xmax=len(etat))
 plt.ylabel("Difference Consigne/Conso kW")
 plt.xlabel('Temps')
-plt.title("consomation")
+plt.title("consommation")
 plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,3*ville.nombreEquipementStockage)
     f.savefig('resultats/graphNum{}IndivConsigneStockage.png'.format(numtest), bbox_inches='tight')
+
+# Capacité de stockage restante
+
+f,a=plt.subplots(ville.nombreEquipementStockage, sharex=True)
+for k in range(ville.nombreEquipementStockage):
+    i = k + ville.nombreEquipementProduction + ville.nombreEquipementConso
+    a[k].plot(list(range(len(etat))), [effacement[j][i] for j in range(len(etat))], "b", linewidth=1, label=ID[i]["nom"].decode('unicode-escape'))
+    handles, labels = a[k].get_legend_handles_labels()
+    a[k].legend(handles, labels)  
+    a[k].axis(xmin=0, xmax=len(etat))
+plt.ylabel("Stockage dispo kW.h")
+plt.xlabel('Temps')
+plt.title("Stockage disponible")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(15,15)
+    f.savefig('resultats/graphNum{}IndivStockageRestant.png'.format(numtest), bbox_inches='tight')
+
 
 
 #différence consignes 
