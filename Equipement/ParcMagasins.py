@@ -27,7 +27,7 @@ class ParcMagasins (Utilitaire) : # des commerces de centre ville aux petits sup
         self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut 
     
     def etatSuivant(self,consigne=0.,effacement=0.):
-        pourcentage=self.production[Global.temps] #% de la production à l'étape actuelle, >0
+        pourcentage=self.production[Global.temps+1] #% de la production à l'étape actuelle, >0
         if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #ie pourcentage * PROD_MAX <= -eff * EFFA_MAX ie la consommation est plus grande que l'effacement demandé
             self.effacement=effacement
             self.activite=pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX #maj de l'activité

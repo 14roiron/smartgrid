@@ -206,13 +206,14 @@ while Global.temps < duree-1: #boucle principale
             stock_min = [simulations_stock[i][0] for i in range(len(simulations_stock))] #tous les stockages sont en mode "remplissage maximal"
             while (abs(prod_provisoire-conso_future) > 2./100.*conso_future and prod_provisoire > conso_future and abs(sum(consigne_stock)-sum(stock_min)) >= 10.**(-3)):
                 ind = ind_eqpascher2(simulations_stock,consigne_stock) #stockage le moins cher à remplir
+                print "stockage en cours"
                 if ind < len(ville.equipStockage):
                     equip = ville.equipStockage[ind]
                     
-                    ind_boucle6 = len(ville.equipStockage)
-                    while (abs(prod_provisoire-conso_future) > 2./100.*conso_future and prod_provisoire > conso_future and abs(consigne_stock[ind]-stock_min[ind]) >= stock_min[ind]*0.05 and ind_boucle6 > 0):
-                        consigne_stock[ind] -= (equip.activite - simulations_stock[ind][0])/10.
-                        prod_provisoire -= (equip.activite - simulations_stock[ind][0])/100./10.*equip.PROD_MAX
+                    ind_boucle6 = len(ville.equipStockage)*10
+                    while (abs(prod_provisoire-conso_future) > 2./100.*conso_future and prod_provisoire > conso_future and abs(consigne_stock[ind]-stock_min[ind]) >= stock_min[ind]*0.005 and ind_boucle6 > 0):
+                        consigne_stock[ind] -= (equip.activite - simulations_stock[ind][0])/100.
+                        prod_provisoire -= (equip.activite - simulations_stock[ind][0])/100./100.*equip.PROD_MAX
                         ind_boucle6 -= 1
                 else:
                     print "indice stockage récupéré par ind_pascher trop grand"

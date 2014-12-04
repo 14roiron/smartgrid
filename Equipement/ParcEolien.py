@@ -73,7 +73,6 @@ class ParcEolien():
 		else:
 			self.nbEolienne =self.nbEolienneMax
 		self.activite = self.prevision()[0]
-		return ""
 		
 	def contrainte(self):
 		return True

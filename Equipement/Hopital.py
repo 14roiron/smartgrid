@@ -42,19 +42,19 @@ class Hopital(Equipement):
     def etatSuivant(self, consigne=0., effacement=0.):
         if effacement == 0. :
             self.effacement = 0.
-            self.activite = self.production[Global.temps]
+            self.activite = self.production[Global.temps+1]
             self.temps_effa = 0
             self.temps_dernier_effa += 1
         else:
             if (self.temps_effa>=3 or 0<self.temps_dernier_effa<18):
                 self.effacement = 0.
-                self.activite = self.production[Global.temps]
+                self.activite = self.production[Global.temps+1]
                 self.temps_effa = 0
                 self.temps_dernier_effa += 1
             else:
                 self.temps_effa += 1
                 self.temps_dernier_effa = 0
-                pourcentage=self.production[Global.temps%1008] #% de la production à  l'étape actuelle, >0
+                pourcentage=self.production[(Global.temps+1)%1008] #% de la production à  l'étape actuelle, >0
                 if pourcentage>=-effacement*self.EFFA_MAX/self.PROD_MAX: #ie pourcentage * PROD_MAX <= -eff * EFFA_MAX ie la consommation est plus grande que l'effacement demandÃ©
                     self.effacement=effacement
                     self.activite=pourcentage+effacement*self.EFFA_MAX/self.PROD_MAX

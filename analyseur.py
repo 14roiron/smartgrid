@@ -64,6 +64,7 @@ print len(etat)
 print len(consigne)
 
 #on a besoin de séparer les consos/prods/stocks
+Global.temps=0
 ville=Ville()
 
 abscissea=list(range(len(etat)))

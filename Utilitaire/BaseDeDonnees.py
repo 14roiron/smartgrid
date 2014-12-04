@@ -68,7 +68,7 @@ class BaseDeDonnees:
             sql = """INSERT INTO consigne (t, IDObjet, consigne, numTest)
                      VALUES (%s, %s, %s, %s)"""
             try:
-                self.cur.execute(sql, (Global.temps-1, IDObjet, equipement, numTest))
+                self.cur.execute(sql, (Global.temps, IDObjet, equipement, numTest))
                 self.database.commit()
                 #print sql % (Global.temps, IDObjet, equipement, numTest)
                 IDObjet += 1

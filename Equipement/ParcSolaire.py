@@ -5,7 +5,7 @@ from Utilitaire.Global import meteoTest
 
 
 class ParcSolaire(Equipement):
-    def __init__(self, nom="ParcSolaire", prod=150., effa=0., activite=10., nb=10., meteo=meteoTest):
+    def __init__(self, nom="ParcSolaire", prod=3., effa=0., activite=10., nb=10., meteo=meteoTest):
         '''nombre de panneaux solaires dans la ferme'''
         self.nombre = nb
         '''Trois possibilités : meteo1, meteo2 ou meteoTest'''
@@ -33,7 +33,7 @@ class ParcSolaire(Equipement):
         
     def etatSuivant(self, consigne, effacement):
         """consignes et effacement en %"""
-        self.activite = self.calculActivite(Global.temps)
+        self.activite = self.calculActivite(Global.temps+1)
         
     def contraintes(self, consigne, effacement):
         """consignes et effacement en %
@@ -44,7 +44,6 @@ class ParcSolaire(Equipement):
             return False
     
     def calculActivite(self,temps):
-        """formule de test, lien avec les données météo à faire"""
         return (self.meteoliss[temps])/1000.*80./100.*100. #loi de murphy, on a env. 80% de la production imaginée, on divise par 1000 W . m-2, intensité de ref
         
 #pour les tests
