@@ -19,17 +19,17 @@ class Ville:
 
 	def __init__(self):
 		self.equipProduction = [ParcTurbineAGaz("turbine1",varcout=1.,nombre=1),\
- 		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=1),\
+ 		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=0.5),\
  		                        ParcTurbineAGaz("turbine3",varcout=1.13,nombre=1),\
    		                     	ParcSolaire(nom="PVmeteo1",prod=4.,activite=50.,nb=100.,meteo=meteo1),\
   		                        ParcSolaire(nom="PVmeteo2",prod=4.,activite=50.,nb=100.,meteo=meteo2),\
   		                        ParcSolaire(nom="PVmeteo3",prod=4.,activite=50.,nb=100.,meteo=meteo3),\
   		                        ParcSolaire(nom="PVmeteo4",prod=4.,activite=50.,nb=100.,meteo=meteo4),\
   		                        ParcSolaire(nom="PVmeteo5",prod=4.,activite=50.,nb=100.,meteo=meteo5),\
-  		                        ParcEolien(nom="eolienne,meteo1",n=150., eolienne="eolienne5", meteoVent=meteo1),\
-  		                        ParcEolien(nom="eolienne,meteo2",n=2., eolienne="eolienne1500", meteoVent=meteo2),\
-  		                        ParcEolien(nom="eolienne,meteo3",n=150., eolienne="eolienne5", meteoVent=meteo3),\
-  		                        ParcEolien(nom="eolienne,meteo4",n=2., eolienne="eolienne1500", meteoVent=meteo4),\
+  		                        ParcEolien(nom="eolienne,meteo1",n=100., eolienne="eolienne5", meteoVent=meteo1),\
+  		                        ParcEolien(nom="eolienne,meteo2",n=1., eolienne="eolienne1500", meteoVent=meteo2),\
+  		                        ParcEolien(nom="eolienne,meteo3",n=100., eolienne="eolienne5", meteoVent=meteo3),\
+  		                        ParcEolien(nom="eolienne,meteo4",n=1., eolienne="eolienne1500", meteoVent=meteo4),\
   		                        ParcEolien(nom="eolienne,meteo5",n=10., eolienne="eolienne275", meteoVent=meteo5),\
 		                        ]
 		self.equipConso = [ParcUsine38(nom="usine2-38",prod=-60.,effa=10.,activite=0.,nombre=1),\
