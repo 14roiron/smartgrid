@@ -16,7 +16,7 @@ numtest=Global.numtest
 
 export=True
 affichage=False
-database = MySQLdb.connect(host="localhost", user = "root", passwd = "migse", db = "Smartgrid1")
+database = MySQLdb.connect(host="localhost", user = "migse", passwd = "migse", db = "Smartgrid1")
 cur = database.cursor()
 #quelle est la durée de l'expérience?
 cur.execute("""SELECT count( * )
@@ -254,7 +254,31 @@ plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(13,7)
     f.savefig('resultats/graphNum{}DifferenceC.png'.format(numtest), bbox_inches='tight')
+    
 
+# Affichage du stockage ajouté à la production et de la consommation
+
+f,a=plt.subplots(sharex=True)
+c=ville.nombreEquipementConso
+b=ville.nombreEquipementProduction
+stock = ville.nombreEquipementStockage
+y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(b)]) +\
+    sum([etat[j][st]*ID[st]["Pmax"]/100. for st in range(b+c, b+c+stock)]) for j in range(len(etat))]
+y0=[sum([-etat[j][l]*ID[l]["Pmax"]/100. for l in range(b,b+c)]) for j in range(len(etat))]
+a.plot(list(range(len(etat))), y1, linewidth=1, label="production et stockage",color=color[1%6])
+a.plot(list(range(len(etat))), y0, linewidth=1, label="conso",color=color[2%6])
+a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[3%6],interpolate=True)
+#a.fill_between(list(range(len(etat))),y0,y1,where=y0>y1,facecolor=color[4%6])
+handles, labels = a.get_legend_handles_labels()
+a.legend(handles, labels)  
+a.axis(xmin=0, xmax=len(etat))
+plt.ylabel("puissance kW")
+plt.xlabel('Temps')
+plt.title("difference")
+plt.xticks(abscissea,abscisseb)
+if export==True:
+    f.set_size_inches(13,7)
+    f.savefig('resultats/graphNum{}ProdStockConso.png'.format(numtest), bbox_inches='tight')
 
 
 
@@ -404,6 +428,10 @@ plt.xticks(abscissea,abscisseb)
 if export==True:
     f.set_size_inches(15,15)
     f.savefig('resultats/graphNum{}IndivStockageRestant.png'.format(numtest), bbox_inches='tight')
+
+# Coût
+
+
 
 
 

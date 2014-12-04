@@ -2,7 +2,7 @@
 from Equipement import Equipement
 class Stockage(Equipement):
 
-	def __init__(self,nom="Stockage", capacite = 5000000., prop = 1./2., cout=2., prod = 800.):
+	def __init__(self,nom="Stockage", capacite = 1000., prop = 1./2., cout=2., prod = 200.):
 		self.capacite = capacite
 		self.reste = self.capacite*prop #pas un pourcentage
 		self.cout = cout
@@ -14,7 +14,7 @@ class Stockage(Equipement):
 
 	def etatSuivant(self, consigne=0., effacement=0.):
 		self.activite = consigne
-                if self.activite < 10.**(-3):
+                if abs(self.activite) < 10.**(-3):
                     self.activite = 0.
 		self.reste = max(0., self.reste - self.activite/100.*self.PROD_MAX/6.) # on retire la puissance dégagée / 6 (10 min = 1h / 6)
 		self.effacement = self.reste
@@ -27,9 +27,9 @@ class Stockage(Equipement):
                         if prod_max < 10.**(-3):
                             prod_max =0.
 		if self.reste+self.PROD_MAX/6.>self.capacite:
-			prod_min= -100
+			prod_min= (self.reste - self.capacite)*100./(self.PROD_MAX/6.)
 		else:
-			prod_min=(self.reste-self.capacite)*100./(self.PROD_MAX/6.)
+			prod_min=-100.
 		prix_min = prod_min/100.*self.PROD_MAX*self.cout
 		prix_stable = self.activite/100.*self.cout*self.PROD_MAX
 		prix_max = prod_max/100.*self.PROD_MAX*self.cout
@@ -41,21 +41,21 @@ if __name__ == "__main__":
     print stockage.reste
     s = stockage.simulation()
     print s
-    stockage.etatSuivant(s[1], 0.)
+    stockage.etatSuivant(s[0], 0.)
     print stockage.reste
     s = stockage.simulation()
     print s
-    stockage.etatSuivant(s[1], 0.)
+    stockage.etatSuivant(s[0], 0.)
     print stockage.reste
     s = stockage.simulation()
     print s
-    stockage.etatSuivant(s[1], 0.)
+    stockage.etatSuivant(s[0], 0.)
     print stockage.reste
     s = stockage.simulation()
     print s
-    stockage.etatSuivant(s[1], 0.)
+    stockage.etatSuivant(s[0], 0.)
     print stockage.reste
     s = stockage.simulation()
     print s
-    stockage.etatSuivant(s[1], 0.)
+    stockage.etatSuivant(s[0], 0.)
     
