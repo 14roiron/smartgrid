@@ -8,7 +8,7 @@ class Stockage(Equipement):
 		self.cout = cout
 		self.PROD_MAX=prod
 		self.activite = 0.
-		self.EFFA_MAX = 0.
+		self.EFFA_MAX = capacite   # /!\ on stocke la capacité dans EFFA_MAX pour l'enregistrer en base de données
 		self.effacement = 0.
 		self.nom = nom
 
