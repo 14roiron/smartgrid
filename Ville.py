@@ -18,9 +18,9 @@ from Utilitaire.Global import meteoTest
 class Ville:
 
 	def __init__(self):
-		self.equipProduction = [ParcTurbineAGaz("turbine1",varcout=1.,nombre=8),\
- 		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=10),\
- 		                        ParcTurbineAGaz("turbine3",varcout=5.13,nombre=12),\
+		self.equipProduction = [ParcTurbineAGaz("turbine1",varcout=1.,nombre=6),\
+ 		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=6),\
+ 		                        ParcTurbineAGaz("turbine3",varcout=1.13,nombre=6),\
   		                        ParcSolaire(nom="PVmeteo1",prod=3.,activite=50.,nb=100.,meteo=meteo1),\
  		                        ParcSolaire(nom="PVmeteo2",prod=3.,activite=50.,nb=100.,meteo=meteo2),\
  		                        ParcSolaire(nom="PVmeteo3",prod=3.,activite=50.,nb=100.,meteo=meteo3),\

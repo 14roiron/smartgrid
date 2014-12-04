@@ -74,15 +74,14 @@ while Global.temps < duree-1: #boucle principale
     print "diff : %s" %diff
     effacement_actuel = 0.
     
-    consigne = [i.prevision()[0] for i in ville.equipProduction] # liste des consignes equipements de production
+    consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
     simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
-    
+    #prevision()[0]
     consigne_stock = [i.activite for i in ville.equipStockage] # "" de stockage
     simulations_stock=[i.simulation() for i in ville.equipStockage]
     
     consigne_conso = [0. for i in range(len(ville.equipConso))] # "" de consommation étalonné sans effacement
-    simulations_conso = [i.simulation() for i in ville.equipConso]
-
+    simulations_conso = [i.simulation() for i in ville.equipConso] 
     if diff > 0.: #on consommera plus qu'on ne produit
         max = sum(i.simulation()[1]/100.*i.PROD_MAX for i in ville.equipProduction) #capacite de production maximale à l'etat suivant
         print "max : %s" %max
