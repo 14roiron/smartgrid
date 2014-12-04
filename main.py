@@ -74,9 +74,9 @@ while Global.temps < duree-1: #boucle principale
     print "diff : %s" %diff
     effacement_actuel = 0.
     
-    consigne = [i.activite for i in ville.equipProduction] # liste des consignes equipements de production
+    consigne = [i.prevision()[0] for i in ville.equipProduction] # liste des consignes equipements de production
     simulations = [i.simulation() for i in ville.equipProduction] #liste représentant les equipements de production pour l'etape suivante
-    #prevision()[0]
+    
     consigne_stock = [i.activite for i in ville.equipStockage] # "" de stockage
     simulations_stock=[i.simulation() for i in ville.equipStockage]
     
