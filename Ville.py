@@ -21,22 +21,23 @@ class Ville:
 		self.equipProduction = [ParcTurbineAGaz("turbine1",varcout=1.,nombre=6),\
  		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=6),\
  		                        ParcTurbineAGaz("turbine3",varcout=1.13,nombre=6),\
-#   		                    ParcSolaire(nom="PVmeteo1",prod=3.,activite=50.,nb=100.,meteo=meteo1),\
-#  		                        ParcSolaire(nom="PVmeteo2",prod=3.,activite=50.,nb=100.,meteo=meteo2),\
-#  		                        ParcSolaire(nom="PVmeteo3",prod=3.,activite=50.,nb=100.,meteo=meteo3),\
-#  		                        ParcSolaire(nom="PVmeteo4",prod=3.,activite=50.,nb=100.,meteo=meteo4),\
-#  		                        ParcSolaire(nom="PVmeteo5",prod=300.,activite=50.,nb=10.,meteo=meteo5),\
- 		                        ParcEolien(nom="eolienne,meteo1",n=500., eolienne="eolienne5", meteoVent=meteo1),\
- 		                        ParcEolien(nom="eolienne,meteo2",n=5., eolienne="eolienne1500", meteoVent=meteo2),\
- 		                        ParcEolien(nom="eolienne,meteo3",n=500., eolienne="eolienne5", meteoVent=meteo3),\
- 		                        ParcEolien(nom="eolienne,meteo4",n=5., eolienne="eolienne1500", meteoVent=meteo4),\
- 		                        ParcEolien(nom="eolienne,meteo5",n=50., eolienne="eolienne275", meteoVent=meteo5),\
+   		                     	ParcSolaire(nom="PVmeteo1",prod=3.,activite=50.,nb=100.,meteo=meteo1),\
+  		                        ParcSolaire(nom="PVmeteo2",prod=3.,activite=50.,nb=100.,meteo=meteo2),\
+  		                        ParcSolaire(nom="PVmeteo3",prod=3.,activite=50.,nb=100.,meteo=meteo3),\
+  		                        ParcSolaire(nom="PVmeteo4",prod=3.,activite=50.,nb=100.,meteo=meteo4),\
+  		                        ParcSolaire(nom="PVmeteo5",prod=300.,activite=50.,nb=10.,meteo=meteo5),\
+  		                        ParcEolien(nom="eolienne,meteo1",n=500., eolienne="eolienne5", meteoVent=meteo1),\
+  		                        ParcEolien(nom="eolienne,meteo2",n=5., eolienne="eolienne1500", meteoVent=meteo2),\
+  		                        ParcEolien(nom="eolienne,meteo3",n=500., eolienne="eolienne5", meteoVent=meteo3),\
+  		                        ParcEolien(nom="eolienne,meteo4",n=5., eolienne="eolienne1500", meteoVent=meteo4),\
+  		                        ParcEolien(nom="eolienne,meteo5",n=50., eolienne="eolienne275", meteoVent=meteo5),\
 		                        ]
-		self.equipConso = [ParcUsine38("Usine2-38"),\
-						   ParcMaison("parcmaison1",nombre=1200),\
-		                   ParcUsine("Usine1"),\
-		                   ParcEclairagePublic(nombre=2400),\
-                                   ParcMagasins()]
+		self.equipConso = [ParcUsine38(nom="usine2-38",prod=-60.,effa=10.,activite=0.,nombre=1),\
+						   ParcMaison("parcmaison1", prod=-2., effa=0.1, activite=0., nombre=600),\
+		                   ParcUsine("Usine1",prod=-50.,effa=10.,activite=0.,nombre=5,),\
+		                   ParcEclairagePublic(prod=-0.140,effa=0.112,activite=0,nombre=2400),\
+                           ParcMagasins(prod=-10.,effa=2.,activite=0.,nombre=20),
+                           Hopital(nom = "hopital", prod = -240., effa = 10., activite = 50.)]
 		self.equipStockage = [Stockage(),Stockage(),Stockage()]#,ParcBatterieLithiumIon()]
 		self.nombreEquipementProduction = len(self.equipProduction)
 		self.nombreEquipementConso = len(self.equipConso)
