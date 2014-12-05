@@ -20,7 +20,7 @@ class Ville:
 	def __init__(self):
 		self.equipProduction = [ParcTurbineAGaz("turbine1",varcout=1.,nombre=1),\
  		                        ParcTurbineAGaz("turbine2",varcout=1.10,nombre=0.5),\
- 		                        ParcTurbineAGaz("turbine3",varcout=1.13,nombre=1),\
+ 		                        #ParcTurbineAGaz("turbine3",varcout=1.13,nombre=1),\
    		                     	ParcSolaire(nom="PVmeteo1",prod=4.,activite=50.,nb=100.,meteo=meteo1),\
   		                        ParcSolaire(nom="PVmeteo2",prod=4.,activite=50.,nb=100.,meteo=meteo2),\
   		                        ParcSolaire(nom="PVmeteo3",prod=4.,activite=50.,nb=100.,meteo=meteo3),\
