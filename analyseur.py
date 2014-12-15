@@ -199,8 +199,8 @@ for i in range(ville.nombreEquipementConso):
     b=ville.nombreEquipementProduction
     y1=[sum([-etat[j][l]*ID[l]["Pmax"]/100. for l in range(b,k+1)]) for j in range(len(etat))]
     y0=[sum([-etat[j][l]*ID[l]["Pmax"]/100. for l in range(b,k)]) for j in range(len(etat))]
-    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[k]["nom"].decode('unicode-escape'),color=color[ID[i]["nom"][:4]])
-    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[ID[i]["nom"][:4]])
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[k]["nom"].decode('unicode-escape'),color=color[ID[k]["nom"][:4]])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[ID[k]["nom"][:4]])
     handles, labels = a.get_legend_handles_labels()
     a.legend(handles, labels)  
     a.axis(xmin=0, xmax=len(etat))
