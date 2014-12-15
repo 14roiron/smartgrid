@@ -193,7 +193,7 @@ if export==True:
     f.savefig('resultats/{}_Production_totale.png'.format(numtest), bbox_inches='tight')
 
 
-
+color=["blue","green","red","cyan","magenta","yellow"]
 f,a=plt.subplots(sharex=True)
 for i in range(ville.nombreEquipementConso):
     k=i+ville.nombreEquipementProduction
