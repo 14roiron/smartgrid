@@ -229,7 +229,7 @@ while Global.temps < duree-1: #boucle principale
                 else:
                     print "indice stockage récupéré par ind_pascher trop grand"
                     break
-
+"""
     stock_max=[i.simulation()[1] for i in ville.equipStockage]
     stock_min=[i.simulation()[0] for i in ville.equipStockage]
     while (abs(conso_future-prod_provisoire)>conso_future*0.005):# and abs(sum(consigne_stock) - sum(stock_max))>sum(stock_max)*0.05 and abs(sum(consigne_stock) - sum(stock_min))>abs(sum(stock_min))*0.05)
@@ -266,7 +266,7 @@ while Global.temps < duree-1: #boucle principale
                     ind_boucle6 -= 1
 	    else:
 		break
-		    
+		    """
     ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
     ville.equipProduction[0].effacement = ecart
     ''' print effacement_actuel'''
