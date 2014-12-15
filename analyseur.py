@@ -174,7 +174,7 @@ if export==True:
 
 """
 #tous sur le même graphe en ajout
-color={"turb":"blue","PVme":"green","eoli":"red","Mais":"cyan","Usin":"magenta","hopi":"yellow","ecla":"blue","maga":"green"]
+color={"turb":"blue","PVme":"green","eoli":"red","Mais":"cyan","Usin":"magenta","hopi":"yellow","ecla":"blue","maga":"green"}
 f,a=plt.subplots(sharex=True)
 for i in range(ville.nombreEquipementProduction):
     y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(i+1)]) for j in range(len(etat))]
