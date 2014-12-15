@@ -273,7 +273,7 @@ if export==True:
     f.savefig('resultats/{}_graphNum{}SommeStock.png'.format(numtest), bbox_inches='tight')
 
 """
-
+color=["blue","green","red","cyan","magenta","yellow"]
 #affichage de la différence:
 f,a=plt.subplots(sharex=True)
 c=ville.nombreEquipementConso
