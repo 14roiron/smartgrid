@@ -33,7 +33,7 @@ class Ville:
   		                        ParcEolien(nom="eolienne,meteo5",n=10., eolienne="eolienne275", meteoVent=meteo5),\
 		                        ]
 		self.equipConso = [#ParcUsine38(nom="usine2-38",prod=-60.,effa=10.,activite=0.,nombre=1),\
-						   ParcMaison("parcmaison1", prod=-2., effa=0.1, activite=0., nombre=600),\
+						   ParcMaison("Maison1", prod=-2., effa=0.1, activite=0., nombre=600),\
 		                   ParcUsine("Usine1",prod=-50.,effa=10.,activite=0.,nombre=5,),\
 		                   ParcEclairagePublic(prod=-0.140,effa=0.112,activite=0,nombre=2400),\
                            ParcMagasins(prod=-10.,effa=2.,activite=0.,nombre=20),

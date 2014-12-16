@@ -25,7 +25,7 @@ class ParcMaison (Utilitaire) :
         for i in range(0,721):
             self.production.append(50.*(1.+cos(pi/144.*(i+30.))*cos(3.*(pi/144.*(i+30.))))) #pourcentage qui multiplié par self.PROD_MAX (<0) donne la production (<0)
         for i in range(721,1009):
-            self.production.append(40.*(1.5+cos(pi/72.*(i-792.))))
+            self.production.append(80*exp(-0.5*(sin(4*(pi/144*(x-12)))/sin(pi/144*(x-12)))^2)+20)
         self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
     
     def etatSuivant(self, consigne=0., effacement=0.):

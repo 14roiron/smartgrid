@@ -60,8 +60,8 @@ for i in range(len(ID)):
     for row in cur.fetchall():
         consigne[j].append(row[3]) 
         j+=1
-print len(etat)
-print len(consigne)
+#print len(etat)
+#print len(consigne)
 
 #on a besoin de séparer les consos/prods/stocks
 Global.temps=0
@@ -174,12 +174,13 @@ if export==True:
 
 """
 #tous sur le même graphe en ajout
+color={"turb":"blue","PVme":"green","eoli":"red","Mais":"cyan","Usin":"magenta","hopi":"yellow","ecla":"blue","maga":"green","Parc":"red","Stoc":"cyan"}
 f,a=plt.subplots(sharex=True)
 for i in range(ville.nombreEquipementProduction):
     y1=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(i+1)]) for j in range(len(etat))]
     y0=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(i)]) for j in range(len(etat))]
-    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[i]["nom"].decode('unicode-escape'),color=color[i%6])
-    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[i%6], interpolate=True)
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[i]["nom"].decode('unicode-escape'),color=color[ID[i]["nom"][:4]])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[ID[i]["nom"][:4]], interpolate=True)
     handles, labels = a.get_legend_handles_labels()
     a.legend(handles, labels)  
     a.axis(xmin=0, xmax=len(etat))
@@ -192,15 +193,14 @@ if export==True:
     f.savefig('resultats/{}_Production_totale.png'.format(numtest), bbox_inches='tight')
 
 
-
 f,a=plt.subplots(sharex=True)
 for i in range(ville.nombreEquipementConso):
     k=i+ville.nombreEquipementProduction
     b=ville.nombreEquipementProduction
     y1=[sum([-etat[j][l]*ID[l]["Pmax"]/100. for l in range(b,k+1)]) for j in range(len(etat))]
     y0=[sum([-etat[j][l]*ID[l]["Pmax"]/100. for l in range(b,k)]) for j in range(len(etat))]
-    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[k]["nom"].decode('unicode-escape'),color=color[i%6])
-    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[i%6])
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[k]["nom"].decode('unicode-escape'),color=color[ID[k]["nom"][:4]])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[ID[k]["nom"][:4]])
     handles, labels = a.get_legend_handles_labels()
     a.legend(handles, labels)  
     a.axis(xmin=0, xmax=len(etat))
@@ -225,8 +225,8 @@ for i in range(ville.nombreEquipementProduction):  # Production
         sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd+nbConso,nbProd+nbConso+nbStock)]) for j in range(len(etat))]
     y0=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(i)]) +\
         sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd+nbConso,nbProd+nbConso+nbStock)]) for j in range(len(etat))]
-    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[i]["nom"].decode('unicode-escape'),color=color[i%6])
-    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[i%6], interpolate=True)
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[i]["nom"].decode('unicode-escape'),color=color[ID[i]["nom"][:4]])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[ID[i]["nom"][:4]], interpolate=True)
     handles, labels = a.get_legend_handles_labels()
     a.legend(handles, labels)  
     a.axis(xmin=0, xmax=len(etat))
@@ -236,8 +236,8 @@ for i in range(nbStock):   # Stockage
         #sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd)]) for j in range(len(etat))]
     y0=[sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd+nbConso, nbProd+nbConso+i)])  for j in range(len(etat))]
         #sum([etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd)]) for j in range(len(etat))]
-    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[nbProd+nbConso+i]["nom"].decode('unicode-escape'),color=color[(nbProd+i)%6])
-    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[(nbProd+i)%6], interpolate=True)
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[nbProd+nbConso+i]["nom"].decode('unicode-escape'),color=color[ID[nbProd+nbConso+i]["nom"][:4]])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[ID[nbProd+nbConso+i]["nom"][:4]], interpolate=True)
     handles, labels = a.get_legend_handles_labels()
     a.legend(handles, labels)  
     a.axis(xmin=0, xmax=len(etat))
@@ -259,8 +259,8 @@ for i in range(ville.nombreEquipementConso):
     b=ville.nombreEquipementProduction+ville.nombreEquipementConso
     y1=[sum([-etat[j][l]*ID[l]["Pmax"]/100. for l in range(b,k+1)]) for j in range(len(etat))]
     y0=[sum([-etat[j][l]*ID[l]["Pmax"]/100. for l in range(b,k)]) for j in range(len(etat))]
-    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[k]["nom"].decode('unicode-escape'),color=color[i%6])
-    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[i%6])
+    a.plot(list(range(len(etat))), y1, linewidth=1, label=ID[k]["nom"].decode('unicode-escape'),color=color[ID[i]["nom"][:4]])
+    a.fill_between(list(range(len(etat))),y0,y1,facecolor=color[ID[i]["nom"][:4]])
     handles, labels = a.get_legend_handles_labels()
     a.legend(handles, labels)  
     a.axis(xmin=0, xmax=len(etat))
@@ -273,7 +273,7 @@ if export==True:
     f.savefig('resultats/{}_graphNum{}SommeStock.png'.format(numtest), bbox_inches='tight')
 
 """
-
+color=["blue","green","red","cyan","magenta","yellow"]
 #affichage de la différence:
 f,a=plt.subplots(sharex=True)
 c=ville.nombreEquipementConso
