@@ -18,7 +18,7 @@ import sys
 """Import de la base de données"""
 
 #commande main.py duree=24*6 nomdutest=0 datededébut=0
-analyseur=True
+analyseur=False
 if( len(sys.argv)>1):
     Global.duree=eval(sys.argv[1])
     analyseur=True
@@ -68,8 +68,9 @@ Global.db.enregistrerConsigne([0 for i in range(ville.nombreEquipementProduction
 
 while Global.temps < duree-1: #boucle principale
     prod_actuelle = sum(i.prevision()[0]/100.*i.PROD_MAX for i in ville.equipProduction)
-    conso_future = sum(-i.production[Global.temps + 1]/100.*i.PROD_MAX for i in ville.equipConso)
-
+    conso_future = sum(-i.activite/100.*i.PROD_MAX for i in ville.equipConso)
+    for i in ville.equipConso:
+        i.effacement=0
     diff = conso_future-prod_actuelle # différence conso-production actuelle
     #print "diff : %s" %diff
     effacement_actuel = 0.
@@ -229,7 +230,7 @@ while Global.temps < duree-1: #boucle principale
                 else:
                     print "indice stockage récupéré par ind_pascher trop grand"
                     break
-
+    """
     stock_max=[i.simulation()[1] for i in ville.equipStockage]
     stock_min=[i.simulation()[0] for i in ville.equipStockage]
     while (abs(conso_future-prod_provisoire)>conso_future*0.005):# and abs(sum(consigne_stock) - sum(stock_max))>sum(stock_max)*0.05 and abs(sum(consigne_stock) - sum(stock_min))>abs(sum(stock_min))*0.05)
@@ -266,9 +267,9 @@ while Global.temps < duree-1: #boucle principale
                     ind_boucle6 -= 1
 	    else:
 		break
-		    
-    ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
-    ville.equipProduction[0].effacement = ecart
+	#"""		    
+    #ecart = conso_future-prod_provisoire # ecart qui sera de l'import/export
+    #ville.equipProduction[0].effacement = ecart
     ''' print effacement_actuel'''
     '''envoie des consignes et effacements pour la prochaine étape :) '''
 
