@@ -14,7 +14,7 @@ class Hopital(Equipement):
         self.effacement = 0.
         self.temps_effa = 0 # temps pendant lequel l'hôpital s'est effacé
         self.temps_dernier_effa = -1 # temps écoulé depuis le dernier effacement, -1 car self.etatSuivant()
-        self.cout = self.effacement/100.*self.EFFA_MAX*(80./1000./6.)
+        self.cout = self.effacement/100.*self.EFFA_MAX*(80./1000./6.)*100
         self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
     
     def prevision(self,consigne=0.,effacement=0.):

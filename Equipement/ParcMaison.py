@@ -19,7 +19,7 @@ class ParcMaison (Utilitaire) :
         self.EFFA_MAX=effa*self.nombre # en kWglobal
         self.activite=activite
         self.effacement=0. # en %
-        self.cout=self.EFFA_MAX*(80./1000./6.)*self.nombre #a retravailler
+        self.cout=self.EFFA_MAX*(80./1000./6.)/600#*self.nombre #a retravailler
         self.nom=nom
         self.production=[]
         for i in range(0,721):

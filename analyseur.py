@@ -244,6 +244,8 @@ for i in range(nbStock):   # Stockage
 
 y2=[sum([-etat[j][l]*ID[l]["Pmax"]/100. for l in range(nbProd, nbProd + nbConso)]) for j in range(len(etat))]  # Consommation
 a.plot(list(range(len(etat))), y2, linewidth=5, label="Consommation",color='k', linestyle='dashed')
+handles, labels = a.get_legend_handles_labels()
+a.legend(handles, labels)  
 plt.ylabel("puissance kW")
 plt.xlabel('Temps')
 plt.title("Production + stockage et consommation")

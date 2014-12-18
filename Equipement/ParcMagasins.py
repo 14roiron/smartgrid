@@ -7,10 +7,10 @@ class ParcMagasins (Utilitaire) : # des commerces de centre ville aux petits sup
     def __init__(self,nom="magasins",prod=-10.,effa=2.,activite=0.,nombre=20):
         self.nombre=nombre
         self.PROD_MAX=prod*self.nombre
-        self.EFFA_MAX=effa*self.nombre
+        self.EFFA_MAX=effa*self.nombre/10**-8
         self.activite=activite
         self.effacement=0. # en %
-        self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre
+        self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre*100
         self.nom=nom
         jour=[10. for i in range(0,144)] #magasins fermés entre 19h et 9h, mais consommation des vitrines/frigo/etc...
         for i in range(46,54):

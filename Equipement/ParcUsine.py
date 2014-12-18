@@ -8,10 +8,10 @@ class ParcUsine(Equipement):
     def __init__(self,nom="usine",prod=-1500.,effa=1000.,activite=0.,nombre=5,production=[]): #consommation maximale de 3000 kW
         self.nombre=nombre
         self.PROD_MAX=prod*self.nombre #en kW global ; production nÃ©gative
-        self.EFFA_MAX=effa*self.nombre
+        self.EFFA_MAX=effa*self.nombre*(10**-8)
         self.activite=activite
-        self.effacement=0.#why ??
-        self.cout=self.EFFA_MAX*(80./1000./6.)*self.nombre
+        self.effacement=0.
+        self.cout=self.EFFA_MAX*(80./1000./6.)*self.nombre*10
         self.nom=nom
         #construction de self.production sur une semaine (=>taille = 1008)
         jour = [0. for i in range(144)] #consommation maximale entre 7h40 et 19h00, rampes sur 7h-7h40 et 19h-19h40
