@@ -14,7 +14,7 @@ class ParcEclairagePublic (Utilitaire) :
         self.nom=nom
         self.production=[0. for i in range(0,1009)]
         for i in range (0,1009):  #eteint entre 8h et 18h
-            if i%144>48 and i%144<108 :
+            if i%144>48 and i%144<110 :
                 self.production[i]=0.
             else :
                 self.production[i]=100.

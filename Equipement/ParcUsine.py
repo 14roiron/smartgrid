@@ -24,6 +24,8 @@ class ParcUsine(Equipement):
         for i in range(6):
             self.production += jour
         self.production+=[0. for i in range(144)] #usine fermée le dimanche
+        #for i in range(109,133):
+            #self.production[i]=0
         self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut
     
 

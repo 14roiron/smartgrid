@@ -7,7 +7,7 @@ class ParcMagasins (Utilitaire) : # des commerces de centre ville aux petits sup
     def __init__(self,nom="magasins",prod=-10.,effa=2.,activite=0.,nombre=20):
         self.nombre=nombre
         self.PROD_MAX=prod*self.nombre
-        self.EFFA_MAX=effa*self.nombre/10**-8
+        self.EFFA_MAX=effa*self.nombre*(10**-8)
         self.activite=activite
         self.effacement=0. # en %
         self.cout=self.effacement/100.*self.EFFA_MAX*(80./1000./6.)*self.nombre*100
@@ -23,8 +23,8 @@ class ParcMagasins (Utilitaire) : # des commerces de centre ville aux petits sup
         for i in range(6):
             self.production += jour
         self.production += [10. for i in range(0,144)] #magasins fermés le dimanche
-        self.production
         self.etatSuivant() #initialisation de la variable activite selon le moment de la journée ; effacement nul par défaut 
+        
     
     def etatSuivant(self,consigne=0.,effacement=0.):
         pourcentage=self.production[Global.temps+1] #% de la production à l'étape actuelle, >0
